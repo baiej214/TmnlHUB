@@ -14,7 +14,7 @@ var path = require('path'),
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
-app.use(multer());
+app.use(multer({dest: './upload'}));
 
 app.use('/html', express.static(path.join(__dirname, '/web/html')));
 app.use('/sdk', express.static(path.join(__dirname, '/web/sdk')));

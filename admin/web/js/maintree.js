@@ -8,7 +8,8 @@ Ext.define('js.maintree', {
                     expanded: true,
                     children: [
                         {text: '历史日志', leaf: true, name: 'frameLog'},
-                        {text: '实时监控', leaf: true, name: 'rtFrames'}
+                        {text: '实时监控', leaf: true, name: 'rtFrames'},
+                        {text: '设备升级', leaf: true, name: 'deviceUpdate'}
                         //{text: '报文解析', leaf: true},
                         //{text: '操作记录', leaf: true}
                     ]
