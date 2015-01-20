@@ -2,65 +2,107 @@ Ext.define('js.deviceUpdate', {
     formpanel: function () {
         var _self = this;
         return Ext.create('Ext.form.Panel', {
-            id: 'deviceUpdateFrompanel', region: 'north', height: 300, title: 'FormPanel',
+            id: 'deviceUpdateFrompanel', region: 'north', height: 300,
+            fieldDefaults: {
+                labelWidth: 60
+            },
             items: [
+                {xtype: 'filefield', name: 'UPG', fieldLabel: '升级文件', allowBlank: false, width: 500, buttonText: '浏览'},
                 {
-                    xtype: 'filefield',
-                    name: 'UPG',
-                    fieldLabel: '升级文件',
-                    labelWidth: 60,
-                    allowBlank: false,
-                    width: 500,
-                    buttonText: '浏览'
-                },
-                {
-                    xtype: 'checkbox',
-                    boxLabel: '重启后配置通讯参数',
-                    checked: true
-                },
-                {
-                    xtype: 'textfield',
-                    name: 'mainip',
-                    emptyText: '0.0.0.0:0000',
-                    fieldLabel: '主IP + 端口',
-                    regex: /^(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9])\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[0-9]):\d{0,5}$/
-                },
-                {
-                    xtype: 'textfield',
-                    name: 'backip',
-                    emptyText: '0.0.0.0:0000',
-                    fieldLabel: '备IP + 端口'
-                },
-                {
-                    xtype: 'textfield',
-                    name: 'apn',
-                    fieldLabel: 'APN'
-                },
-                {
-                    xtype: 'textfield',
-                    name: 'range',
-                    id: 'deviceUpdateRange',
-                    fieldLabel: '设备范围',
-                    readOnly: true,
-                    listeners: {
-                        change: function (field, newValue, oldValue) {
-                            var arr = newValue.split(','), str = '';
-                            if (arr.length > 5) {
-                                str = arr.slice(0, 4).concat('...').join(', ');
-                                field.setValue(str);
+                    xtype: 'fieldcontainer', fieldLabel: '设备范围', layout: 'hbox', padding: '0 0 10 0',
+                    items: [
+                        {
+                            xtype: 'textfield', name: 'range', id: 'deviceUpdateRange',
+                            readOnly: true, padding: '0 5 0 0',
+                            listeners: {
+                                change: function (field, newValue, oldValue) {
+                                    var arr = newValue.split(','), str = '';
+                                    if (arr.length > 5) {
+                                        str = arr.slice(0, 4).concat('...').join(', ');
+                                        field.setValue(str);
+                                    }
+                                    Ext.getCmp('deviceUpdateRangeRaw').setValue(newValue);
+                                }
                             }
-                            Ext.getCmp('deviceUpdateRangeRaw').setValue(newValue);
-                        }
-                    }
+                        },
+                        {
+                            xtype: 'button', text: '选择',
+                            handler: function () {
+                                //var range = Ext.getCmp('deviceUpdateRange');
+                                //range.setValue('1,2,3,4,5,6,7,8,9,0');
+                                var selector = Ext.create('js.deviceSelector');
+                                Ext.create('Ext.window.Window', {
+                                    width: 500, height: 300, items: selector,
+                                    buttons: [{
+                                        text: 'OK',
+                                        handler: function () {
+                                            console.log(selector.getValue());
+                                        }
+                                    }]
+                                }).show();
+                            }
+                        }]
                 },
-                {xtype: 'hidden', name: 'deviceRange', id: 'deviceUpdateRangeRaw'},
                 {
-                    xtype: 'button',
-                    text: '选择',
-                    handler: function () {
-                        var range = Ext.getCmp('deviceUpdateRange');
-                        range.setValue('1,2,3,4,5,6,7,8,9,0');
-                    }
+                    xtype: 'fieldset', border: false, padding: 0,
+                    checkboxToggle: true,
+                    title: '重启后配置通讯参数',
+                    items: [
+                        {
+                            xtype: 'fieldcontainer',
+                            fieldLabel: '主IP',
+                            layout: 'hbox',
+                            items: [
+                                {
+                                    xtype: 'textfield',
+                                    name: 'mainip',
+                                    emptyText: '0.0.0.0',
+                                    regex: /^(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9])\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[0-9])$///:\d{0,5}$
+                                },
+                                {
+                                    xtype: 'numberfield',
+                                    mouseWheelEnabled: false,
+                                    allowDecimals: false,
+                                    hideTrigger: true,
+                                    emptyText: '端口',
+                                    maxValue: 65535,
+                                    minValue: 0,
+                                    padding: '0 5',
+                                    width: 50
+                                }
+                            ]
+                        },
+                        {
+                            xtype: 'fieldcontainer',
+                            fieldLabel: '备IP',
+                            layout: 'hbox',
+                            items: [
+                                {
+                                    xtype: 'textfield',
+                                    name: 'mainip',
+                                    emptyText: '0.0.0.0',
+                                    regex: /^(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9])\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[0-9])$///:\d{0,5}$
+                                },
+                                {
+                                    xtype: 'numberfield',
+                                    mouseWheelEnabled: false,
+                                    allowDecimals: false,
+                                    hideTrigger: true,
+                                    emptyText: '端口',
+                                    maxValue: 65535,
+                                    minValue: 0,
+                                    padding: '0 5',
+                                    width: 50
+                                }
+                            ]
+                        },
+                        {xtype: 'textfield', name: 'apn', fieldLabel: 'APN'}
+                    ]
+                },
+                {
+                    xtype: 'hidden',
+                    name: 'deviceRange',
+                    id: 'deviceUpdateRangeRaw'
                 },
                 {
                     xtype: 'button',
@@ -81,6 +123,7 @@ Ext.define('js.deviceUpdate', {
             ]
         });
     },
+
     update: function (json) {
         Ext.Ajax.request({
             url: 'device_update',
@@ -88,8 +131,9 @@ Ext.define('js.deviceUpdate', {
             success: function (response, opts) {
                 alert('fuck');
             }
-        })
+        });
     },
+
     confirm: function (json) {
         var _self = this;
         Ext.Msg.confirm('升级提示',
@@ -124,8 +168,7 @@ Ext.define('js.deviceUpdate', {
     },
     constructor: function () {
         var panel = {
-            xtype: 'panel',
-            layout: 'border',
+            xtype: 'panel', layout: 'border', padding: 5,
             items: [this.formpanel(), this.framepanel()]
         };
         return panel;
