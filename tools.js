@@ -1,5 +1,6 @@
 var _ = require('underscore'),
-    moment = require('moment');
+    moment = require('moment'),
+    cError = require('./error').Error;
 
 exports.tools = {
     asc: function (str) {
@@ -41,8 +42,16 @@ exports.tools = {
         return seq >= 15 ? 0 : seq++;
     },
 
-    format_json: function (str) {
+    format_json: function (str, A2, AFN, Fn, pn, retry) {
         try {
+            if (arguments.length >= 4) {
+                return this.format_json({
+                    A1: str, A2: A2, A3: 0, AFN: AFN,
+                    DU: [{pn: pn || 0, DT: [{Fn: Fn, DATA: []}]}],
+                    AUX: {},
+                    retry: retry || 0
+                });
+            }
             str = _.isObject(str) ? str : JSON.parse(str);
             var json = {
                 A1: str.A1, A2: str.A2, A3: str.A3 || 0, AFN: str.AFN,
