@@ -21,7 +21,7 @@ Ext.define('js.deviceUpdate', {
                                         str = arr.slice(0, 4).concat('...').join(', ');
                                         field.setValue(str);
                                     }
-                                    Ext.getCmp('deviceUpdateRangeRaw').setValue(newValue);
+                                    //Ext.getCmp('deviceUpdateRangeRaw').setValue(newValue);
                                 }
                             }
                         },
@@ -32,11 +32,34 @@ Ext.define('js.deviceUpdate', {
                                 //range.setValue('1,2,3,4,5,6,7,8,9,0');
                                 var selector = Ext.create('js.deviceSelector');
                                 Ext.create('Ext.window.Window', {
-                                    width: 500, height: 300, items: selector,
+                                    width: 500, height: 300, layotu: 'border', modal: true,
+                                    items: [{
+                                        id: 'selectType',
+                                        xtype: 'radiogroup', region: 'north',
+                                        fieldLabel: 'Two Columns',
+                                        columns: 2,
+                                        vertical: true,
+                                        items: [
+                                            {boxLabel: '全部', name: 'selectType', inputValue: '1', checked: true},
+                                            {boxLabel: '选择', name: 'selectType', inputValue: '2'}
+                                        ]
+                                    }, {
+                                        region: 'center', items: selector
+                                    }],
                                     buttons: [{
                                         text: 'OK',
                                         handler: function () {
-                                            console.log(selector.getValue());
+                                            var selectType = Ext.getCmp('selectType').getValue().selectType,
+                                                deviceRange = Ext.getCmp('deviceRange'),
+                                                deviceUpdateRange = Ext.getCmp('deviceUpdateRange');
+                                            if (selectType == 1) {
+                                                deviceRange.setValue('all');
+                                                deviceUpdateRange.setValue('全部');
+                                            } else {
+                                                deviceRange.setValue(selector.getValue());
+                                                deviceUpdateRange.setValue(selector.getValue());
+                                            }
+                                            this.up('window').close();
                                         }
                                     }]
                                 }).show();
@@ -60,6 +83,7 @@ Ext.define('js.deviceUpdate', {
                                     regex: /^(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9])\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[0-9])$///:\d{0,5}$
                                 },
                                 {
+                                    name: 'mainport',
                                     xtype: 'numberfield',
                                     mouseWheelEnabled: false,
                                     allowDecimals: false,
@@ -79,11 +103,12 @@ Ext.define('js.deviceUpdate', {
                             items: [
                                 {
                                     xtype: 'textfield',
-                                    name: 'mainip',
+                                    name: 'backip',
                                     emptyText: '0.0.0.0',
                                     regex: /^(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9])\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)\.(25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[0-9])$///:\d{0,5}$
                                 },
                                 {
+                                    name: 'backport',
                                     xtype: 'numberfield',
                                     mouseWheelEnabled: false,
                                     allowDecimals: false,
@@ -99,11 +124,7 @@ Ext.define('js.deviceUpdate', {
                         {xtype: 'textfield', name: 'apn', fieldLabel: 'APN'}
                     ]
                 },
-                {
-                    xtype: 'hidden',
-                    name: 'deviceRange',
-                    id: 'deviceUpdateRangeRaw'
-                },
+                {xtype: 'hidden', name: 'deviceRange', id: 'deviceRange'},
                 {
                     xtype: 'button',
                     id: 'deviceUpdateSubmit',
@@ -111,7 +132,7 @@ Ext.define('js.deviceUpdate', {
                     handler: function (btn, e, perLen) {
                         var form = this.up('form').getForm();
                         form.submit({
-                            url: 'device_update',
+                            url: 'server/deviceUpdate/device_update',
                             params: {action: 'count'},
                             success: function (form, action) {
                                 var json = action.result;
@@ -126,7 +147,7 @@ Ext.define('js.deviceUpdate', {
 
     update: function (json) {
         Ext.Ajax.request({
-            url: 'device_update',
+            url: 'server/deviceUpdate/device_update',
             params: json,
             success: function (response, opts) {
                 alert('fuck');

@@ -101,6 +101,13 @@ pkt_manager.prototype.send = function () {
     }
 };
 
+pkt_manager.prototype.clear = function () {
+    _.each(this.packets, function (packet) {
+        packet.emit('end', '终端掉线导致通讯包失效');
+    });
+    this.packets = [];
+};
+
 pkt_manager.prototype.on('push', function (data, seq) {
     var packet = new Packet(data);
     if (_.isNumber(seq)) packet.set_seq(seq);

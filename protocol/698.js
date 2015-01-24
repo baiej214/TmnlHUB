@@ -1086,6 +1086,9 @@ var json_hex = {
             Fn6: function () {
                 return [];
             },
+            Fn14: function () {
+                return [];
+            },
             Fn17: function () {
                 return [];
             },
@@ -1564,7 +1567,27 @@ var json_hex = {
             }
         },
         AFN14: {},
-        AFN15: {},
+
+        /**
+         * AFN15 文件传输（AFN=0FH）
+         */
+        AFN15: {
+            Fn1: function (data) {
+                var fileid = data.fileid,//文件标识
+                    attr = data.attr,//文件属性
+                    order = 0x00,//文件指令
+                    steps = new Buffer([0, 0]),//data.steps,//总段数
+                    step = new Buffer([0, 0, 0, 0]),//data.step,//第i段
+                    perLen = new Buffer([0, 0]),//data.perLen,//第i段长度
+                    filedata = data.filedata || [];//文件数据
+
+                steps.writeUInt16LE(data.steps, 0);
+                step.writeUInt32LE(data.step, 0);
+                perLen.writeUInt16LE(data.perLen, 0);
+
+                return [].concat(fileid, attr, order, steps.toJSON(), step.toJSON(), perLen.toJSON(), filedata.reverse());
+            }
+        },
         AFN16: {}
     },
     hex_json = {
@@ -2646,6 +2669,21 @@ var json_hex = {
                 }
                 return json;
             },
+
+            /**
+             * 文件传输未收到数据段
+             * @param data
+             * @function
+             */
+            Fn14: function (data) {
+                var team_no = data.splice(0, 2),
+                    unrecv = data.splice(0, 128);
+                return {
+                    team_no: new Buffer(team_no).readUInt16LE(0),
+                    unrecv: unrecv
+                };
+            },
+
             //当前总加有功功率
             Fn17: function (data) {
                 var arr = data.splice(0, 2);
@@ -4002,9 +4040,17 @@ var json_hex = {
         },
 
         /**
-         * AFN15
+         * AFN15 文件传输（AFN=0FH）
          */
-        AFN15: {},
+        AFN15: {
+            Fn1: function (data) {
+                var json = {},
+                    arr = data.splice(0, 4),
+                    buff = new Buffer(arr);
+                json.recvStep = buff.readUInt32LE(0);
+                return json;
+            }
+        },
 
         /**
          * AFN16 数据转发（AFN=10H）

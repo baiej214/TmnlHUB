@@ -1,3 +1,4 @@
+//TODO 添加缓冲超出提示
 Ext.define('js.frameBoard', {
     extend: 'Ext.panel.Panel',
     autoScroll: true,//默认开启自动滚屏

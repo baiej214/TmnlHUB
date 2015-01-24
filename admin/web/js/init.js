@@ -1,6 +1,7 @@
 Ext.require([
     'Ext.ux.statusbar.StatusBar',
-    'Ext.ux.statusbar.ValidationStatus'
+    'Ext.ux.statusbar.ValidationStatus',
+    'js.notice'
 ]);
 
 Ext.onReady(function () {

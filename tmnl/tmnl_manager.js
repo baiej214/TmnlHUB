@@ -1,12 +1,16 @@
 /**
  * 终端管理器
  */
-var _ = require('underscore'),
+var events = require('events'),
+    _ = require('underscore'),
     log = require('../sys_log'),
     config = require('../config').config,
     tmnl_pkt_mgr = require('./tmnl_pkt_mgr').pkt_mgr,
     tools = require('../tools').tools,
     admin_server = require('../admin/admin_server').io;
+
+var event = new events.EventEmitter();
+
 
 //已连接的终端列表
 var tmnl_list = {},
@@ -82,6 +86,7 @@ var tmnl_list = {},
                 this.pkt_mgr = new tmnl_pkt_mgr(this);
                 tmnl_list[sid] = this;
                 this.pkt_mgr.recv(data);
+                event.emit('new', this);
                 admin_server.emit('tmnlListChange', get_map());
             }
         } else {
@@ -126,8 +131,13 @@ var tmnl_list = {},
         }
     };
 
+event.on('new', function (tmnl) {
+    console.log("It's fucking work.");
+});
+
 exports.push = push;
 exports.len = get_size;
 exports.map = get_map;
 exports.get = getSocket;
 exports.list = tmnl_list;
+exports.event = event;

@@ -1,3 +1,5 @@
 var tools = require('../tools').tools;
 
-console.log(tools.getAddr(123));
+var buff = new Buffer([0,0]);
+buff.writeUInt16LE('1034', 0);
+console.log(buff);

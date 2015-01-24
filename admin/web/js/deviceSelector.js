@@ -24,24 +24,29 @@ Ext.define('js.deviceSelector', {
             xtype: 'checkboxgroup',
             layout: 'column',
             listeners: {
-                render: function (cg) {
-                    Ext.each(Ext.global.tmnlMgr, function (item) {
-                        cg.add({boxLabel: item.sid, name: item.sid, inputValue: item.sid, width: 100});
-                    });
-                }
+                scope: this,
+                render: this.loadCheckbox
             }
         };
 
         this.callParent(arguments);
     },
 
-    refresh: function () {
+    loadCheckbox: function () {
         var group = this.down('checkboxgroup');
-        if (Ext.global.tmnlMgr.length <= 0) this.mask('Fuck');
-        group.removeAll();
         Ext.each(Ext.global.tmnlMgr, function (item) {
             group.add({boxLabel: item.sid, name: item.sid, inputValue: item.sid, width: 100});
         });
+    },
+
+    refresh: function () {
+        if (Ext.global.tmnlMgr.length <= 0) {
+            notice('没有已连接的设备。');
+        }else{
+            var group = this.down('checkboxgroup');
+            group.removeAll();
+            this.loadCheckbox();
+        }
     },
 
     selectAll: function () {
