@@ -63,7 +63,7 @@ Ext.define('js.frameBoard', {
     },
     //添加子节点
     addFrame: function (json) {
-        this.div.createChild('<p>' + json + '</p>');
+        this.div.createChild('<p class="frameBoard-frames">' + json + '</p>');
         this.fireEvent('addframe', this.getChildLength());
     },
     offline: function () {
