@@ -61,21 +61,22 @@ exports.handler = function (req, res) {
             var filedata = split(data, req.body.perLen || 200), steps = filedata.length;
             _.each(tmnl_mgr.list, function (tmnl) {
                 var tmnlUpdate = new Updater({
-                    sid: tmnl.sid,
-                    steps: steps,
-                    filedata: filedata
+                    A1: tmnl.A1, A2: tmnl.A2, sid: tmnl.sid,
+                    steps: steps, filedata: filedata
                 });
-                tmnlUpdate.on('end', function (err) {
-                    if (err) console.log(err);
-                }).on('error', function (err) {
-                    console.log(err);
-                    var _self = this;
-                    _self.timer = setTimeout(function () {
-                        console.log('开始计时');
-                        _self.over = true;
-                    }, 1000 * 60 * 5);
-                });
-                tmnlUpdate.start();
+                tmnlUpdate.on('end', function (err, data) {
+                    console.log(err, data);
+                }).start();
+                //tmnlUpdate.on('end', function (err) {
+                //    if (err) console.log(err);
+                //}).on('error', function (err) {
+                //    console.log(err);
+                //    var _self = this;
+                //    _self.timer = setTimeout(function () {
+                //        console.log('开始计时');
+                //        _self.over = true;
+                //    }, 1000 * 60 * 5);
+                //});
                 //_.each(arr, function (item, step) {
                 //    var attr = 0;
                 //    if (step == len - 1) attr = 1;
