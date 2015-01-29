@@ -39,7 +39,10 @@ var tmnl_list = {},
     },
 
 //返回指定的socket
-    getSocket = function (sid) {
+    getSocket = function (sid, a2) {
+        if (arguments.length >= 2) {
+            sid = sid + '@' + a2;
+        }
         return tmnl_list[sid];
     },
 
