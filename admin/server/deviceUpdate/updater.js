@@ -177,4 +177,3 @@ updater.prototype.start = function () {
 };
 
 exports.Updater = updater;
-//test
