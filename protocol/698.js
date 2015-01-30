@@ -1612,19 +1612,24 @@ var json_hex = {
         AFN6: {},
         AFN8: {},
         AFN9: {
-            //终端版本信息
+            /**
+             * 终端版本信息
+             * @param data {Array}
+             * @returns {Object}
+             * @function
+             */
             Fn1: function (data) {
                 var json = {},
                     dataArr = data.splice(0, 41);
-                json.mcn = tools.getDFASC(dataArr.slice(0, 4));
-                json.dn = tools.getDFASC(dataArr.slice(4, 12));
-                json.tsvn = tools.getDFASC(dataArr.slice(12, 16));
-                json.sdoidate = tools.getDFA20(dataArr[16], dataArr[17], dataArr[18]);
-                json.tcvmn = tools.getDFASC(dataArr.slice(19, 30));
-                json.tcpvn = tools.getDFASC(dataArr.slice(30, 34));
-                json.thvn = tools.getDFASC(dataArr.slice(34, 38));
-                json.hdoidate = tools.getDFA20(dataArr[38], dataArr[39], dataArr[40]);
-                return json
+                json.manufacturerCode = tools.getDFASC(dataArr.slice(0, 4));
+                json.deviceID = tools.getDFASC(dataArr.slice(4, 12));
+                json.softwareVersion = tools.getDFASC(dataArr.slice(12, 16));
+                json.softwareReleaseDate = tools.getDFA20(dataArr[16], dataArr[17], dataArr[18]);
+                json.capacityAllocation = tools.getDFASC(dataArr.slice(19, 30));
+                json.protocolVersion = tools.getDFASC(dataArr.slice(30, 34));
+                json.hardwareVersion = tools.getDFASC(dataArr.slice(34, 38));
+                json.hardwareReleaseDate = tools.getDFA20(dataArr[38], dataArr[39], dataArr[40]);
+                return json;
             },
 
             //终端支持的输入、输出及通信端口配置

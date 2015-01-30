@@ -1,5 +1,4 @@
-var path = require('path'),
-    util = require('util'),
+var util = require('util'),
     events = require('events'),
     _ = require('underscore'),
     moment = require('moment'),
@@ -98,10 +97,26 @@ var clearRecvFile = function (tmnl, steps, cb) {
                 }
             }
         });
+    },
+
+    /**
+     * 检查设备版本信息
+     * @param tmnl
+     * @param cb
+     */
+    getVersion = function (tmnl, cb) {
+        var _self = this;
+        tmnl.pkt_mgr.req(tools.format_json(tmnl.A1, tmnl.A2, 9, 1, 0, 3), function (err, data) {
+            if (!err) {
+                var obj = data.RES.json.DU[0].DT[0].DATA;
+            }
+            cb.call(_self, err, obj);
+        });
     };
 
 /**
- * @constructor
+ * 升级器
+ * @constructor 构造函数
  * @param opts 终端地址 行政区划码 sid 文件数组
  */
 var updater = function (opts) {
@@ -110,28 +125,45 @@ var updater = function (opts) {
 
     var _self = this,
         a1 = opts.A1, a2 = opts.A2, sid = opts.sid,
+        currentReleaseDate = moment(new Date(opts.currentReleaseDate)).format('YYYY-MM-DD'),
         file = opts.filedata, steps = file.length,
+        recv = 0,
         unrecv = [],
         init = true,//初始超时标志
         updateDone = false,//升级完成标志
         timer = null,//升级超时计时器
-        timeout = 1000 * 60 * 5;//升级超时时间5分钟
+        timeout = 1000 * 60 * 5,//升级超时时间5分钟
+        allowFailTimes = 5,//允许升级失败次数
+        failTimes = 0;//升级失败次数
 
     this.on('start', function () {
         var tmnl = tmnl_mgr.get(sid);
         if (!tmnl) throw cError('设备不在线');
+
+        tmnl.emit('updating');
         if (init == true) {
-            clearRecvFile.apply(this, [tmnl, steps, function (err) {
-                init = false;
-                this.emit('next', tmnl, 0);
-            }]);
+            getVersion(tmnl, function (err, data) {
+                var softwareReleaseDate = moment(new Date(data.softwareReleaseDate)).format('YYYY-MM-DD');
+                if (softwareReleaseDate == currentReleaseDate) {
+                    _self.emit('end', null, '软件版本日期相同，不需要升级');
+                } else {
+                    clearRecvFile.apply(this, [tmnl, steps, function (err) {
+                        init = false;
+                        _self.emit('next', tmnl, 0);
+                    }]);
+                }
+            });
         } else {
             checkUnrecv.apply(this, [tmnl, steps, function (err, result) {
                 unrecv = result;
                 this.emit('next', tmnl);
             }]);
         }
-    }).on('next', function (tmnl, step) {
+    });
+
+    this.on('next', function (tmnl, step) {
+        recv++;
+        this.emit('step', recv);
         if (unrecv.length > 0) step = unrecv.shift();
         if (step == steps - 1) {
             var attr = 1;
@@ -145,8 +177,18 @@ var updater = function (opts) {
             */
         }
         send.apply(this, [tmnl, steps, step, file[step], attr]);
-    }).on('error', function (err, tmnl) {
-        console.log('update error', err);
+    });
+
+    this.on('error', function (err, tmnl) {
+        tmnl.destroy();//断开与设备的socket连接，等待重连
+
+        if (failTimes >= allowFailTimes) {
+            updateDone = true;
+            this.emit('end', cError('升级失败，失败次数过多（' + failTimes + '次）'));
+            return;
+        }
+        failTimes++;
+
         //开始计时
         timer = setTimeout(function () {
             updateDone = true;
@@ -155,19 +197,24 @@ var updater = function (opts) {
         //添加tmnlMgr一次性事件，升级超时前，如果终端再次登录则继续升级
         tmnl_mgr.event.once('new', function (newTmnl) {
             console.log('tmnl_mgr.event.new');
-            if (updateDone == false) {
+            if (updateDone == false && newTmnl.A1 == a1 && newTmnl.A2 == a2) {
                 clearTimeout(timer);
-                if (newTmnl.A1 == a1 && newTmnl.A2 == a2) {
-                    _self.start();
-                }
+                _self.start();
             }
         });
-        tmnl.destroy();
+    });
+
+    this.on('end', function (err) {
+        var tmnl = tmnl_mgr.get(sid);
+        tmnl.emit('updatedone');
     });
 };
 
 util.inherits(updater, events.EventEmitter);
 
+/**
+ * 开始升级
+ */
 updater.prototype.start = function () {
     try {
         this.emit('start');

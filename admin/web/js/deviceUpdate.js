@@ -9,7 +9,7 @@ Ext.define('js.deviceUpdate', {
             items: [
                 {xtype: 'filefield', name: 'UPG', fieldLabel: '升级文件', allowBlank: false, width: 500, buttonText: '浏览'},
                 {
-                    xtype: 'fieldcontainer', fieldLabel: '设备范围', layout: 'hbox', padding: '0 0 10 0',
+                    xtype: 'fieldcontainer', fieldLabel: '设备范围', layout: 'hbox',
                     items: [
                         {
                             xtype: 'textfield', name: 'range', id: 'deviceUpdateRange',
@@ -65,6 +65,10 @@ Ext.define('js.deviceUpdate', {
                                 }).show();
                             }
                         }]
+                },
+                {
+                    xtype: 'datefield', name: 'currentReleaseDate', id: 'currentReleaseDate', fieldLabel: '发布日期',
+                    allowBlank: false, editable: false, padding: '0 0 10 0', maxValue: new Date(), format: 'Y-m-d'
                 },
                 {
                     xtype: 'fieldset', border: false, padding: 0,
