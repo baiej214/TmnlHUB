@@ -20,7 +20,7 @@ var clearRecvFile = function (tmnl, steps, cb) {
                 'DT': [{
                     'Fn': 1,
                     'DATA': {
-                        'fileid': 0, 'attr': 0, 'order': 0, 'steps': steps, 'step': 0, 'perLen': 0, 'filedata': []
+                        'fileid': 0, 'attr': 0, 'order': 0, 'steps': 0, 'step': 0, 'perLen': 0, 'filedata': []
                     }
                 }]
             }]
@@ -75,7 +75,7 @@ var clearRecvFile = function (tmnl, steps, cb) {
                         DATA: {
                             fileid: 1, attr: attr || 0, order: 0,
                             steps: steps, step: step, perLen: data.length,
-                            filedata: data
+                            filedata: data.reverse()
                         }
                     }]
                 }],
@@ -164,6 +164,7 @@ var updater = function (opts) {
     this.on('next', function (tmnl, step) {
         recv++;
         this.emit('step', recv);
+        //TODO 167行会报错
         if (unrecv.length > 0) step = unrecv.shift();
         if (step == steps - 1) {
             var attr = 1;
