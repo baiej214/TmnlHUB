@@ -1585,7 +1585,7 @@ var json_hex = {
                 step.writeUInt32LE(data.step, 0);
                 perLen.writeUInt16LE(data.perLen, 0);
 
-                return [].concat(fileid, attr, order, steps.toJSON(), step.toJSON(), perLen.toJSON(), filedata.reverse());
+                return [].concat(fileid, attr, order, steps.toJSON(), step.toJSON(), perLen.toJSON(), filedata);
             }
         },
         AFN16: {}
