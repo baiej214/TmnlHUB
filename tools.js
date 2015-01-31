@@ -39,7 +39,9 @@ exports.tools = {
     },
 
     seq: function (seq) {
-        return seq >= 15 ? 0 : seq++;
+        if (_.isNaN(seq) == true) seq = 0;
+        if (_.isNumber(seq) == false) seq = 0;
+        return seq >= 15 ? 0 : ++seq;
     },
 
     format_json: function (str, A2, AFN, Fn, pn, retry) {
@@ -153,7 +155,7 @@ exports.tools = {
     },
 
     set_len: function (data) {
-        var len = (data.length << 2) + 2, buff = new Buffer(4);
+        var len = (data.length << 2) + 1, buff = new Buffer([0, 0, 0, 0]);
         buff.writeInt16LE(len, 0);
         buff.writeInt16LE(len, 2);
         return buff.toJSON();
