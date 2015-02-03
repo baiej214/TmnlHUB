@@ -9,6 +9,8 @@ var sec = 1000, min = 60 * sec, hr = 60 * min,
         tmnl_delay_timeout: 0,
         tmnl_recv_timeout: 10 * sec,
 
+        ftp_port: 5804,
+
         web_port: 2355,
         broadcast: 2356,
 

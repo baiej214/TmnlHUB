@@ -1586,6 +1586,28 @@ var json_hex = {
                 perLen.writeUInt16LE(data.perLen, 0);
 
                 return [].concat(fileid, attr, order, steps.toJSON(), step.toJSON(), perLen.toJSON(), filedata);
+            },
+
+            Fn248: function (data) {
+                var ip = data.ip,
+                    port = new Buffer([0, 0]),
+                    filepath = new Buffer(48),
+                    user = new Buffer(16),
+                    password = new Buffer(16),
+                    time = new Buffer(6);
+                ip = _.map(ip.split('.'), function (item) {
+                    return parseInt(item);
+                });
+                port.writeUInt16LE(data.port + 256, 0);
+                filepath.fill(0);
+                filepath.write(data.filepath);
+                user.fill(0);
+                user.write(data.user);
+                password.fill(0);
+                password.write(data.password);
+                time.fill(0);
+
+                return [].concat(ip, port.toJSON(), filepath.toJSON(), user.toJSON(), password.toJSON(), time.toJSON());
             }
         },
         AFN16: {}
@@ -4263,6 +4285,17 @@ var json_hex = {
         ERC35: function (data) {
         }
     };
+
+/*
+var arr = json_hex.AFN15.Fn248({
+    ip: '120.194.36.133',
+    port: 5678,
+    filepath: 'C:/Windows/System32/drivers/etc/main.upg',
+    user: 'admin',
+    password: 'admin'
+});
+console.log(tools.hex_str(arr));//MAING-malin.UPG
+*/
 
 exports.json_hex = function (json) {
     var a1 = json.A1, a2 = json.A2, a3 = json.A3 || 0,
