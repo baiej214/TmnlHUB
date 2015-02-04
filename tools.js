@@ -317,7 +317,6 @@ exports.tools = {
 
     setPn: function (pn) {
         var da1 = 0, da2 = 0;
-        if (pn == 599) return [0x4f, 0x4b];
         if (pn != 0) {
             da1 = 1;
             for (var j = 0; j < (pn - 1) % 8; j++)

@@ -1586,28 +1586,6 @@ var json_hex = {
                 perLen.writeUInt16LE(data.perLen, 0);
 
                 return [].concat(fileid, attr, order, steps.toJSON(), step.toJSON(), perLen.toJSON(), filedata);
-            },
-
-            Fn248: function (data) {
-                var ip = data.ip,
-                    port = new Buffer([0, 0]),
-                    filepath = new Buffer(48),
-                    user = new Buffer(16),
-                    password = new Buffer(16),
-                    time = new Buffer(6);
-                ip = _.map(ip.split('.'), function (item) {
-                    return parseInt(item);
-                });
-                port.writeUInt16LE(data.port + 256, 0);
-                filepath.fill(0);
-                filepath.write(data.filepath);
-                user.fill(0);
-                user.write(data.user);
-                password.fill(0);
-                password.write(data.password);
-                time.fill(0);
-
-                return [].concat(ip, port.toJSON(), filepath.toJSON(), user.toJSON(), password.toJSON(), time.toJSON());
             }
         },
         AFN16: {}
