@@ -5,7 +5,7 @@ var path = require('path'),
     cError = require('../../../error').Error,
     tools = require('../../../tools').tools,
     tmnl_mgr = require('../../../tmnl/tmnl_manager'),
-    Updater = require('./updater').Updater;
+    Updater = require('./FK_updater').Updater;
 
 var split = function (buff, perLen) {
     var buffArr = buff.toJSON(),
@@ -37,7 +37,7 @@ exports.handler = function (req, res) {
             var filedata = split(data, req.body.perLen || 200), steps = filedata.length;
             _.each(tmnl_mgr.list, function (tmnl) {
                 var tmnlUpdate = new Updater({
-                    A1: tmnl.A1, A2: tmnl.A2, sid: tmnl.sid,
+                    A1: tmnl.A1, A2: tmnl.A2, sid: tmnl.sid, size: req.body.size,
                     currentReleaseDate: req.body.currentReleaseDate || new Date(),
                     steps: steps, filedata: filedata
                 });

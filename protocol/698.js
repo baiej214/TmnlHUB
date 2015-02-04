@@ -1586,6 +1586,36 @@ var json_hex = {
                 perLen.writeUInt16LE(data.perLen, 0);
 
                 return [].concat(fileid, attr, order, steps.toJSON(), step.toJSON(), perLen.toJSON(), filedata);
+            },
+
+            Fn249: function (data) {
+                //typeMatch may be 'CM3-STM32-KM101G-1';
+                var typeMatch = data.typeMatch,
+                    buff = new Buffer(19);
+                buff.fill(0x00);
+                buff.write(typeMatch);
+                return buff.toJSON();
+            },
+
+            Fn250: function (data) {
+                var size = data.size,
+                    buff = new Buffer([0, 0, 0, 0]);
+                buff.writeUInt32LE(size, 0);
+                return buff.toJSON();
+            },
+
+            Fn251: function (data) {
+                var offset = new Buffer([0, 0, 0, 0]),
+                    offsetLen = new Buffer([0, 0]),
+                    file = data.file || [];
+                offset.writeUInt32LE(data.offset, 0);
+                offsetLen.writeUInt16LE(data.offsetLen, 0);
+
+                return [].concat(offset.toJSON(), offsetLen.toJSON(), file);
+            },
+
+            Fn252: function () {
+                return [];
             }
         },
         AFN16: {}
@@ -4283,7 +4313,8 @@ exports.json_hex = function (json) {
     _.each(json.DU, function (item) {
         var pn = item.pn;
         _.each(item.DT, function (dt) {
-            var fn = dt.Fn, du = tools.setPn(pn).concat(tools.setFn(fn)),
+            var fn = _.isArray(dt.Fn) ? dt.Fn.shift() : dt.Fn,
+                du = tools.setPn(pn).concat(tools.setFn(dt.Fn)),
                 data = dt.DATA, retry = dt.retry;
             app = app.concat(du, json_hex['AFN' + afn]['Fn' + fn](data));
         });

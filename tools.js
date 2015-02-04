@@ -316,6 +316,9 @@ exports.tools = {
     },
 
     setPn: function (pn) {
+        if (typeof pn == 'string') {
+            return new Buffer(pn.toUpperCase()).toJSON();
+        }
         var da1 = 0, da2 = 0;
         if (pn != 0) {
             da1 = 1;
@@ -327,6 +330,7 @@ exports.tools = {
     },
 
     setFn: function (fn) {
+        if (_.isArray(fn)) return fn;
         var dt1, dt2;
         if (0 == fn) {
             dt1 = dt2 = 0;

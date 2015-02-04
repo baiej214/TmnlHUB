@@ -164,7 +164,7 @@ var updater = function (opts) {
     this.on('next', function (tmnl, step) {
         recv++;
         this.emit('step', recv);
-        //TODO 167行会报错
+        //TODO 167行会报错，好像是因为SEQ的原因
         if (unrecv.length > 0) step = unrecv.shift();
         if (step == steps - 1) {
             var attr = 1;

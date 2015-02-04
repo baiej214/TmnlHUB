@@ -19,7 +19,7 @@ var json_hex = function (json) {
         try {
             return _698.json_hex(json);
         } catch (err) {
-            throw '无法找到对应的协议';
+            throw err;
         }
     },
 
