@@ -3,7 +3,7 @@ Ext.require([
     'Ext.ux.statusbar.ValidationStatus',
     'js.notice'
 ]);
-
+Ext.global.socket = io();
 Ext.onReady(function () {
 
     //不支持IE
@@ -12,7 +12,6 @@ Ext.onReady(function () {
         return false;
     }
 
-    var socket = io();
     Ext.global.tmnlMgr = '';
     socket.on('tmnlListChange', function (tmnls, offlineTmnl) {
         Ext.global.tmnlMgr = tmnls;
@@ -23,8 +22,6 @@ Ext.onReady(function () {
                 panel.offline();
             }
         }
-    }).on('testClick', function () {
-        alert('Fuck');
     }).on('tmnl_message', function (A1, A2, date, dir, buffstr) {
         var panel = Ext.getCmp(A1 + '@' + A2);
         if (panel) {
