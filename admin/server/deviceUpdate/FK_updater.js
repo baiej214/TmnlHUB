@@ -53,6 +53,7 @@ var typeMatch = function (tmnl) {
             steps = this.get('steps'),
             file = this.get('file')[step],
             offsetLen = file.length,
+            updateChangeIP = this.get('updateChangeIP'),
             json = {
                 'A1': tmnl.A1, 'A2': tmnl.A2, 'AFN': 15, 'retry': 3,
                 'DU': [{
@@ -66,12 +67,47 @@ var typeMatch = function (tmnl) {
                 _self.emit('error', err);
             } else {
                 if (step >= steps - 1) {
-                    _self.emit('refresh', tmnl);
+                    if (updateChangeIP == 'on') {
+                        setIPort.call(_self, tmnl, function (err, data) {
+                            if (err) console.log(err);
+                            _self.emit('refresh', tmnl);
+                        });
+                    } else {
+                        _self.emit('refresh', tmnl);
+                    }
                 } else {
                     _self.emit('sendFile', tmnl, offset + offsetLen);
                 }
             }
         });
+    },
+
+    /**
+     * 配置通讯参数
+     * @param tmnl
+     * @param cb
+     */
+    setIPort = function (tmnl, cb) {
+        var _self = this,
+            json = {
+                'A1': tmnl.A1, 'A2': tmnl.A2, 'A3': 2, 'AFN': 4, 'retry': 3,
+                'DU': [{
+                    'pn': 0,
+                    'DT': [{
+                        'Fn': 3, 'DATA': {
+                            master_ip: _self.get('updateIP'),
+                            master_port: _self.get('updatePort'),
+                            back_ip: _self.get('updateIP'),
+                            back_port: _self.get('updatePort'),
+                            apn: _self.get('updateAPN')
+                        }
+                    }]
+                }],
+                AUX: {
+                    PW: 0
+                }
+            };
+        tmnl.pkt_mgr.req(tools.format_json(json), cb);
     },
 
     /**
@@ -139,18 +175,19 @@ var typeMatch = function (tmnl) {
     start = function () {
         var _self = this,
             sid = this.get('sid'),
-            currentReleaseDate = this.get('currentReleaseDate'),
+        //currentReleaseDate = this.get('currentReleaseDate'),
             tmnl = tmnl_mgr.get(sid);
         this.setBegin();
         if (tmnl) {
-            this.emit('getversion', tmnl, function (err, data) {
-                var softwareReleaseDate = moment(new Date(data.softwareReleaseDate)).format('YYYY-MM-DD');
-                if (softwareReleaseDate == currentReleaseDate) {
-                    _self.emit('end', null, '软件版本日期相同，不需要升级');
-                } else {
-                    _self.emit('typeMatch', tmnl);
-                }
-            });
+            //this.emit('getversion', tmnl, function (err, data) {
+            //    var softwareReleaseDate = moment(new Date(data.softwareReleaseDate)).format('YYYY-MM-DD');
+            //    if (softwareReleaseDate == currentReleaseDate) {
+            //        _self.emit('end', null, '软件版本日期相同，不需要升级');
+            //    } else {
+            //        _self.emit('typeMatch', tmnl);
+            //    }
+            //});
+            _self.emit('typeMatch', tmnl);
         } else {
             throw '设备不在线';
         }
@@ -161,7 +198,7 @@ var FK_updater = function (opts) {
     events.EventEmitter.call(this);
 
     var defaults = {
-        currentReleaseDate: moment(new Date(opts.currentReleaseDate)).format('YYYY-MM-DD'),
+        //currentReleaseDate: moment(new Date(opts.currentReleaseDate)).format('YYYY-MM-DD'),
         file: opts.filedata,
         step: 0,
         steps: opts.filedata.length,
@@ -212,7 +249,7 @@ var FK_updater = function (opts) {
         //添加tmnlMgr一次性事件，升级超时前，如果终端再次登录则继续升级
         tmnl_mgr.event.once('new', function (newTmnl) {
             console.log('tmnl_mgr.event.new');
-            if (_self.get('updateDone') == false && newTmnl.A1 == opts.a1 && newTmnl.A2 == opts.a2) {
+            if (_self.get('updateDone') == false && newTmnl.A1 == opts.A1 && newTmnl.A2 == opts.A2) {
                 clearTimeout(opts.timer);
                 _self.start();
             }
@@ -224,7 +261,10 @@ var FK_updater = function (opts) {
         .on('typeMatch', typeMatch)
         .on('sendFile', sendFile)
         .on('refresh', refresh)
-        .on('error', uploadError);
+        .on('error', uploadError)
+        .on('end', function () {
+            opts.updateDone = true;
+        });
 };
 util.inherits(FK_updater, events.EventEmitter);
 

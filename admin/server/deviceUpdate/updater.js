@@ -112,6 +112,31 @@ var clearRecvFile = function (tmnl, steps, cb) {
             }
             cb.call(_self, err, obj);
         });
+    },
+
+    /**
+     * 配置通讯参数
+     * @param tmnl
+     * @param cb
+     */
+    setIPort = function (tmnl, cb) {
+        var _self = this,
+            json = {
+                'A1': tmnl.A1, 'A2': tmnl.A2, 'A3': 2, 'AFN': 4, 'retry': 3,
+                'DU': [{
+                    'pn': 0,
+                    'DT': [{
+                        'Fn': 3, 'DATA': {
+                            master_ip: _self.get('updateIP'),
+                            master_port: _self.get('updatePort'),
+                            back_ip: _self.get('updateIP'),
+                            back_port: _self.get('updatePort'),
+                            apn: _self.get('updateAPN')
+                        }
+                    }]
+                }]
+            };
+        tmnl.pkt_mgr.req(tools.format_json(json), cb);
     };
 
 /**
@@ -125,7 +150,7 @@ var updater = function (opts) {
 
     var _self = this,
         a1 = opts.A1, a2 = opts.A2, sid = opts.sid,
-        currentReleaseDate = moment(new Date(opts.currentReleaseDate)).format('YYYY-MM-DD'),
+    //currentReleaseDate = moment(new Date(opts.currentReleaseDate)).format('YYYY-MM-DD'),
         file = opts.filedata, steps = file.length,
         recv = 0,
         unrecv = [],
@@ -142,17 +167,21 @@ var updater = function (opts) {
 
         tmnl.emit('updating');
         if (init == true) {
-            getVersion(tmnl, function (err, data) {
-                var softwareReleaseDate = moment(new Date(data.softwareReleaseDate)).format('YYYY-MM-DD');
-                if (softwareReleaseDate == currentReleaseDate) {
-                    _self.emit('end', null, '软件版本日期相同，不需要升级');
-                } else {
-                    clearRecvFile.apply(this, [tmnl, steps, function (err) {
-                        init = false;
-                        _self.emit('next', tmnl, 0);
-                    }]);
-                }
-            });
+            //getVersion(tmnl, function (err, data) {
+            //    var softwareReleaseDate = moment(new Date(data.softwareReleaseDate)).format('YYYY-MM-DD');
+            //    if (softwareReleaseDate == currentReleaseDate) {
+            //        _self.emit('end', null, '软件版本日期相同，不需要升级');
+            //    } else {
+            //        clearRecvFile.apply(this, [tmnl, steps, function (err) {
+            //            init = false;
+            //            _self.emit('next', tmnl, 0);
+            //        }]);
+            //    }
+            //});
+            clearRecvFile.apply(this, [tmnl, steps, function (err) {
+                init = false;
+                _self.emit('next', tmnl, 0);
+            }]);
         } else {
             checkUnrecv.apply(this, [tmnl, steps, function (err, result) {
                 unrecv = result;
@@ -206,6 +235,7 @@ var updater = function (opts) {
     });
 
     this.on('end', function (err) {
+        updateDone = true;
         var tmnl = tmnl_mgr.get(sid);
         tmnl.emit('updatedone');
     });

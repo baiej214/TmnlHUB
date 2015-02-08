@@ -51,6 +51,8 @@ var start = function () {
         //TODO 每次创建新的socket时触发，可以返回当前连接数之类的功能
         socket.on('getTmnlList', function () {
             this.emit('tmnlListChange', tmnl_mgr.map());
+        }).on('device_update', function (data) {
+            require('./server/deviceUpdate/device_update').update(data, this);
         });
     });
 

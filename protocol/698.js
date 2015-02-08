@@ -4295,15 +4295,16 @@ var json_hex = {
     };
 
 /*
-var arr = json_hex.AFN15.Fn248({
-    ip: '120.194.36.133',
-    port: 5678,
-    filepath: 'C:/Windows/System32/drivers/etc/main.upg',
-    user: 'admin',
-    password: 'admin'
+var arr = json_hex.AFN4.Fn3({
+    master_ip: '120.194.36.133',
+    master_port: 3306,
+    back_ip:'120.194.36.133',
+    back_port: 3306,
+    apn: 'CMNET'
 });
 console.log(tools.hex_str(arr));//MAING-malin.UPG
 */
+
 
 exports.json_hex = function (json) {
     var a1 = json.A1, a2 = json.A2, a3 = json.A3 || 0,
