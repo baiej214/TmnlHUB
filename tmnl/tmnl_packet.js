@@ -32,6 +32,7 @@ var json_hex = function (json) {
  * 构造函数
  */
 var packet = function (opts) {
+    if (!(this instanceof packet)) return new packet(opts);
     events.EventEmitter.call(this);
     this.timer = null;//计时器
     this.retry_times = 0;//重发次数
@@ -98,6 +99,7 @@ packet.prototype.on('end', function (err) {
             //console.log(cError(err));
         });
     }
+    this.pkt_mgr.emit('unlock');
 });
 
 packet.prototype.timeout = function () {

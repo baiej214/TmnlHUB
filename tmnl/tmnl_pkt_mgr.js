@@ -17,6 +17,7 @@ var util = require('util'),
  * @param socket {object}
  */
 var pkt_manager = function (socket) {
+    if (!(this instanceof pkt_manager)) return new pkt_manager(socket);
     events.EventEmitter.call(this);
     //锁，如果lock=true，则不能进行send操作
     this.lock = false;
@@ -54,12 +55,13 @@ pkt_manager.prototype.recv = function (hex) {
         this.emit('push', {dir: 1, prm: 1, hex: hex, socket: this.socket, cb: cb}, seq);
     } else {
         var packet = _.find(this.packets, function (item) {
+            console.log('SEQ:', item.get_seq(), seq);
             return item.get_seq() == seq;
         });
         if (packet) {
             packet.recv(hex);
         } else {
-            console.log('收到终端响应数据，但是没找到对应SEQ的数据包');
+            console.log(this.socket.sid, this.packets, seq, packet, '收到终端响应数据，但是没找到对应SEQ的数据包');
             this.emit('unlock');
         }
     }
@@ -89,11 +91,9 @@ pkt_manager.prototype.send = function () {
         var packet = this.packets[0];
         if (packet) {
             var _self = this, seq = packet.get_seq();
+            packet.pkt_mgr = this;
             packet.set_seq(_.isNumber(seq) ? seq : tools.seq(this.seq));
-            packet.once('end', function (err) {
-                //TODO 加onlock事件
-                _self.emit('unlock');
-            }).send();
+            packet.send();
             this.emit('seq', packet.get_seq());
         } else {
             this.lock = false;
@@ -116,13 +116,13 @@ pkt_manager.prototype.on('push', function (data, seq) {
 });
 
 /**
- * 触发解锁事件
  * 解锁，删除packets第一个元素
+ * 触发解锁事件
  * 执行发送
  */
 pkt_manager.prototype.on('unlock', function () {
-    this.lock = false;
     this.packets.shift();
+    this.lock = false;
     this.send();
 });
 

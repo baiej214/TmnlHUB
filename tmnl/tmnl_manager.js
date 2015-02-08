@@ -48,6 +48,12 @@ var tmnl_list = {},
 
 //删除指定的socket
     remove = function (sid) {
+        var tmnl = tmnl_list[sid];
+        if (tmnl) {
+            tmnl.pkt_mgr.clear();
+            delete tmnl.pkt_mgr;
+            tmnl = undefined;
+        }
         delete tmnl_list[sid];
     },
 
