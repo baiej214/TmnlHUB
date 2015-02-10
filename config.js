@@ -5,6 +5,12 @@
 //1秒，1分钟，1小时
 var sec = 1000, min = 60 * sec, hr = 60 * min,
     sys_config = {
+        connectionLimit: 10,
+        host: 'localhost',
+        user: 'root',
+        password: 'root',
+        database: 'tmnlhub',
+
         tmnl_port: 5805,
         tmnl_delay_timeout: 0,
         tmnl_recv_timeout: 10 * sec,

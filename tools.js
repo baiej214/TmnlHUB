@@ -89,7 +89,7 @@ exports.tools = {
 
     hex_str: function (data) {
         if (Buffer.isBuffer(data)) {
-            data = data.toJSON();
+            data = data.toJSON().data;
         }
         if (_.isArray(data)) {
             var tools = this, str = _.map(data, function (item) {
@@ -158,7 +158,7 @@ exports.tools = {
         var len = (data.length << 2) + 1, buff = new Buffer([0, 0, 0, 0]);
         buff.writeInt16LE(len, 0);
         buff.writeInt16LE(len, 2);
-        return buff.toJSON();
+        return buff.toJSON().data;
     },
 
     set_c: function (json) {
@@ -312,12 +312,12 @@ exports.tools = {
         }
 
         //返回的数据使用Buffer的toJSON方法转成数组，方便操作
-        return data.slice(14, data.length - auxLength).toJSON();//du从pn开始到校验码前
+        return data.slice(14, data.length - auxLength).toJSON().data;//du从pn开始到校验码前
     },
 
     setPn: function (pn) {
         if (typeof pn == 'string') {
-            return new Buffer(pn.toUpperCase()).toJSON();
+            return new Buffer(pn.toUpperCase()).toJSON().data;
         }
         var da1 = 0, da2 = 0;
         if (pn != 0) {

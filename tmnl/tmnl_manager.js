@@ -116,8 +116,8 @@ var tmnl_list = {},
         console.log('on_drain');
     },
 
-    on_error = function () {
-        console.log('on_error');
+    on_error = function (err) {
+        console.log('on_error', err);
     },
 
 //关闭事件

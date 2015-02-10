@@ -13,7 +13,7 @@ var path = require('path'),
 var event = new events.EventEmitter(),
 
     split = function (buff, perLen) {
-        var buffArr = buff.toJSON(),
+        var buffArr = buff.toJSON().data,
             times = Math.ceil(buffArr.length / perLen),
             arr = [];
         _.times(times, function () {

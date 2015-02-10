@@ -4,6 +4,7 @@ var tmnl_server = require('./tmnl/tmnl_server'),
     admin_server = require('./admin/admin_server'),
     cError = require('./error').Error;
 
+require('./conn');
 tmnl_server.start();
 web_server.start();
 broadcast.start();

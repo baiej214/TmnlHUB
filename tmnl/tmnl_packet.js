@@ -11,8 +11,7 @@ var util = require('util'),
     tools = require('../tools').tools,
     cError = require('../error').Error,
     _698 = require('../protocol/698'),
-    sqlite3 = require('sqlite3').verbose(),
-    db = new sqlite3.Database(path.join(__dirname, '../db')),
+    db = require('../conn').pool,
     admin_server = require('../admin/admin_server').io;
 
 var json_hex = function (json) {
@@ -86,17 +85,16 @@ packet.prototype.on('end', function (err) {
     clearTimeout(this.timer);
     if (this.cb) this.cb.call(null, err, this.output);
     if (!err && !is_heartbeat(this.output.REQ.json)) {
-        db.run('insert into frames (A1, A2, req_buff, res_buff, req_json, res_json, req_date, res_date) ' +
-        'values ($A1, $A2, $req_buff, $res_buff, $req_json, $res_json, $req_date, $res_date)', {
-            $A1: this.socket.A1, $A2: this.socket.A2,
-            $req_buff: this.output.REQ.buff,
-            $res_buff: this.output.RES.buff,
-            $req_json: util.format('%j', this.output.REQ.json),
-            $res_json: util.format('%j', this.output.RES.json),
-            $req_date: this.output.REQ.date,
-            $res_date: this.output.RES.date
+        db.query('insert into frames set ?', {
+            A1: this.socket.A1, A2: this.socket.A2,
+            req_buff: this.output.REQ.buff,
+            res_buff: this.output.RES.buff,
+            req_json: util.format('%j', this.output.REQ.json),
+            res_json: util.format('%j', this.output.RES.json),
+            req_date: this.output.REQ.date,
+            res_date: this.output.RES.date
         }, function (err) {
-            //console.log(cError(err));
+            console.log(cError(err));
         });
     }
     this.pkt_mgr.emit('unlock');

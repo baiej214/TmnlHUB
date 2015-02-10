@@ -1585,7 +1585,7 @@ var json_hex = {
                 step.writeUInt32LE(data.step, 0);
                 perLen.writeUInt16LE(data.perLen, 0);
 
-                return [].concat(fileid, attr, order, steps.toJSON(), step.toJSON(), perLen.toJSON(), filedata);
+                return [].concat(fileid, attr, order, steps.toJSON().data, step.toJSON().data, perLen.toJSON().data, filedata);
             },
 
             Fn249: function (data) {
@@ -1594,14 +1594,14 @@ var json_hex = {
                     buff = new Buffer(19);
                 buff.fill(0x00);
                 buff.write(typeMatch);
-                return buff.toJSON();
+                return buff.toJSON().data;
             },
 
             Fn250: function (data) {
                 var size = data.size,
                     buff = new Buffer([0, 0, 0, 0]);
                 buff.writeUInt32LE(size, 0);
-                return buff.toJSON();
+                return buff.toJSON().data;
             },
 
             Fn251: function (data) {
@@ -1611,7 +1611,7 @@ var json_hex = {
                 offset.writeUInt32LE(data.offset, 0);
                 offsetLen.writeUInt16LE(data.offsetLen, 0);
 
-                return [].concat(offset.toJSON(), offsetLen.toJSON(), file);
+                return [].concat(offset.toJSON().data, offsetLen.toJSON().data, file);
             },
 
             Fn252: function () {

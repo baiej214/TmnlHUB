@@ -1,8 +1,7 @@
 var path = require('path'),
     _ = require('underscore'),
     moment = require('moment'),
-    sqlite3 = require('sqlite3').verbose(),
-    db = new sqlite3.Database(path.join(__dirname, '../db')),
+    db = require('../conn').pool,
     cError = require('../error').Error;
 
 /**
@@ -14,44 +13,46 @@ exports.handler = function (req, res) {
             a1 = req.body.A1, a2 = req.body.A2;
         switch (action.toLowerCase()) {
             case 'all':
-                db.all('select strftime("%Y年", dts) as name, "y" as mark, strftime("%Y", dts) as value ' +
+                db.query('SELECT DATE_FORMAT(dts,"%Y年") AS name, "y" AS mark, DATE_FORMAT(dts,"%Y") as value ' +
                 'from frames group by value;', function (err, rec) {
                     res.send(cError(err) || rec);
                 });
                 break;
             case 'y':
-                db.all('select strftime("%Y年%m月", dts) as name, "m" as mark, strftime("%Y-%m", dts) as value from frames ' +
-                    'where strftime("%Y", dts) = "' + moment(value).format('YYYY') + '" group by value;',
+                db.query('select DATE_FORMAT(dts, "%Y年%m月") as name, "m" as mark, DATE_FORMAT(dts, "%Y-%m") as value from frames ' +
+                    'where DATE_FORMAT(dts, "%Y") = "' + moment(value).format('YYYY') + '" group by value;',
                     function (err, rec) {
                         res.send(cError(err) || rec);
                     });
                 break;
             case 'm':
-                db.all('select strftime("%Y年%m月%d日", dts) as name, "d" as mark, strftime("%Y-%m-%d", dts) as value from frames ' +
-                    'where strftime("%Y-%m", dts) = "' + moment(value).format('YYYY-MM') + '" group by value;',
+                db.query('select DATE_FORMAT(dts, "%Y年%m月%d日") as name, "d" as mark, DATE_FORMAT(dts, "%Y-%m-%d") as value from frames ' +
+                    'where DATE_FORMAT(dts, "%Y-%m") = "' + moment(value).format('YYYY-MM') + '" group by value;',
                     function (err, rec) {
                         res.send(cError(err) || rec);
                     });
                 break;
             case 'd':
-                db.all('select A1, A2, A1||"@"||A2 as name, "f" as mark from frames ' +
-                    'where strftime("%Y-%m-%d", dts) = "' + moment(value).format('YYYY-MM-DD') + '" ' +
+                db.query('select A1, A2, CONCAT(A1,"@",A2) as name, "f" as mark from frames ' +
+                    'where DATE_FORMAT(dts, "%Y-%m-%d") = "' + moment(value).format('YYYY-MM-DD') + '" ' +
                     'group by name order by A1, A2;',
                     function (err, rec) {
                         res.send(cError(err) || rec);
                     });
                 break;
             case 'f':
-                db.all('select * from frames where A1 = ' + a1 + ' and A2 = ' + a2 + ' and ' +
-                    'strftime("%Y-%m-%d", dts) = "' + moment(value).format('YYYY-MM-DD') + '" order by id;',
+                db.query('select * from frames where A1 = ' + a1 + ' and A2 = ' + a2 + ' and ' +
+                    'DATE_FORMAT(dts, "%Y-%m-%d") = "' + moment(value).format('YYYY-MM-DD') + '" order by id;',
                     function (err, rec) {
                         res.send(cError(err) || rec);
                     });
                 break;
             case 'download':
-                value = new Date(req.query.value), a1 = req.query.A1, a2 = req.query.A2;
-                db.all('select * from frames where A1 = ' + a1 + ' and A2 = ' + a2 + ' and ' +
-                    'strftime("%Y-%m-%d", dts) = "' + moment(value).format('YYYY-MM-DD') + '" order by id;',
+                value = new Date(req.query.value);
+                a1 = req.query.A1;
+                a2 = req.query.A2;
+                db.query('select * from frames where A1 = ' + a1 + ' and A2 = ' + a2 + ' and ' +
+                    'DATE_FORMAT(dts, "%Y-%m-%d") = "' + moment(value).format('YYYY-MM-DD') + '" order by id;',
                     function (err, rec) {
                         if (err) {
                             res.send(cError(err))
