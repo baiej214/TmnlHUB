@@ -11,5 +11,5 @@ broadcast.start();
 admin_server.start();
 
 process.on('uncaughtException', function (err) {
-    console.log('Caught exception: ' + cError(err));
+    console.log('Caught exception: ' + err);
 });

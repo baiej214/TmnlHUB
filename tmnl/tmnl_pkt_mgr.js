@@ -27,6 +27,31 @@ var pkt_manager = function (socket) {
     this.socket = socket;
     //数据包序列号
     this.seq = 0;
+
+    this.on('push', function (data, seq) {
+        var packet = new Packet(data);
+        if (_.isNumber(seq)) packet.set_seq(seq);
+        this.packets.push(packet);
+        this.send();
+    });
+
+    /**
+     * 解锁，删除packets第一个元素
+     * 触发解锁事件
+     * 执行发送
+     */
+    this.on('unlock', function () {
+        this.packets.shift();
+        this.lock = false;
+        this.send();
+    });
+
+    /**
+     * 更改SEQ时触发
+     */
+    this.on('seq', function (seq) {
+        this.seq = seq;
+    });
 };
 
 //继承事件
@@ -52,6 +77,7 @@ pkt_manager.prototype.recv = function (hex) {
                 }
             }
         };
+        this.aa({dir: 1, prm: 1, hex: hex, socket: this.socket, cb: cb}, seq);
         this.emit('push', {dir: 1, prm: 1, hex: hex, socket: this.socket, cb: cb}, seq);
     } else {
         var packet = _.find(this.packets, function (item) {
@@ -108,29 +134,36 @@ pkt_manager.prototype.clear = function () {
     this.packets = [];
 };
 
-pkt_manager.prototype.on('push', function (data, seq) {
+pkt_manager.prototype.aa = function (data, seq) {
     var packet = new Packet(data);
     if (_.isNumber(seq)) packet.set_seq(seq);
     this.packets.push(packet);
     this.send();
-});
+};
 
-/**
- * 解锁，删除packets第一个元素
- * 触发解锁事件
- * 执行发送
- */
-pkt_manager.prototype.on('unlock', function () {
-    this.packets.shift();
-    this.lock = false;
-    this.send();
-});
-
-/**
- * 更改SEQ时触发
- */
-pkt_manager.prototype.on('seq', function (seq) {
-    this.seq = seq;
-});
+//pkt_manager.on('push', function (data, seq) {
+//    var packet = new Packet(data);
+//    if (_.isNumber(seq)) packet.set_seq(seq);
+//    this.packets.push(packet);
+//    this.send();
+//});
+//
+///**
+// * 解锁，删除packets第一个元素
+// * 触发解锁事件
+// * 执行发送
+// */
+//pkt_manager.on('unlock', function () {
+//    this.packets.shift();
+//    this.lock = false;
+//    this.send();
+//});
+//
+///**
+// * 更改SEQ时触发
+// */
+//pkt_manager.on('seq', function (seq) {
+//    this.seq = seq;
+//});
 
 exports.pkt_mgr = pkt_manager;
