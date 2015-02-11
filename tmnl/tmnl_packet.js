@@ -55,50 +55,50 @@ var packet = function (opts) {
 
     this.get_seq = function () {
         return SEQ;
-    }
+    };
+
+    /**
+     * 重发
+     */
+    this.on('timeout', function () {
+        this.retry_times++;
+        if (this.json.retry > 0 && this.retry_times <= this.json.retry) {
+            console.log('第' + this.retry_times + '/' + this.json.retry + '次重发');
+            this.send();
+        } else {
+            this.emit('end', cError('通讯超时，共重发' + (this.retry_times - 1) + '次'));
+        }
+    });
+
+    this.on('recv', function (err, data) {
+        this.emit('end', err, data);
+    });
+
+    this.on('send', function (hex) {
+        admin_server.emit('tmnl_message', this.socket.A1, this.socket.A2, tools.now(), ' <<<<< ', tools.hex_str(hex));
+    });
+
+    this.on('end', function (err) {
+        clearTimeout(this.timer);
+        if (this.cb) this.cb.call(null, err, this.output);
+        if (!err && !is_heartbeat(this.output.REQ.json)) {
+            db.query('insert into frames set ?', {
+                A1: this.socket.A1, A2: this.socket.A2,
+                req_buff: this.output.REQ.buff,
+                res_buff: this.output.RES.buff,
+                req_json: util.format('%j', this.output.REQ.json),
+                res_json: util.format('%j', this.output.RES.json),
+                req_date: this.output.REQ.date,
+                res_date: this.output.RES.date
+            }, function (err) {
+                //console.log(cError(err));
+            });
+        }
+        this.pkt_mgr.emit('unlock');
+    });
 };
 
 util.inherits(packet, events.EventEmitter);
-
-/**
- * 重发
- */
-packet.prototype.on('timeout', function () {
-    this.retry_times++;
-    if (this.json.retry > 0 && this.retry_times <= this.json.retry) {
-        console.log('第' + this.retry_times + '/' + this.json.retry + '次重发');
-        this.send();
-    } else {
-        this.emit('end', cError('通讯超时，共重发' + (this.retry_times - 1) + '次'));
-    }
-});
-
-packet.prototype.on('recv', function (err, data) {
-    this.emit('end', err, data);
-});
-
-packet.prototype.on('send', function (hex) {
-    admin_server.emit('tmnl_message', this.socket.A1, this.socket.A2, tools.now(), ' <<<<< ', tools.hex_str(hex));
-});
-
-packet.prototype.on('end', function (err) {
-    clearTimeout(this.timer);
-    if (this.cb) this.cb.call(null, err, this.output);
-    if (!err && !is_heartbeat(this.output.REQ.json)) {
-        db.query('insert into frames set ?', {
-            A1: this.socket.A1, A2: this.socket.A2,
-            req_buff: this.output.REQ.buff,
-            res_buff: this.output.RES.buff,
-            req_json: util.format('%j', this.output.REQ.json),
-            res_json: util.format('%j', this.output.RES.json),
-            req_date: this.output.REQ.date,
-            res_date: this.output.RES.date
-        }, function (err) {
-            console.log(cError(err));
-        });
-    }
-    this.pkt_mgr.emit('unlock');
-});
 
 packet.prototype.timeout = function () {
     this.timer = setTimeout(function (packet) {

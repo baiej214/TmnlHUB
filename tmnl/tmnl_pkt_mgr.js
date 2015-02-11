@@ -77,17 +77,16 @@ pkt_manager.prototype.recv = function (hex) {
                 }
             }
         };
-        this.aa({dir: 1, prm: 1, hex: hex, socket: this.socket, cb: cb}, seq);
         this.emit('push', {dir: 1, prm: 1, hex: hex, socket: this.socket, cb: cb}, seq);
     } else {
         var packet = _.find(this.packets, function (item) {
-            console.log('SEQ:', item.get_seq(), seq);
+            //console.log('SEQ:', item.get_seq(), seq);
             return item.get_seq() == seq;
         });
         if (packet) {
             packet.recv(hex);
         } else {
-            console.log(this.socket.sid, this.packets, seq, packet, '收到终端响应数据，但是没找到对应SEQ的数据包');
+            console.log('收到终端响应数据，但是没找到对应SEQ的数据包');
             this.emit('unlock');
         }
     }
@@ -132,13 +131,6 @@ pkt_manager.prototype.clear = function () {
         packet.emit('end', '终端掉线导致通讯包失效');
     });
     this.packets = [];
-};
-
-pkt_manager.prototype.aa = function (data, seq) {
-    var packet = new Packet(data);
-    if (_.isNumber(seq)) packet.set_seq(seq);
-    this.packets.push(packet);
-    this.send();
 };
 
 //pkt_manager.on('push', function (data, seq) {
