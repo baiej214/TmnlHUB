@@ -90,6 +90,11 @@ var clearRecvFile = function (tmnl, steps, cb) {
                     _self.emit('error', cError('升级文件接收错误。'), tmnl);
                 } else if (recvStep != step) {
                     _self.emit('error', cError('升级文件接收错误。分段号不匹配。'), tmnl);
+                } else if (recvStep == steps - 2 && _self.updateChangeIP == 'on') {
+                    setIPort.call(_self, tmnl, function (err, data) {
+                        if (err) console.log(err);
+                        _self.emit('next', tmnl, step + 1);
+                    });
                 } else if (recvStep == steps - 1) {
                     _self.emit('end');
                 } else {
@@ -127,14 +132,17 @@ var clearRecvFile = function (tmnl, steps, cb) {
                     'pn': 0,
                     'DT': [{
                         'Fn': 3, 'DATA': {
-                            master_ip: _self.get('updateIP'),
-                            master_port: _self.get('updatePort'),
-                            back_ip: _self.get('updateIP'),
-                            back_port: _self.get('updatePort'),
-                            apn: _self.get('updateAPN')
+                            master_ip: _self.updateIP,
+                            master_port: _self.updatePort,
+                            back_ip: _self.updateIP,
+                            back_port: _self.updatePort,
+                            apn: _self.updateAPN
                         }
                     }]
-                }]
+                }],
+                AUX: {
+                    PW: 0
+                }
             };
         tmnl.pkt_mgr.req(tools.format_json(json), cb);
     };
@@ -160,6 +168,10 @@ var updater = function (opts) {
         timeout = 1000 * 60 * 5,//升级超时时间5分钟
         allowFailTimes = 5,//允许升级失败次数
         failTimes = 0;//升级失败次数
+    this.updateChangeIP = opts.updateChangeIP;
+    this.updateIP = opts.updateIP;
+    this.updatePort = opts.updatePort;
+    this.updateAPN = opts.updateAPN;
 
     this.on('start', function () {
         var tmnl = tmnl_mgr.get(sid);

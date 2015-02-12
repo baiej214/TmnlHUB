@@ -246,6 +246,7 @@ var FK_updater = function (opts) {
         opts.timer = setTimeout(function () {
             _self.updateDone().emit('end', cError('升级超时（' + opts.timeout + 'ms）'));
         }, opts.timeout);
+        //TODO 这里报错，不能事件嵌套，容易溢出，抓紧优化
         //添加tmnlMgr一次性事件，升级超时前，如果终端再次登录则继续升级
         tmnl_mgr.event.once('new', function (newTmnl) {
             console.log('tmnl_mgr.event.new');

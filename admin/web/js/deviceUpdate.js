@@ -117,17 +117,48 @@ Ext.define('js.deviceUpdate', {
         //终端范围提交值
             updateRange = {id: 'updateRange', name: 'updateRange', xtype: 'hidden'},
         //提交按钮
-            updateSubmit = {xtype: 'button', text: '升级', scope: _self, handler: _self.submit, padding: '3 4'};
+            updateSubmit = {
+                id: 'updateSubmit',
+                xtype: 'button',
+                text: '升级',
+                scope: _self,
+                handler: _self.submit,
+                padding: '3 4'
+            },
+
+            store = Ext.create('Ext.data.Store', {
+                fields: ['sid', 'A1', 'A2', {
+                    name: 'progress',
+                    calculate: function (data) {
+                        return Math.random();
+                    }
+                }, 'status', 'result', 'begin', 'end']
+            }),
+
+            columns = [
+                {text: '行政区划码', dataIndex: 'A1'},
+                {text: '终端地址', dataIndex: 'A2'},
+                {
+                    text: '进度', dataIndex: 'progress', flex: 1, xtype: 'widgetcolumn',
+                    widget: {xtype: 'progressbarwidget', textTpl: ['{percent:number("0")}%']}
+                },
+                {text: '状态', dataIndex: 'status'},
+                {text: '结果', dataIndex: 'result'},
+                {text: '开始时间', dataIndex: 'begin', width: 150},
+                {text: '结束时间', dataIndex: 'end', width: 150}
+            ];
 
         this.form = Ext.create('Ext.form.Panel', {
-            defaults: {padding: '0 10 0 0'},
-            layout: 'column', region: 'north', height: 100,
+            defaults: {padding: '0 10 0 0'}, layout: 'column', region: 'north', height: 30,
             items: [updateType, updateRangeText, updateFile, updateChangeIP, updateIP, updatePort, updateAPN, updateRange, updateSubmit]
         });
 
-        this.items = [this.form, {
-            region: 'center', html: 'fuck'
-        }];
+        this.gridpanel = Ext.create('Ext.grid.Panel', {
+            id: 'fuck', disableSelection: true,
+            region: 'center', store: [], columns: columns
+        });
+
+        this.items = [this.form, this.gridpanel];
 
         this.callParent(arguments);
     },
@@ -149,10 +180,44 @@ Ext.define('js.deviceUpdate', {
     },
 
     update: function (json) {
+        var _self = this, store = _self.gridpanel.store;
+        Ext.getCmp('updateSubmit').setDisabled(true);
         Ext.global.socket.emit('device_update', json);
-        Ext.global.socket.on('update::end', function (endTotal) {
-            console.log(endTotal);
+        Ext.global.socket.on('update::end', function (sid, endTotal) {
+            if (endTotal.err) {
+                store.findRecord('sid', sid).set('result', '失败。' + endTotal.err.message);
+            } else {
+                store.findRecord('sid', sid).set('result', '成功');
+            }
+            store.findRecord('sid', sid).set('status', '完成');
+            store.findRecord('sid', sid).set('end', Ext.Date.format(new Date(), 'Y-m-d H:i:s'));
+            Ext.getCmp('updateSubmit').setDisabled(false);
+        }).on('update::step', function (sid, progress) {
+            store.findRecord('sid', sid).set('status', '正在升级');
+            store.findRecord('sid', sid).set('progress', progress);
         });
+
+        var tmnlList = [], data = [];
+        if (json.updateRange == 'all') {
+            tmnlList = Ext.Array.map(Ext.global.tmnlMgr, function (item) {
+                return item.sid
+            });
+        } else {
+            tmnlList = json.updateRange.split(',');
+        }
+        data = Ext.Array.map(tmnlList, function (sid) {
+            return {
+                sid: sid,
+                A1: parseInt(sid.split('@')[0]),
+                A2: parseInt(sid.split('@')[1]),
+                progress: 0,
+                status: '准备升级',
+                result: '-',
+                begin: Ext.Date.format(new Date(), 'Y-m-d H:i:s'),
+                end: '-'
+            }
+        });
+        this.gridpanel.store.loadData(data);
     },
 
     confirm: function (json) {

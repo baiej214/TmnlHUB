@@ -50,20 +50,23 @@ var event = new events.EventEmitter(),
                     updateAPN: json.updateAPN
                 });
                 tmnlUpdate.on('step', function (recv) {
-                    console.log(Math.ceil(recv / steps * 100));
+                    var progress = parseFloat((recv / steps).toFixed(2));
+                    event.emit('update::step', socket, tmnl.sid, progress);
                 }).on('end', function (err, data) {
-                    updateEnd.push({err: err, data: data});
-                    event.emit('update::end', socket, tmnlList.length, updateEnd);
+                    event.emit('update::end', socket, tmnl.sid, {err: err, data: data});
                 }).start();
             });
         });
     };
 
-event.on('update::end', function (client, tmnlListLen, endTotal) {
-    client.emit('update::end', endTotal);
-    if (tmnlListLen == endTotal.length) {
-        //socket//
-    }
+event.on('update::end', function (client, sid, endTotal) {
+    //client.emit('update::end', endTotal);
+    //if (tmnlListLen == endTotal.length) {
+    //    //socket//
+    //}
+    client.emit('update::end', sid, endTotal);
+}).on('update::step', function (client, sid, progress) {
+    client.emit('update::step', sid, progress);
 });
 
 exports.handler = function (req, res) {

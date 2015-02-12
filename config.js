@@ -23,7 +23,7 @@ var sec = 1000, min = 60 * sec, hr = 60 * min,
         //设备连接端口
         tmnl_port: 5805,
         //设备链接超时时间（0为永不超时）
-        tmnl_delay_timeout: min,
+        tmnl_delay_timeout: 5 * min,
         //设备通讯超时时间（0为永不超时）
         tmnl_recv_timeout: 10 * sec,
 
