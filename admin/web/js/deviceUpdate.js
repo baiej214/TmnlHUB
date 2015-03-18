@@ -1,7 +1,6 @@
 Ext.define('js.deviceUpdate', {
     extend: 'Ext.panel.Panel',
-    requires: ['js.deviceSelector'
-    ],
+    requires: ['js.deviceSelector'],
     deviceDialog: Ext.create('Ext.window.Window', {
         closeAction: 'hide', width: 500, height: 300, layotu: 'border', modal: true,
         items: [{

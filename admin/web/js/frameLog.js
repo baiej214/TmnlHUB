@@ -20,7 +20,8 @@ Ext.define('js.frameLog', {
         listeners: {
             load: function (store, records, successful) {
                 var arr = Ext.query('.thumb', false);
-                if (records[0].get('mark') == 'f') {
+                //TODO Uncaught TypeError: Cannot read property '0' of null
+                if (records && records[0].get('mark') == 'f') {
                     Ext.each(arr, function (item) {
                         item.addCls('log');
                     })

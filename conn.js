@@ -8,7 +8,7 @@ var connection = mysql.createConnection({
         password: config.password,
         database: config.database,
         dateStrings: false,
-        debug: ['ComQueryPacket']
+        debug: config.dbDebug
     }),
 
     poolConn = mysql.createPool({
@@ -18,7 +18,7 @@ var connection = mysql.createConnection({
         password: config.password,
         database: config.database,
         dateStrings: false,
-        debug: ['ComQueryPacket']
+        debug: config.dbDebug
     });
 
 exports.pool = poolConn;

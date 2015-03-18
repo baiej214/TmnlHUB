@@ -140,9 +140,9 @@ var tmnl_list = {},
         }
     };
 
-event.on('new', function (tmnl) {
-    console.log("It's fucking work.");
-});
+//event.on('new', function (tmnl) {
+//    console.log("It's fucking work.");
+//});
 
 exports.push = push;
 exports.len = get_size;

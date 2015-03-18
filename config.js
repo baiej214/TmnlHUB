@@ -9,6 +9,8 @@ var sec = 1000, min = 60 * sec, hr = 60 * min,
         min: min,//1分钟
         hr: hr,//1小时
 
+        //数据库调试模式
+        dbDebug: ['ComQueryPacket'],
         //数据库连接池最大容量
         connectionLimit: 10,
         //数据库地址
