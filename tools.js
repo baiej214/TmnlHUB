@@ -316,7 +316,7 @@ exports.tools = {
     },
 
     setPn: function (pn) {
-        if (typeof pn == 'string') {
+        if (typeof pn == 'string' && pn == 'OK') {
             return new Buffer(pn.toUpperCase()).toJSON().data;
         }
         var da1 = 0, da2 = 0;
