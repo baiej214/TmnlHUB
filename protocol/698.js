@@ -454,7 +454,7 @@ var json_hex = {
 
             Fn33: function (data) {
 
-                return [01, 01, 00, 00, 03, 00, 00, 00, 07, 07, 05, 01, 01, 01, 01, 07, 07, 08, 08]
+                return [1, 1, 0, 0, 3, 0, 0, 0, 7, 7, 5, 1, 1, 1, 1, 7, 7, 8, 8];
             },
 
             Fn35: function (data) {
@@ -1489,6 +1489,13 @@ var json_hex = {
 
             //测量点电流相位角曲线
             Fn110: function (data) {
+                var tdArr = data.td_c.split('-');
+                return [tools.b2bcd(tdArr[4]), tools.b2bcd(tdArr[3]), tools.b2bcd(tdArr[2]),
+                    tools.b2bcd(tdArr[1]), tools.b2bcd(tdArr[0]), data.m, data.n]
+            },
+
+            //[自定义协议] 北京 万家灯火 太阳能 交流逆变器
+            Fn139: function (data) {
                 var tdArr = data.td_c.split('-');
                 return [tools.b2bcd(tdArr[4]), tools.b2bcd(tdArr[3]), tools.b2bcd(tdArr[2]),
                     tools.b2bcd(tdArr[1]), tools.b2bcd(tdArr[0]), data.m, data.n]
@@ -3828,6 +3835,11 @@ var json_hex = {
                     json['ic_pap' + i] = tools.getDFA5(arr[4], arr[5])
                 }
                 return json
+            },
+
+            //[自定义协议] 北京 万家灯火 太阳能 交流逆变器
+            Fn139: function (data) {
+                var a = 1;
             },
 
             //日冻结正向有功（组合无功1）电能示值（总、费率1～M）

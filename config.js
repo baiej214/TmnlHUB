@@ -14,7 +14,7 @@ var sec = 1000, min = 60 * sec, hr = 60 * min,
         //数据库连接池最大容量
         connectionLimit: 10,
         //数据库地址
-        host: 'localhost',
+        host: '192.168.1.6',
         //数据库用户名
         user: 'root',
         //数据库密码
