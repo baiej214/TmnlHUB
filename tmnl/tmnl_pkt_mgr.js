@@ -72,7 +72,7 @@ pkt_manager.prototype.recv = function (hex) {
         //广播发送事件
         var cb = function (err, json) {
             if (!err) {
-                if (json.REQ.json.AFN == 0x0e) {
+                if (json.REQ.json.AFN == 0x0e || json.REQ.json.AFN == 0x0d) {
                     broadcast.broadcast(err || json);
                 }
             }

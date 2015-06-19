@@ -3839,7 +3839,25 @@ var json_hex = {
 
             //[自定义协议] 北京 万家灯火 太阳能 交流逆变器
             Fn139: function (data) {
-                var a = 1;
+//80,22,24,6,21,1,1,0,1,0,0,0,0,0,0,0,0,0,0,0,7,0,0,0,9,0,16,0,17,0,18,0,19,0,0,0,0
+                var json = {},
+                    dateArr = data.splice(0, 7);
+                json.td = tools.getDFA15(dateArr[0], dateArr[1], dateArr[2], dateArr[3], dateArr[4]);
+                json.m = dateArr[5];
+                json.n = dateArr[6];
+                for (var i = 1; i <= json.n; i++) {
+                    var arr = data.splice(0, 30);
+                    json['a'] = (arr[0] << 8) + arr[1];
+                    json['b'] = (arr[2] << 24) + (arr[3] << 16) + (arr[4] << 8) + arr[5];
+                    json['c'] = (arr[6] << 24) + (arr[7] << 16) + (arr[8] << 8) + arr[9];
+                    json['d'] = (arr[10] << 24) + (arr[11] << 16) + (arr[12] << 8) + arr[13];
+                    json['e'] = (arr[14] << 24) + (arr[15] << 16) + (arr[16] << 8) + arr[17];
+                    json['f'] = (arr[18] << 24) + (arr[19] << 16) + (arr[20] << 8) + arr[21];
+                    json['g'] = (arr[22] << 8) + arr[23];
+                    json['h'] = (arr[24] << 8) + arr[25];
+                    json['i'] = tools.getDFA11(arr[29], arr[28], arr[27], arr[26]);
+                }
+                return json;
             },
 
             //日冻结正向有功（组合无功1）电能示值（总、费率1～M）
