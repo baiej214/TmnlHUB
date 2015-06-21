@@ -608,6 +608,9 @@ var json_hex = {
                 return [tools.b2bcd(data.cc * 10), tools.b2bcd(data.fz * 10), data.tz, data.xs];
             },
 
+            Fn66: function (data) {
+            },
+
             Fn67: function (data) {
                 return [data.rs];
             },
@@ -3839,7 +3842,6 @@ var json_hex = {
 
             //[自定义协议] 北京 万家灯火 太阳能 交流逆变器
             Fn139: function (data) {
-//80,22,24,6,21,1,1,0,1,0,0,0,0,0,0,0,0,0,0,0,7,0,0,0,9,0,16,0,17,0,18,0,19,0,0,0,0
                 var json = {},
                     dateArr = data.splice(0, 7);
                 json.td = tools.getDFA15(dateArr[0], dateArr[1], dateArr[2], dateArr[3], dateArr[4]);
@@ -3847,15 +3849,15 @@ var json_hex = {
                 json.n = dateArr[6];
                 for (var i = 1; i <= json.n; i++) {
                     var arr = data.splice(0, 30);
-                    json['a'] = (arr[0] << 8) + arr[1];
-                    json['b'] = (arr[2] << 24) + (arr[3] << 16) + (arr[4] << 8) + arr[5];
-                    json['c'] = (arr[6] << 24) + (arr[7] << 16) + (arr[8] << 8) + arr[9];
-                    json['d'] = (arr[10] << 24) + (arr[11] << 16) + (arr[12] << 8) + arr[13];
-                    json['e'] = (arr[14] << 24) + (arr[15] << 16) + (arr[16] << 8) + arr[17];
-                    json['f'] = (arr[18] << 24) + (arr[19] << 16) + (arr[20] << 8) + arr[21];
-                    json['g'] = (arr[22] << 8) + arr[23];
-                    json['h'] = (arr[24] << 8) + arr[25];
-                    json['i'] = tools.getDFA11(arr[29], arr[28], arr[27], arr[26]);
+                    json['InverterStatus'] = arr[0] == 0xee ? null : (arr[0] << 8) + arr[1];
+                    json['Ppv'] = arr[2] == 0xee ? null : (arr[2] << 24) + (arr[3] << 16) + (arr[4] << 8) + arr[5];
+                    json['Pac'] = arr[6] == 0xee ? null : (arr[6] << 24) + (arr[7] << 16) + (arr[8] << 8) + arr[9];
+                    json['EnergyToday'] = arr[10] == 0xee ? null : (arr[10] << 24) + (arr[11] << 16) + (arr[12] << 8) + arr[13];
+                    json['EnergyTotal'] = arr[14] == 0xee ? null : (arr[14] << 24) + (arr[15] << 16) + (arr[16] << 8) + arr[17];
+                    json['TimeTotal'] = arr[18] == 0xee ? null : (arr[18] << 24) + (arr[19] << 16) + (arr[20] << 8) + arr[21];
+                    json['FaultCode'] = arr[22] == 0xee ? null : (arr[22] << 8) + arr[23];
+                    json['WarningCode'] = arr[24] == 0xee ? null : (arr[24] << 8) + arr[25];
+                    json['ReverseActiveTotal'] = tools.getDFA11(arr[29], arr[28], arr[27], arr[26]);
                 }
                 return json;
             },

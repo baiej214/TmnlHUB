@@ -46,7 +46,11 @@ var server = net.createServer(function (socket) {
     broadcast = function (data) {
         try {
             if (_.isObject(data)) {
-                data = JSON.stringify(data);
+                if (data.REQ && data.REQ.json) {
+                    data = JSON.stringify(data.REQ.json);
+                }else {
+                    data = JSON.stringify(data);
+                }
             }
             _.each(webList, function (item) {
                 item.write(data);
