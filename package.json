@@ -1,5 +1,5 @@
 {
-  "name": "TmnlHUB",
+  "name": "tmnlhub",
   "version": "1.0.0",
   "description": "TmnlHUB\r =======",
   "main": "index.js",
@@ -7,19 +7,20 @@
     "test": "test"
   },
   "dependencies": {
-    "debug": "^2.1.1",
-    "express": "^4.11.1",
-    "moment": "^2.9.0",
-    "multer": "^0.1.7",
-    "socket.io": "^1.3.2",
-    "underscore": "^1.7.0",
-    "sqlite3": "^3.0.4",
-    "body-parser": "^1.10.2",
     "bookshelf": "^0.7.9",
-    "mysql": "^2.5.4",
-    "knex": "^0.7.3",
+    "knex": "^0.7.5",
+    "moment": "^2.9.0",
+    "body-parser": "^1.12.0",
+    "express": "^4.12.2",
+    "multer": "^0.1.8",
+    "mkdirp": "^0.5.0",
     "winser": "^1.0.0",
-    "mkdirp": "^0.5.0"
+    "qs": "^2.4.1",
+    "mysql": "^2.5.5",
+    "sqlite3": "^3.0.5",
+    "underscore": "^1.8.2",
+    "debug": "^2.1.2",
+    "socket.io": "^1.3.5"
   },
   "devDependencies": {},
   "scripts": {
@@ -27,12 +28,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/baiej214/TmnlHUB.git"
+    "url": "git+https://github.com/baiej214/TmnlHUB.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/baiej214/TmnlHUB/issues"
   },
-  "homepage": "https://github.com/baiej214/TmnlHUB"
+  "homepage": "https://github.com/baiej214/TmnlHUB#readme"
 }
