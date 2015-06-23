@@ -609,14 +609,16 @@ var json_hex = {
             },
 
             Fn66: function (data) {
+                return [];
             },
 
             Fn67: function (data) {
                 return [data.rs];
             },
 
+            //定时上报2类数据任务启动/停止设置
             Fn68: function (data) {
-                return [data.rs];
+                return [data.sign || 0x55];
             }
         },
         AFN5: {
