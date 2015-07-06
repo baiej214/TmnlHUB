@@ -4409,6 +4409,7 @@ exports.hex_json = function (hex) {
                     return item.pn == pn;
                 });
             if (!isPn) {
+                if (typeof data == 'string' && data == '否认') json.deny = true;
                 json.DU.push({pn: pn, DT: [{Fn: fn, DATA: data}]});
             } else {
                 isPn.DT.push({Fn: fn, DATA: data});
