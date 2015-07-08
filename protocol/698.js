@@ -3859,7 +3859,7 @@ var json_hex = {
                     json['TimeTotal'] = arr[18] == 0xee ? null : (arr[18] << 24) + (arr[19] << 16) + (arr[20] << 8) + arr[21];
                     json['FaultCode'] = arr[22] == 0xee ? null : (arr[22] << 8) + arr[23];
                     json['WarningCode'] = arr[24] == 0xee ? null : (arr[24] << 8) + arr[25];
-                    json['ReverseActiveTotal'] = tools.getDFA11(arr[29], arr[28], arr[27], arr[26]);
+                    json['ReverseActiveTotal'] = tools.getDFA11(arr[26], arr[27], arr[28], arr[29]);
                 }
                 return json;
             },
