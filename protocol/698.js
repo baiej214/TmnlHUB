@@ -12,7 +12,11 @@ var json_hex = {
                 return [];
             }
         },
-        AFN1: {},
+        AFN1: {
+            Fn1: function () {
+                return [];
+            }
+        },
         AFN2: {},
         AFN3: {},
         AFN4: {
@@ -24,7 +28,7 @@ var json_hex = {
                     ((data.timeouts >> 8) >> 4) + (data.repeat << 4),
                     data.data_con1 + (data.data_con2 << 1) + (data.data_con3 << 2),
                     data.heart_beat
-                ]
+                ];
             },
 
             Fn3: function (data) {
@@ -69,7 +73,6 @@ var json_hex = {
             },
 
             Fn5: function (data) {
-                console.log([data.masn, data.masp % 256, data.masp >> 8])
                 return [data.masn, data.masp % 256, data.masp >> 8];
             },
 
@@ -87,7 +90,6 @@ var json_hex = {
             },
 
             Fn7: function (data) {
-                console.log(data)
                 var a = [data.tip1, data.tip2, data.tip3, data.tip4,
                     data.mask1, data.mask2, data.mask3, data.mask4,
                     data.gw1, data.gw2, data.gw3, data.gw4, data.psk,
@@ -128,7 +130,6 @@ var json_hex = {
             },
 
             Fn9: function (data) {
-//                console.log(data)
                 var check = function (c) {
                     if (c == null) {
                         return 0;
@@ -160,41 +161,41 @@ var json_hex = {
             },
 
             Fn10: function (data) {
-                var arr = [data.len % 256, data.len >> 8];
-                for (var i = 0; i < data.len; i++) {
+                var arr = [data.length % 256, data.length >> 8];
+                for (var i = 0; i < data.length; i++) {
                     arr.push(
-                        data.points[i][0] % 256, data.points[i][0] >> 8,
-                        data.points[i][1] % 256, data.points[i][1] >> 8,
-                        (data.points[i][2] << 5) + data.points[i][3],
-                        data.points[i][4]
+                        data[i]['mp_index'] % 256, data[i]['mp_index'] >> 8,
+                        data[i]['mp_index'] % 256, data[i]['mp_index'] >> 8,
+                        parseInt(data[i]['meter_comm_rate'] << 5) + parseInt(data[i]['meter_comm_port']),
+                        data[i]['meter_protocol_type']
                     );
-                    if (data.points[i][5].toString().toUpperCase() == 'AAAAAAAAAAAA') {
+                    if (data[i]['meter_comm_addr'].toString().toUpperCase() == 'AAAAAAAAAAAA') {
                         arr.push(0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa);
                     } else {
                         arr.push(
-                            tools.b2bcd(Math.floor(data.points[i][5] % 100)),
-                            tools.b2bcd(Math.floor(data.points[i][5] % 10000 / 100)),
-                            tools.b2bcd(Math.floor(data.points[i][5] % 1000000 / 10000)),
-                            tools.b2bcd(Math.floor(data.points[i][5] % 100000000 / 1000000)),
-                            tools.b2bcd(Math.floor(data.points[i][5] % 10000000000 / 100000000)),
-                            tools.b2bcd(Math.floor(data.points[i][5] % 1000000000000 / 10000000000))
+                            tools.b2bcd(Math.floor(data[i]['meter_comm_addr'] % 100)),
+                            tools.b2bcd(Math.floor(data[i]['meter_comm_addr'] % 10000 / 100)),
+                            tools.b2bcd(Math.floor(data[i]['meter_comm_addr'] % 1000000 / 10000)),
+                            tools.b2bcd(Math.floor(data[i]['meter_comm_addr'] % 100000000 / 1000000)),
+                            tools.b2bcd(Math.floor(data[i]['meter_comm_addr'] % 10000000000 / 100000000)),
+                            tools.b2bcd(Math.floor(data[i]['meter_comm_addr'] % 1000000000000 / 10000000000))
                         );
                     }
-                    arr.push(Math.floor(data.points[i][6] % 100),
-                        Math.floor(data.points[i][6] % 10000 / 100),
-                        Math.floor(data.points[i][6] % 1000000 / 10000),
-                        Math.floor(data.points[i][6] % 100000000 / 1000000),
-                        Math.floor(data.points[i][6] % 10000000000 / 100000000),
-                        Math.floor(data.points[i][6] % 1000000000000 / 10000000000),
-                        data.points[i][7],
-                        (data.points[i][8] << 2) + data.points[i][9],
-                        tools.b2bcd(Math.floor(data.points[i][10] % 100)),
-                        tools.b2bcd(Math.floor(data.points[i][10] % 10000 / 100)),
-                        tools.b2bcd(Math.floor(data.points[i][10] % 1000000 / 10000)),
-                        tools.b2bcd(Math.floor(data.points[i][10] % 100000000 / 1000000)),
-                        tools.b2bcd(Math.floor(data.points[i][10] % 10000000000 / 100000000)),
-                        tools.b2bcd(Math.floor(data.points[i][10] % 1000000000000 / 10000000000)),
-                        (data.points[i][11] << 4) + data.points[i][12]
+                    arr.push(Math.floor(data[i]['meter_comm_pwd'] % 100),
+                        Math.floor(data[i]['meter_comm_pwd'] % 10000 / 100),
+                        Math.floor(data[i]['meter_comm_pwd'] % 1000000 / 10000),
+                        Math.floor(data[i]['meter_comm_pwd'] % 100000000 / 1000000),
+                        Math.floor(data[i]['meter_comm_pwd'] % 10000000000 / 100000000),
+                        Math.floor(data[i]['meter_comm_pwd'] % 1000000000000 / 10000000000),
+                        data[i]['meter_tariff_num'],
+                        (data[i]['meter_integer_num'] << 2) + data[i]['meter_decimal_num'],
+                        tools.b2bcd(Math.floor(data[i]['coll_comm_addr'] % 100)),
+                        tools.b2bcd(Math.floor(data[i]['coll_comm_addr'] % 10000 / 100)),
+                        tools.b2bcd(Math.floor(data[i]['coll_comm_addr'] % 1000000 / 10000)),
+                        tools.b2bcd(Math.floor(data[i]['coll_comm_addr'] % 100000000 / 1000000)),
+                        tools.b2bcd(Math.floor(data[i]['coll_comm_addr'] % 10000000000 / 100000000)),
+                        tools.b2bcd(Math.floor(data[i]['coll_comm_addr'] % 1000000000000 / 10000000000)),
+                        parseInt(data[i]['cons_big_type'] << 4) + parseInt(data[i]['cons_small_type'])
                     );
                 }
                 return arr;
@@ -264,26 +265,6 @@ var json_hex = {
              字段含义:agNum:总加组序号， pnNum:测量点序号，powerType:正向/反向，ass:运算符标志
              */
             Fn14: function (data) {
-                /* var data1 = [
-                 {agNum: 1, pnArr: [
-                 {pnNum: 1, powerType: 0, aas: 1},
-                 {pnNum: 2, powerType: 1, aas: 1},
-                 {pnNum: 3, powerType: 0, aas: 0}
-                 ]},
-                 {agNum: 2, pnArr: [
-                 {pnNum: 1, powerType: 0, aas: 1},
-                 {pnNum: 2, powerType: 1, aas: 1},
-                 {pnNum: 3, powerType: 0, aas: 0},
-                 {pnNum: 4, powerType: 0, aas: 1}
-                 ]},
-                 {agNum: 3, pnArr: [
-                 {pnNum: 1, powerType: 1, aas: 1},
-                 {pnNum: 2, powerType: 0, aas: 0},
-                 {pnNum: 3, powerType: 1, aas: 0},
-                 {pnNum: 4, powerType: 0, aas: 1}
-                 ]}
-                 ];*/
-//                console.log(data)
                 var arr = [];
                 arr.push(data.length);
                 for (var i = 0; i < data.length; i++) {
@@ -296,15 +277,9 @@ var json_hex = {
                             ((data[i].pnArr[j].pnNum - 1) % 64) +
                             (data[i].pnArr[j].powerType << 6) +
                             (data[i].pnArr[j].aas << 7)
-                        )
-                        /*  arr.push(
-                         ((data[i].pnJson.pnNum - 1) % 64) +
-                         (data[i].pnJson.powerType << 6) +
-                         (data[i].pnJson.aas << 7)
-                         )*/
+                        );
                     }
                 }
-//                console.log(arr)
                 return arr;
             },
 
@@ -314,35 +289,6 @@ var json_hex = {
              methodSign:对比方法标志, relativeVal:相对偏差值, absoluteVal：绝对偏差值， unit：单位
              */
             Fn15: function (data) {
-                /*  var value = [data.pzsl];
-                 if (data.pzsl == 1) {
-                 value.push(data.serial);
-                 value.push(data.cs);
-                 value.push(data.rs,
-                 (data.ms << 7) + data.tk,
-                 data.rdv,
-                 ((Math.floor(Math.abs(data.adv) % 100) / 10) << 4) + Math.abs(data.adv) % 10,
-                 ((Math.floor(Math.abs(data.adv) / 1000) % 10) << 4) + Math.floor(Math.abs(data.adv) / 100) % 10,
-                 ((Math.floor(Math.abs(data.adv) / 100000) % 10) << 4) + Math.floor(Math.abs(data.adv) / 10000) % 10,
-                 Math.floor(Math.abs(data.adv) / 1000000) + ((data.adv > 0 ? 0 : 1) << 4) + (data.d << 6)
-                 );
-
-                 } else {
-                 for (var i = 0; i < data.pzsl; i++) {
-                 value.push(
-                 data.serial[i],
-                 data.cs[i],
-                 data.rs[i],
-                 (data.ms[i] << 7) + data.tk[i],
-                 data.rdv[i],
-                 ((Math.floor(Math.abs(data.adv[i]) % 100) / 10) << 4) + Math.abs(data.adv[i]) % 10,
-                 ((Math.floor(Math.abs(data.adv[i]) / 1000) % 10) << 4) + Math.floor(Math.abs(data.adv[i]) / 100) % 10,
-                 ((Math.floor(Math.abs(data.adv[i]) / 100000) % 10) << 4) + Math.floor(Math.abs(data.adv[i]) / 10000) % 10,
-                 Math.floor(Math.abs(data.adv[i]) / 1000000) + ((data.adv[i] > 0 ? 0 : 1) << 4) + (data.d[i] << 6)
-                 );
-                 }
-                 }
-                 return value;*/
                 var data =
                     [
                         {
@@ -500,18 +446,10 @@ var json_hex = {
 
 
             Fn42: function (data) {
-                console.log(data)
                 var conSign = '';
                 for (var i = 7; i >= 0; i--) {
                     conSign += data['facoff_week' + i];
                 }
-                /* console.log([].concat(
-                 a2function(data.cxkdz),
-                 tools.b2bcd(data.min),
-                 tools.b2bcd(data.hour),
-                 data.letime,
-                 [parseInt(conSign, 2)]
-                 ));*/
                 return [].concat(
                     tools.setDFA2(data.facoff_fixed_value),
                     tools.b2bcd(data.facoff_min),
@@ -724,7 +662,6 @@ var json_hex = {
             },
 
             Fn32: function (data) {
-                console.log([data.num % 16 + (data.type << 4), data.china.length, data.china])
                 return [data.num % 16 + (data.type << 4), data.china.length, data.china]
             },
 
@@ -864,8 +801,8 @@ var json_hex = {
             },
 
             Fn10: function (data) {
-                var arr = [data.pnArr.length % 256, data.pnArr.length >> 8];
-                data.pnArr.forEach(function (objectID) {
+                var arr = [data.length % 256, data.length >> 8];
+                data.forEach(function (objectID) {
                     arr.push(objectID % 256, objectID >> 8);
                 });
                 return arr;
@@ -876,7 +813,6 @@ var json_hex = {
                 data.configArr.forEach(function (objectID) {
                     arr.push(objectID);
                 });
-                console.log(arr)
                 return arr;
             },
 
@@ -1630,7 +1566,33 @@ var json_hex = {
                 return [];
             }
         },
-        AFN16: {}
+        AFN16: {
+            Fn1: function (data) {
+                var port = parseInt(data.port) || 2,// 端口号
+                    baud = parseInt(data.baud) || 2, //波特率
+                    stopbit = 0, //停止位
+                    check = parseInt(data.check) || 1, //有无校验
+                    parity = parseInt(data.parity) || 0, //奇偶校验
+                    bits = parseInt(data.bits) || 3, //位数
+                    bufferTimeout = parseInt(data.bufferTimeout) || 10, //透明转发接收等待报文超时时间
+                    unit = parseInt(data.unit) || 1, //透明转发接收等待报文超时时间单位
+                    bitTimeout = parseInt(data.bitTimeout) || 10, //透明转发接收等待字节超时时间
+                    bytes = parseInt(data.bytes), //透明转发内容字节数
+                    dataItem = parseInt(data.dataItem) || [0x11, 0x04, 0x33, 0x32, 0x34, 0x33], //数据项
+                    meter_comm_addr = data.meter_comm_addr || 1; //电表地址
+                var shellArr = [port, (bits + (parity << 2) + (check << 3) + (stopbit << 4) +
+                    (baud << 5)), bufferTimeout + (unit << 7), bitTimeout, bytes % 256, (bytes >> 8)],
+                    meterArr = [0x68];
+                meterArr.push(tools.b2bcd(Math.floor(meter_comm_addr % 100)),
+                    tools.b2bcd(Math.floor(meter_comm_addr % 10000 / 100)),
+                    tools.b2bcd(Math.floor(meter_comm_addr % 1000000 / 10000)),
+                    tools.b2bcd(Math.floor(meter_comm_addr % 100000000 / 1000000)),
+                    tools.b2bcd(Math.floor(meter_comm_addr % 10000000000 / 100000000)),
+                    tools.b2bcd(Math.floor(meter_comm_addr % 1000000000000 / 10000000000)), 0x68);
+                meterArr = meterArr.concat(dataItem);
+                return shellArr.concat([0xFE, 0xFE, 0xFE, 0xFE], meterArr, tools.set_cs(meterArr), 0x16);
+            }
+        }
     },
     hex_json = {
         AFN0: {
@@ -4134,7 +4096,10 @@ var json_hex = {
                 var json = {}, arr = data.splice(0, 3);
                 json.tmnl_comm_port = arr.shift();
                 json.trans_length = arr.shift() + (arr.shift() >> 8);
-                json.trans = _645._07.hex_json(data);
+                // json.trans = _645._07.hex_json(data);
+                json.item = data.splice(0, json.trans_length);
+                console.log(data)
+                return json;
                 /*
                  00 00 01 00 1F 12 00 68 85 03 00 62 64 12 68 81 06 43 C3 35 33 33 33 8B 16
                  var b = a.splice(7, parseInt(a[5], 16))
@@ -4327,18 +4292,6 @@ var json_hex = {
         ERC35: function (data) {
         }
     };
-
-/*
-var arr = json_hex.AFN4.Fn3({
-    master_ip: '120.194.36.133',
-    master_port: 3306,
-    back_ip:'120.194.36.133',
-    back_port: 3306,
-    apn: 'CMNET'
-});
-console.log(tools.hex_str(arr));//MAING-malin.UPG
-*/
-
 
 exports.json_hex = function (json) {
     var a1 = json.A1, a2 = json.A2, a3 = json.A3 || 0,
