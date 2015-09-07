@@ -1567,7 +1567,40 @@ var json_hex = {
             }
         },
         AFN16: {
+            /*
+                        Fn1: function (data) {
+                            var port = parseInt(data.port) || 2,// 端口号
+                                baud = parseInt(data.baud) || 2, //波特率
+                                stopbit = 0, //停止位
+                                check = parseInt(data.check) || 1, //有无校验
+                                parity = parseInt(data.parity) || 0, //奇偶校验
+                                bits = parseInt(data.bits) || 3, //位数
+                                bufferTimeout = parseInt(data.bufferTimeout) || 10, //透明转发接收等待报文超时时间
+                                unit = parseInt(data.unit) || 1, //透明转发接收等待报文超时时间单位
+                                bitTimeout = parseInt(data.bitTimeout) || 10, //透明转发接收等待字节超时时间
+                                bytes = parseInt(data.bytes), //透明转发内容字节数
+                                dataItem = parseInt(data.dataItem) || [0x11, 0x04, 0x33, 0x32, 0x34, 0x33], //数据项
+                                meter_comm_addr = data.meter_comm_addr || 1; //电表地址
+                            var shellArr = [port, (bits + (parity << 2) + (check << 3) + (stopbit << 4) +
+                                (baud << 5)), bufferTimeout + (unit << 7), bitTimeout, bytes % 256, (bytes >> 8)],
+                                meterArr = [0x68];
+                            meterArr.push(tools.b2bcd(Math.floor(meter_comm_addr % 100)),
+                                tools.b2bcd(Math.floor(meter_comm_addr % 10000 / 100)),
+                                tools.b2bcd(Math.floor(meter_comm_addr % 1000000 / 10000)),
+                                tools.b2bcd(Math.floor(meter_comm_addr % 100000000 / 1000000)),
+                                tools.b2bcd(Math.floor(meter_comm_addr % 10000000000 / 100000000)),
+                                tools.b2bcd(Math.floor(meter_comm_addr % 1000000000000 / 10000000000)), 0x68);
+                            meterArr = meterArr.concat(dataItem);
+                            return shellArr.concat([0xFE, 0xFE, 0xFE, 0xFE], meterArr, tools.set_cs(meterArr), 0x16);
+                        }
+            */
             Fn1: function (data) {
+                /**
+                 * 加入水表透传判断
+                 * 通过判断data.pic，来分辨是否水表透传
+                 */
+                var pic = data.pic,
+                    waterDataItem = [0x01, 0x03, pic, 0x90, 0x04];
                 var port = parseInt(data.port) || 2,// 端口号
                     baud = parseInt(data.baud) || 2, //波特率
                     stopbit = 0, //停止位
@@ -1578,29 +1611,30 @@ var json_hex = {
                     unit = parseInt(data.unit) || 1, //透明转发接收等待报文超时时间单位
                     bitTimeout = parseInt(data.bitTimeout) || 10, //透明转发接收等待字节超时时间
                     bytes = parseInt(data.bytes), //透明转发内容字节数
-                    dataItem = parseInt(data.dataItem) || [0x11, 0x04, 0x33, 0x32, 0x34, 0x33], //数据项
+                    dataItem = data.dataItem != undefined ? parseInt(data.dataItem) : waterDataItem, //数据项
                     meter_comm_addr = data.meter_comm_addr || 1; //电表地址
                 var shellArr = [port, (bits + (parity << 2) + (check << 3) + (stopbit << 4) +
                     (baud << 5)), bufferTimeout + (unit << 7), bitTimeout, bytes % 256, (bytes >> 8)],
-                    meterArr = [0x68];
+                    meterArr = [0x68, 0x10];
                 meterArr.push(tools.b2bcd(Math.floor(meter_comm_addr % 100)),
                     tools.b2bcd(Math.floor(meter_comm_addr % 10000 / 100)),
                     tools.b2bcd(Math.floor(meter_comm_addr % 1000000 / 10000)),
                     tools.b2bcd(Math.floor(meter_comm_addr % 100000000 / 1000000)),
                     tools.b2bcd(Math.floor(meter_comm_addr % 10000000000 / 100000000)),
-                    tools.b2bcd(Math.floor(meter_comm_addr % 1000000000000 / 10000000000)), 0x68);
+                    tools.b2bcd(Math.floor(meter_comm_addr % 1000000000000 / 10000000000)), pic ? 0x00 : 0x68);
                 meterArr = meterArr.concat(dataItem);
                 return shellArr.concat([0xFE, 0xFE, 0xFE, 0xFE], meterArr, tools.set_cs(meterArr), 0x16);
             }
+
         }
     },
     hex_json = {
         AFN0: {
             Fn1: function () {
-                return '确认'
+                return '确认';
             },
             Fn2: function () {
-                return '否认'
+                return '否认';
             }
         },
         AFN1: {},
@@ -4096,28 +4130,9 @@ var json_hex = {
                 var json = {}, arr = data.splice(0, 3);
                 json.tmnl_comm_port = arr.shift();
                 json.trans_length = arr.shift() + (arr.shift() >> 8);
-                // json.trans = _645._07.hex_json(data);
-                json.item = data.splice(0, json.trans_length);
-                console.log(data)
+                json.trans_buff = data.splice(0, json.trans_length);
+                json.trans_json = _645.handler(json.trans_buff);
                 return json;
-                /*
-                 00 00 01 00 1F 12 00 68 85 03 00 62 64 12 68 81 06 43 C3 35 33 33 33 8B 16
-                 var b = a.splice(7, parseInt(a[5], 16))
-                 var errFrame = false, arr = du.slice(7, du.length), tFrame;
-
-                 if (arr[0] === 0xfe) {
-                 tFrame = arr.slice(3, arr.length);
-                 } else {
-                 tFrame = arr;
-                 }
-                 var headIndex = tFrame.indexOf(0x68);
-                 if (tFrame[tFrame.length - 2] != tools.setCS(tFrame.slice(headIndex, tFrame.length - 2))) {
-                 errFrame = true;
-                 }
-
-                 var json = {comm_port: du[4], count: du[5] + (du[6] >> 8), tFrame: tFrame, errFrame: errFrame};
-                 return {json: json, key: 7 + json.count};
-                 */
             }
         }
     },
