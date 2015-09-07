@@ -4127,11 +4127,12 @@ var json_hex = {
              * @functiona Fn1
              */
             Fn1: function (data) {
-                var json = {}, arr = data.splice(0, 3);
+                var json = {}, arr = data.splice(0, 3), trans_buff;
                 json.tmnl_comm_port = arr.shift();
                 json.trans_length = arr.shift() + (arr.shift() >> 8);
-                json.trans_buff = data.splice(0, json.trans_length);
-                json.trans_json = _645.handler(json.trans_buff);
+                trans_buff = data.splice(0, json.trans_length);
+                json.trans_buff = trans_buff.toString();
+                json.trans_json = _645.handler(trans_buff);
                 return json;
             }
         }
