@@ -34,3 +34,5 @@ node_modules
 test.js
 # admin/web/sdk
 upload
+.svn
+*.svn
