@@ -1,3 +1,4 @@
+process.title = 'TmnlHUB';
 var moment = require('moment'),
     tmnl_server = require('./tmnl/tmnl_server'),
     web_server = require('./web/web_server'),
