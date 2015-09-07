@@ -4131,7 +4131,7 @@ var json_hex = {
                 json.tmnl_comm_port = arr.shift();
                 json.trans_length = arr.shift() + (arr.shift() >> 8);
                 trans_buff = data.splice(0, json.trans_length);
-                json.trans_buff = trans_buff.toString();
+                json.trans_buff = tools.hex_str(trans_buff);
                 json.trans_json = _645.handler(trans_buff);
                 return json;
             }
