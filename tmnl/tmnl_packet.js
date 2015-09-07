@@ -24,7 +24,8 @@ var json_hex = function (json) {
 
     is_heartbeat = function (json) {
         if (json.AFN == undefined) return true;
-        return (json.AFN == 0x02 && json.DU[0].DT[0].Fn == 3);
+        //2015-09-07 登录、心跳都不存库
+        return json.AFN == 0x02;// && json.DU[0].DT[0].Fn == 3;
     };
 
 /**
