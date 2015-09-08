@@ -97,7 +97,7 @@ exports.tools = {
             });
             return str.join(' ');
         } else {
-            throw 'data不是Buffer或者Array';
+            throw 'THE DATA IS NOT BUFFER OT ARRAY';
         }
     },
 

@@ -86,7 +86,7 @@ pkt_manager.prototype.recv = function (hex) {
         if (packet) {
             packet.recv(hex);
         } else {
-            console.log('收到终端响应数据，但是没找到对应SEQ的数据包');
+            console.log('RECEIVING THE DATA, BUT NOT FIND THE SEQ PACKET.');
             this.emit('unlock');
         }
     }
@@ -128,7 +128,7 @@ pkt_manager.prototype.send = function () {
 
 pkt_manager.prototype.clear = function () {
     _.each(this.packets, function (packet) {
-        packet.emit('end', '终端掉线导致通讯包失效');
+        packet.emit('end', 'TMNL OFFLINE, COMMUNICATIONS FAIL.');
     });
     this.packets = [];
 };

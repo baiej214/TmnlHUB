@@ -13,7 +13,7 @@ app.use(bodyParser.json());
 app.use(multer());
 
 app.all(['/', '/help'], function (req, res) {
-    res.send('返回帮助信息');
+    res.send('HELP');
 });
 
 app.use(function (req, res, next) {
@@ -23,7 +23,7 @@ app.use(function (req, res, next) {
         app.all(url, action.handler);
         next();
     } catch (e) {
-        res.status(404).send('404, 无法找到请求的页面！');
+        res.status(404).send('404！');
     }
 });
 
