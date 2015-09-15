@@ -143,6 +143,12 @@ var handler = function (data) {
         var value = arr.slice(14, 18),
             img = arr.slice(18, arr.length - 2);
 
+        if (_.find(a, function (v) {
+                return v > 9
+            }) != undefined) {
+            value = -1;
+        }
+
         //6位整数，2位小数
         value = tools.getDFA11(value[0], value[1], value[2], value[3]);
         return {
