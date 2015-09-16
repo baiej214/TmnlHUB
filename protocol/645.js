@@ -140,7 +140,9 @@ var handler = function (data) {
         arr = data.slice(first_0x68_position);
     //水表
     if (arr[0] == 0x68 && arr[1] == 0x10 && arr[6] != 0x68) {
-        var value = arr.slice(14, 18),
+        //FE FE FE 68 10 01 00 00 00 00 00 00 81 63 2F 90 04 00 12 00 00 04 00 08 11 E3 FF FF FF FF 81 19 3C 7E 7E 7E 7E 7C 3C 3D 81 E3 14 04 08 0D C3 81 38 3C 7C 7C 7E 7E 3C 3C 81 C3 E7 24 03 08 11 83 99 3C 7C 7C 7C 7C 7C 3C 38 81 C3 FF FF FF FF E7 35 04 04 0C CC 08 CC CC CC CE 45 02 08 13 81 39 7C 7C FC F9 E3 CF 9F 3F 01 00 FF FF FF FF 83 31 FF 08 16
+        var meter_comm_addr = arr.slice(2, 9);
+        value = arr.slice(14, 18),
             img = arr.slice(18, arr.length - 2);
 
         if (_.find(a, function (v) {
@@ -152,6 +154,7 @@ var handler = function (data) {
         //6位整数，2位小数
         value = tools.getDFA11(value[0], value[1], value[2], value[3]);
         return {
+            meter_comm_addr: meter_comm_addr,
             value: value,
             img: _water(img)
         };
