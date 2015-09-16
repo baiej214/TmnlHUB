@@ -146,13 +146,14 @@ var handler = function (data) {
             img = arr.slice(18, arr.length - 2);
 
         if (_.find(value, function (v) {
-                return v > 9
+                return (v >> 4 > 9 || v % 16 > 9)
             }) != undefined) {
             value = -1;
+        } else {
+            //6位整数，2位小数
+            value = tools.getDFA11(value[0], value[1], value[2], value[3]);
         }
 
-        //6位整数，2位小数
-        value = tools.getDFA11(value[0], value[1], value[2], value[3]);
         return {
             meter_comm_addr: meter_comm_addr,
             value: value,
