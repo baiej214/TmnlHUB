@@ -32,7 +32,7 @@ exports.handler = function (req, res) {
         var json = tools.format_json(req.body.json),
             A1 = json.A1, A2 = json.A2, sid = A1 + '@' + A2, tmnl = tmnl_mgr.get(sid);
         if (!tmnl) {
-            res.json({error: true, A1: A1, A2: A2, message: 'CAN NOT FIND THE DEVICE'});
+            res.json({error: true, A1: A1, A2: A2, message: '无法找到对应的设备'});
         } else {
             try {
                 tmnl.pkt_mgr.req(json, function (err, data) {

@@ -64,10 +64,10 @@ var packet = function (opts) {
     this.on('timeout', function () {
         this.retry_times++;
         if (this.json.retry > 0 && this.retry_times <= this.json.retry) {
-            console.log('RETRY ' + this.retry_times + '/' + this.json.retry + ' TIMES.');
+            console.log('第' + this.retry_times + '/' + this.json.retry + '次重发');
             this.send();
         } else {
-            this.emit('end', cError('TIMEOUT，TOTAL RETRY ' + (this.retry_times - 1) + ' TIMES.'));
+            this.emit('end', cError('通讯超时，共重发' + (this.retry_times - 1) + '次'));
         }
     });
 
