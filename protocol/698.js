@@ -1107,6 +1107,9 @@ var json_hex = {
             },
             Fn148: function () {
                 return [];
+            },
+            Fn188: function () {
+                return [];
             }
         },
         AFN13: {
@@ -1512,6 +1515,24 @@ var json_hex = {
             Fn188: function (data) {
                 var tdArr = data.td_d.split('-');
                 return [tools.b2bcd(tdArr[2]), tools.b2bcd(tdArr[1]), tools.b2bcd(tdArr[0])]
+            },
+
+            //日冻结反向无功最大需量及发生时间（总、费率1～M）
+            Fn220: function (data) {
+                var tdArr = data.td_d.split('-');
+                return [tools.b2bcd(tdArr[2]), tools.b2bcd(tdArr[1]), tools.b2bcd(tdArr[0])]
+            },
+
+            //日冻结反向无功最大需量及发生时间（总、费率1～M）
+            Fn221: function (data) {
+                var tdArr = data.td_d.split('-');
+                return [tools.b2bcd(tdArr[2]), tools.b2bcd(tdArr[1]), tools.b2bcd(tdArr[0])]
+            },
+
+            //日冻结反向无功最大需量及发生时间（总、费率1～M）
+            Fn222: function (data) {
+                var tdArr = data.td_m.split('-');
+                return [tools.b2bcd(tdArr[1]), tools.b2bcd(tdArr[0])]
             }
         },
         AFN14: {},
@@ -1568,32 +1589,32 @@ var json_hex = {
         },
         AFN16: {
             /*
-                        Fn1: function (data) {
-                            var port = parseInt(data.port) || 2,// 端口号
-                                baud = parseInt(data.baud) || 2, //波特率
-                                stopbit = 0, //停止位
-                                check = parseInt(data.check) || 1, //有无校验
-                                parity = parseInt(data.parity) || 0, //奇偶校验
-                                bits = parseInt(data.bits) || 3, //位数
-                                bufferTimeout = parseInt(data.bufferTimeout) || 10, //透明转发接收等待报文超时时间
-                                unit = parseInt(data.unit) || 1, //透明转发接收等待报文超时时间单位
-                                bitTimeout = parseInt(data.bitTimeout) || 10, //透明转发接收等待字节超时时间
-                                bytes = parseInt(data.bytes), //透明转发内容字节数
-                                dataItem = parseInt(data.dataItem) || [0x11, 0x04, 0x33, 0x32, 0x34, 0x33], //数据项
-                                meter_comm_addr = data.meter_comm_addr || 1; //电表地址
-                            var shellArr = [port, (bits + (parity << 2) + (check << 3) + (stopbit << 4) +
-                                (baud << 5)), bufferTimeout + (unit << 7), bitTimeout, bytes % 256, (bytes >> 8)],
-                                meterArr = [0x68];
-                            meterArr.push(tools.b2bcd(Math.floor(meter_comm_addr % 100)),
-                                tools.b2bcd(Math.floor(meter_comm_addr % 10000 / 100)),
-                                tools.b2bcd(Math.floor(meter_comm_addr % 1000000 / 10000)),
-                                tools.b2bcd(Math.floor(meter_comm_addr % 100000000 / 1000000)),
-                                tools.b2bcd(Math.floor(meter_comm_addr % 10000000000 / 100000000)),
-                                tools.b2bcd(Math.floor(meter_comm_addr % 1000000000000 / 10000000000)), 0x68);
-                            meterArr = meterArr.concat(dataItem);
-                            return shellArr.concat([0xFE, 0xFE, 0xFE, 0xFE], meterArr, tools.set_cs(meterArr), 0x16);
-                        }
-            */
+             Fn1: function (data) {
+             var port = parseInt(data.port) || 2,// 端口号
+             baud = parseInt(data.baud) || 2, //波特率
+             stopbit = 0, //停止位
+             check = parseInt(data.check) || 1, //有无校验
+             parity = parseInt(data.parity) || 0, //奇偶校验
+             bits = parseInt(data.bits) || 3, //位数
+             bufferTimeout = parseInt(data.bufferTimeout) || 10, //透明转发接收等待报文超时时间
+             unit = parseInt(data.unit) || 1, //透明转发接收等待报文超时时间单位
+             bitTimeout = parseInt(data.bitTimeout) || 10, //透明转发接收等待字节超时时间
+             bytes = parseInt(data.bytes), //透明转发内容字节数
+             dataItem = parseInt(data.dataItem) || [0x11, 0x04, 0x33, 0x32, 0x34, 0x33], //数据项
+             meter_comm_addr = data.meter_comm_addr || 1; //电表地址
+             var shellArr = [port, (bits + (parity << 2) + (check << 3) + (stopbit << 4) +
+             (baud << 5)), bufferTimeout + (unit << 7), bitTimeout, bytes % 256, (bytes >> 8)],
+             meterArr = [0x68];
+             meterArr.push(tools.b2bcd(Math.floor(meter_comm_addr % 100)),
+             tools.b2bcd(Math.floor(meter_comm_addr % 10000 / 100)),
+             tools.b2bcd(Math.floor(meter_comm_addr % 1000000 / 10000)),
+             tools.b2bcd(Math.floor(meter_comm_addr % 100000000 / 1000000)),
+             tools.b2bcd(Math.floor(meter_comm_addr % 10000000000 / 100000000)),
+             tools.b2bcd(Math.floor(meter_comm_addr % 1000000000000 / 10000000000)), 0x68);
+             meterArr = meterArr.concat(dataItem);
+             return shellArr.concat([0xFE, 0xFE, 0xFE, 0xFE], meterArr, tools.set_cs(meterArr), 0x16);
+             }
+             */
             Fn1: function (data) {
                 /**
                  * 加入水表透传判断
@@ -3132,6 +3153,27 @@ var json_hex = {
                     json['rrp_m_d' + i + '_time'] = tools.getDFA17(mValueArr[3], mValueArr[4], mValueArr[5], mValueArr[6]);
                 }
                 return json;
+            },
+
+            //当月反向无功最大需量及发生时间（总、费率1～M）
+            Fn188: function (data) {
+                var json = {},
+                    dateArr = data.splice(0, 5);
+                json.collTime = tools.getDFA15(dateArr[0], dateArr[1], dateArr[2], dateArr[3], dateArr[4]);
+                json.meterType = data.splice(0, 1)[0];
+                var realSumArr = data.splice(0, 5);
+                var SettleDaySumArr = data.splice(0, 5);
+                json.realSumFlowUnit = realSumArr[0];
+                json.realSumFlow = tools.getDFA29(realSumArr[1], realSumArr[2], realSumArr[3], realSumArr[4]);
+                json.SettleDaySumUnit = SettleDaySumArr[0];
+                json.SettleDaySumFlow = tools.getDFA29(SettleDaySumArr[1], SettleDaySumArr[2], SettleDaySumArr[3], SettleDaySumArr[4]);
+                data.splice(0, 21);
+                var sumWorkTimeArr = data.splice(0, 3);
+                var realTimeArr = data.splice(0, 7);
+                data.splice(0, 2);
+                json.sumWorkTime = tools.getDFA10(sumWorkTimeArr[0], sumWorkTimeArr[1], sumWorkTimeArr[2]);
+                json.realTime = tools.getDFA32(realTimeArr[0], realTimeArr[1], realTimeArr[2], realTimeArr[3], realTimeArr[4], realTimeArr[5], realTimeArr[6]);
+                return json;
             }
         },
         AFN13: {
@@ -4058,6 +4100,62 @@ var json_hex = {
                     json['rrp_m_d' + i + '_time'] = tools.getDFA17(mValueArr[3], mValueArr[4], mValueArr[5], mValueArr[6]);
                 }
                 return json
+            }
+            ,
+
+            //为抄读水气热表中的表冻结数据
+            Fn220: function (data) {
+                var json = {};
+                var SettleDaySumArr = data.splice(0, 5);
+                json.SettleDaySumUnit = SettleDaySumArr[0];
+                json.SettleDaySumFlow = tools.getDFA29(SettleDaySumArr[1], SettleDaySumArr[2], SettleDaySumArr[3], SettleDaySumArr[4]);
+                return json
+            },
+
+            //日冻结水表读数
+            Fn221: function (data) {
+                var json = {},
+                    dataDateArr = data.splice(0, 3),
+                    dateArr = data.splice(0, 5);
+                json.dataDate = tools.getDFA20(dataDateArr[0], dataDateArr[1], dataDateArr[2]);
+                json.collTime = tools.getDFA15(dateArr[0], dateArr[1], dateArr[2], dateArr[3], dateArr[4]);
+                json.meterType = data.splice(0, 1)[0];
+                var realSumArr = data.splice(0, 5);
+                var SettleDaySumArr = data.splice(0, 5);
+                json.realSumFlowUnit = realSumArr[0];
+                json.realSumFlow = tools.getDFA29(realSumArr[1], realSumArr[2], realSumArr[3], realSumArr[4]);
+                json.SettleDaySumUnit = SettleDaySumArr[0];
+                json.SettleDaySumFlow = tools.getDFA29(SettleDaySumArr[1], SettleDaySumArr[2], SettleDaySumArr[3], SettleDaySumArr[4]);
+                data.splice(0, 21);
+                var sumWorkTimeArr = data.splice(0, 3);
+                var realTimeArr = data.splice(0, 7);
+                data.splice(0, 2);
+                json.sumWorkTime = tools.getDFA10(sumWorkTimeArr[0], sumWorkTimeArr[1], sumWorkTimeArr[2]);
+                json.realTime = tools.getDFA32(realTimeArr[0], realTimeArr[1], realTimeArr[2], realTimeArr[3], realTimeArr[4], realTimeArr[5], realTimeArr[6]);
+                return json;
+            },
+
+            //月冻结水表读数
+            Fn222: function (data) {
+                var json = {},
+                    dataDateArr = data.splice(0, 2),
+                    dateArr = data.splice(0, 5);
+                json.dataDate = tools.getDFA21(dataDateArr[0], dataDateArr[1]);
+                json.collTime = tools.getDFA15(dateArr[0], dateArr[1], dateArr[2], dateArr[3], dateArr[4]);
+                json.meterType = data.splice(0, 1)[0];
+                var realSumArr = data.splice(0, 5);
+                var SettleDaySumArr = data.splice(0, 5);
+                json.realSumFlowUnit = realSumArr[0];
+                json.realSumFlow = tools.getDFA29(realSumArr[1], realSumArr[2], realSumArr[3], realSumArr[4]);
+                json.SettleDaySumUnit = SettleDaySumArr[0];
+                json.SettleDaySumFlow = tools.getDFA29(SettleDaySumArr[1], SettleDaySumArr[2], SettleDaySumArr[3], SettleDaySumArr[4]);
+                data.splice(0, 21);
+                var sumWorkTimeArr = data.splice(0, 3);
+                var realTimeArr = data.splice(0, 7);
+                data.splice(0, 2);
+                json.sumWorkTime = tools.getDFA10(sumWorkTimeArr[0], sumWorkTimeArr[1], sumWorkTimeArr[2]);
+                json.realTime = tools.getDFA32(realTimeArr[0], realTimeArr[1], realTimeArr[2], realTimeArr[3], realTimeArr[4], realTimeArr[5], realTimeArr[6]);
+                return json;
             }
         },
 

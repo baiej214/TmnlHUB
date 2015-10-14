@@ -520,6 +520,22 @@ exports.tools = {
         return (this.bcd2b(parameter1) * 0.001 + this.bcd2b(parameter2) * 0.1).toFixed(3)
     },
 
+    getDFA29: function (parameter1, parameter2) {
+        if (parameter1 == 0xee || parameter1 == 0xff || parameter2 == 0xee) return null;
+        return (this.bcd2b(parameter1) * 0.01 + this.bcd2b(parameter2) + this.bcd2b(parameter3) * 100 + this.bcd2b(parameter4) * 10000).toFixed(3)
+    },
+    getDFA32: function (parameter1, parameter2, parameter3, parameter4, parameter5, parameter6, parameter7) {
+        if (parameter1 == 0xee || parameter1 == 0xff || parameter2 == 0xee) return null;
+        var year = this.bcd2b(parameter7) * 100 + this.bcd2b(parameter6),
+            month = this.bcd2b(parameter5),
+            day = this.bcd2b(parameter4),
+            hour = this.bcd2b(parameter3),
+            minute = this.bcd2b(parameter2),
+            second = this.bcd2b(parameter1);
+        return year + '-' + month + '-' + day + ' ' + hour + ':' + minute + ':' + second;
+
+    },
+
     //********************************set**********************************
 
     setDFA2: function (data) {
