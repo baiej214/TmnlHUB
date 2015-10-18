@@ -3895,111 +3895,112 @@ var json_hex = {
                     switch (json.nbqxh) {
                         case 1://格瑞瓦特
                             json['InverterStatus'] = arr[0] == 0xee ? null : (arr[0] << 8) + arr[1];//逆变器运行状态
-                            json['Ppv'] = arr[2] == 0xee ? null : (arr[2] << 24) + (arr[3] << 16) + (arr[4] << 8) + arr[5];//输入功率
-                            json['Vpv1'] = arr[6] == 0xee ? null : (arr[6] << 8) + arr[7];//直流1 电压
-                            json['PV1Curr'] = arr[8] == 0xee ? null : (arr[8] << 8) + arr[9];//直流1 电流
-                            json['PV1Watt'] = arr[10] == 0xee ? null : (arr[10] << 24) + (arr[11] << 16) + (arr[12] << 8) + arr[13];//直流1 功率
-                            json['Vpv2'] = arr[14] == 0xee ? null : (arr[14] << 8) + arr[15];//直流2 电压
-                            json['PV2Curr'] = arr[16] == 0xee ? null : (arr[16] << 8) + arr[17];//直流2 电流
-                            json['PV2Watt'] = arr[18] == 0xee ? null : (arr[18] << 24) + (arr[19] << 16) + (arr[20] << 8) + arr[21];//直流2 功率
-                            json['Pac'] = arr[22] == 0xee ? null : (arr[22] << 24) + (arr[23] << 16) + (arr[24] << 8) + arr[25];//输出功率
-                            json['Fac'] = arr[26] == 0xee ? null : (arr[26] << 8) + arr[27];//电网频率
-                            json['Vac1'] = arr[28] == 0xee ? null : (arr[28] << 8) + arr[29];//三相/单相 电压1
-                            json['Iac1'] = arr[30] == 0xee ? null : (arr[30] << 8) + arr[31];//三相/单相 电流1
-                            json['Pac1'] = arr[32] == 0xee ? null : (arr[32] << 24) + (arr[33] << 16) + (arr[34] << 8) + arr[35];//三相/单相 功率1
-                            json['Vac2'] = arr[36] == 0xee ? null : (arr[36] << 8) + arr[37];//三相/单相 电压2
-                            json['Iac2'] = arr[38] == 0xee ? null : (arr[38] << 8) + arr[39];//三相/单相 电流2
-                            json['Pac2'] = arr[40] == 0xee ? null : (arr[40] << 24) + (arr[41] << 16) + (arr[42] << 8) + arr[43];//三相/单相 功率2
-                            json['Pac3'] = arr[44] == 0xee ? null : (arr[44] << 8) + arr[45];//三相/单相 电压3
-                            json['Vac3'] = arr[46] == 0xee ? null : (arr[46] << 8) + arr[47];//三相/单相 电流3
-                            json['Iac3'] = arr[48] == 0xee ? null : (arr[48] << 24) + (arr[49] << 16) + (arr[50] << 8) + arr[51];//三相/单相 功率3
-                            json['EnergyToday'] = arr[52] == 0xee ? null : (arr[52] << 24) + (arr[53] << 16) + (arr[54] << 8) + arr[55];//今天发电量
-                            json['EnergyTotal'] = arr[56] == 0xee ? null : (arr[56] << 24) + (arr[57] << 16) + (arr[58] << 8) + arr[59];//总的发电量
-                            json['TimeTotal'] = arr[60] == 0xee ? null : (arr[60] << 24) + (arr[61] << 16) + (arr[62] << 8) + arr[63];//总的工作时间
-                            json['Temperature'] = arr[64] == 0xee ? null : (arr[64] << 8) + arr[65];//逆变温度
-                            json['ISOFaultValue'] = arr[66] == 0xee ? null : (arr[66] << 8) + arr[67];//绝缘阻抗报错值
+                            json['Ppv'] = arr[2] == 0xee ? null : ((arr[2] << 24) + (arr[3] << 16) + (arr[4] << 8) + arr[5]) / 10;//输入功率
+                            json['Vpv1'] = arr[6] == 0xee ? null : ((arr[6] << 8) + arr[7]) / 10;//直流1 电压
+                            json['PV1Curr'] = arr[8] == 0xee ? null : ((arr[8] << 8) + arr[9]) / 10;//直流1 电流
+                            json['PV1Watt'] = arr[10] == 0xee ? null : ((arr[10] << 24) + (arr[11] << 16) + (arr[12] << 8) + arr[13]) / 10;//直流1 功率
+                            json['Vpv2'] = arr[14] == 0xee ? null : ((arr[14] << 8) + arr[15]) / 10;//直流2 电压
+                            json['PV2Curr'] = arr[16] == 0xee ? null : ((arr[16] << 8) + arr[17]) / 10;//直流2 电流
+                            json['PV2Watt'] = arr[18] == 0xee ? null : ((arr[18] << 24) + (arr[19] << 16) + (arr[20] << 8) + arr[21]) / 10;//直流2 功率
+                            json['Pac'] = arr[22] == 0xee ? null : ((arr[22] << 24) + (arr[23] << 16) + (arr[24] << 8) + arr[25]) / 10;//输出功率
+                            json['Fac'] = arr[26] == 0xee ? null : ((arr[26] << 8) + arr[27]) / 100;//电网频率
+                            json['Vac1'] = arr[28] == 0xee ? null : ((arr[28] << 8) + arr[29]) / 10;//三相/单相 电压1
+                            json['Iac1'] = arr[30] == 0xee ? null : ((arr[30] << 8) + arr[31]) / 10;//三相/单相 电流1
+                            json['Pac1'] = arr[32] == 0xee ? null : ((arr[32] << 24) + (arr[33] << 16) + (arr[34] << 8) + arr[35]) / 10;//三相/单相 功率1
+                            json['Vac2'] = arr[36] == 0xee ? null : ((arr[36] << 8) + arr[37]) / 10;//三相/单相 电压2
+                            json['Iac2'] = arr[38] == 0xee ? null : ((arr[38] << 8) + arr[39]) / 10;//三相/单相 电流2
+                            json['Pac2'] = arr[40] == 0xee ? null : ((arr[40] << 24) + (arr[41] << 16) + (arr[42] << 8) + arr[43]) / 10;//三相/单相 功率2
+                            json['Pac3'] = arr[44] == 0xee ? null : ((arr[44] << 8) + arr[45]) / 10;//三相/单相 电压3
+                            json['Vac3'] = arr[46] == 0xee ? null : ((arr[46] << 8) + arr[47]) / 10;//三相/单相 电流3
+                            json['Iac3'] = arr[48] == 0xee ? null : ((arr[48] << 24) + (arr[49] << 16) + (arr[50] << 8) + arr[51]) / 10;//三相/单相 功率3
+                            json['EnergyToday'] = arr[52] == 0xee ? null : ((arr[52] << 24) + (arr[53] << 16) + (arr[54] << 8) + arr[55]) / 10;//今天发电量
+                            json['EnergyTotal'] = arr[56] == 0xee ? null : ((arr[56] << 24) + (arr[57] << 16) + (arr[58] << 8) + arr[59]) / 10;//总的发电量
+                            json['TimeTotal'] = arr[60] == 0xee ? null : ((arr[60] << 24) + (arr[61] << 16) + (arr[62] << 8) + arr[63]) * .5;//总的工作时间
+                            json['Temperature'] = arr[64] == 0xee ? null : ((arr[64] << 8) + arr[65]) / 10;//逆变温度
+                            json['ISOFaultValue'] = arr[66] == 0xee ? null : ((arr[66] << 8) + arr[67]) / 10;//绝缘阻抗报错值
                             json['GFCIFaultValue'] = arr[68] == 0xee ? null : (arr[68] << 8) + arr[69];//漏电流报错值
-                            json['DCIFaultValue'] = arr[70] == 0xee ? null : (arr[70] << 8) + arr[71];//直流分量的报错值
-                            json['VpvFaultValue'] = arr[72] == 0xee ? null : (arr[72] << 8) + arr[73];//电压的报错值
-                            json['VacFaultValue'] = arr[74] == 0xee ? null : (arr[74] << 8) + arr[75];//AC电压的报错值
-                            json['FacFaultValue'] = arr[76] == 0xee ? null : (arr[76] << 8) + arr[77];//AC频率的报错值
-                            json['TemperatureFaultValue'] = arr[78] == 0xee ? null : (arr[78] << 8) + arr[79];//温度的报错值
+                            json['DCIFaultValue'] = arr[70] == 0xee ? null : ((arr[70] << 8) + arr[71]) / 100;//直流分量的报错值
+                            json['VpvFaultValue'] = arr[72] == 0xee ? null : ((arr[72] << 8) + arr[73]) / 10;//电压的报错值
+                            json['VacFaultValue'] = arr[74] == 0xee ? null : ((arr[74] << 8) + arr[75]) / 10;//AC电压的报错值
+                            json['FacFaultValue'] = arr[76] == 0xee ? null : ((arr[76] << 8) + arr[77]) / 100;//AC频率的报错值
+                            json['TemperatureFaultValue'] = arr[78] == 0xee ? null : ((arr[78] << 8) + arr[79]) / 10;//温度的报错值
                             json['FaultCode'] = arr[80] == 0xee ? null : (arr[80] << 8) + arr[81];//逆变报错位
-                            json['IPMTemperature'] = arr[82] == 0xee ? null : (arr[82] << 8) + arr[83];//IGBI模块温度
-                            json['PBusVoltage'] = arr[84] == 0xee ? null : (arr[84] << 8) + arr[85];//正 BUS 电压
-                            json['NBusVoltage'] = arr[86] == 0xee ? null : (arr[86] << 8) + arr[87];//负 BUS 电压
+                            json['IPMTemperature'] = arr[82] == 0xee ? null : ((arr[82] << 8) + arr[83]) / 10;//IGBI模块温度
+                            json['PBusVoltage'] = arr[84] == 0xee ? null : ((arr[84] << 8) + arr[85]) / 10;//正 BUS 电压
+                            json['NBusVoltage'] = arr[86] == 0xee ? null : ((arr[86] << 8) + arr[87]) / 10;//负 BUS 电压
                             json['IPF'] = arr[88] == 0xee ? null : (arr[88] << 8) + arr[89];//当前的逆变器输出的功率因数
-                            json['Epv1_today'] = arr[90] == 0xee ? null : (arr[90] << 24) + (arr[91] << 16) + (arr[92] << 8) + arr[93];//直流1发电量
-                            json['Epv1_total'] = arr[94] == 0xee ? null : (arr[94] << 24) + (arr[95] << 16) + (arr[96] << 8) + arr[97];//直流1总的发电量
-                            json['Epv2_today'] = arr[98] == 0xee ? null : (arr[98] << 24) + (arr[99] << 16) + (arr[100] << 8) + arr[101];//直流2发电量
-                            json['Epv2_tota'] = arr[102] == 0xee ? null : (arr[102] << 24) + (arr[103] << 16) + (arr[104] << 8) + arr[105];//直流2总的发电量
-                            json['Epv_total'] = arr[106] == 0xee ? null : (arr[106] << 8) + arr[107];//直流总的电量
+                            json['Epv1_today'] = arr[90] == 0xee ? null : ((arr[90] << 24) + (arr[91] << 16) + (arr[92] << 8) + arr[93]) / 10;//直流1发电量
+                            json['Epv1_total'] = arr[94] == 0xee ? null : ((arr[94] << 24) + (arr[95] << 16) + (arr[96] << 8) + arr[97]) / 10;//直流1总的发电量
+                            json['Epv2_today'] = arr[98] == 0xee ? null : ((arr[98] << 24) + (arr[99] << 16) + (arr[100] << 8) + arr[101]) / 10;//直流2发电量
+                            json['Epv2_tota'] = arr[102] == 0xee ? null : ((arr[102] << 24) + (arr[103] << 16) + (arr[104] << 8) + arr[105]) / 10;//直流2总的发电量
+                            json['Epv_total'] = arr[106] == 0xee ? null : ((arr[106] << 8) + arr[107]) / 10;//直流总的电量
                             break;
                         case 2://阳光
-                            json['EnergyToday'] = arr[0] == 0xee ? null : (arr[0] << 8) + arr[1];//日发电量
-                            json['EnergyTotal'] = arr[2] == 0xee ? null : (arr[2] << 24) + (arr[3] << 16) + (arr[4] << 8) + arr[5];//总发电量
+                            json['EnergyToday'] = arr[0] == 0xee ? null : ((arr[0] << 8) + arr[1]) / 10;//日发电量
+                            json['EnergyTotal'] = arr[2] == 0xee ? null : (arr[4] << 24) + (arr[5] << 16) + (arr[2] << 8) + arr[3];//总发电量
                             json['TimeTotal'] = arr[6] == 0xee ? null : (arr[6] << 24) + (arr[7] << 16) + (arr[8] << 8) + arr[9];//总运行时间
-                            json['机内空气温度'] = arr[10] == 0xee ? null : (arr[10] << 8) + arr[11];//机内空气温度
-                            json['Vpv1'] = arr[12] == 0xee ? null : (arr[12] << 8) + arr[13];//直流电压1
-                            json['PV1Curr'] = arr[14] == 0xee ? null : (arr[14] << 8) + arr[15];//直流电流1
-                            json['Vpv2'] = arr[16] == 0xee ? null : (arr[16] << 8) + arr[17];//直流电压2
-                            json['PV2Curr'] = arr[18] == 0xee ? null : (arr[18] << 8) + arr[19];//直流电流2
-                            json['总直流功率'] = arr[20] == 0xee ? null : (arr[20] << 24) + (arr[21] << 16) + (arr[22] << 8) + arr[23];//总直流功率
-                            json['A 相电压'] = arr[24] == 0xee ? null : (arr[24] << 8) + arr[25];//AB 线电压/A 相电压
-                            json['B 相电压'] = arr[26] == 0xee ? null : (arr[26] << 8) + arr[27];//BC 线电压/B 相电压
-                            json['C 相电压'] = arr[28] == 0xee ? null : (arr[28] << 8) + arr[29];//CA 线电压/C 相电压
-                            json['A相电流'] = arr[30] == 0xee ? null : (arr[30] << 8) + arr[31];//A相电流
-                            json['B相电流'] = arr[32] == 0xee ? null : (arr[32] << 8) + arr[33];//B相电流
-                            json['C相电流'] = arr[34] == 0xee ? null : (arr[34] << 8) + arr[35];//C相电流
+                            json['机内空气温度'] = arr[10] == 0xee ? null : ((arr[10] << 8) + arr[11]) / 10;//机内空气温度
+                            json['Vpv1'] = arr[12] == 0xee ? null : ((arr[12] << 8) + arr[13]) / 10;//直流电压1
+                            json['PV1Curr'] = arr[14] == 0xee ? null : ((arr[14] << 8) + arr[15]) / 10;//直流电流1
+                            json['Vpv2'] = arr[16] == 0xee ? null : ((arr[16] << 8) + arr[17]) / 10;//直流电压2
+                            json['PV2Curr'] = arr[18] == 0xee ? null : ((arr[18] << 8) + arr[19]) / 10;//直流电流2
+                            json['Ppv'] = arr[20] == 0xee ? null : (arr[22] << 24) + (arr[23] << 16) + (arr[20] << 8) + arr[21];//总直流功率
+                            json['Pac'] = arr[20] == 0xee ? null : (arr[22] << 24) + (arr[23] << 16) + (arr[20] << 8) + arr[21];//PAC
+                            json['A 相电压'] = arr[24] == 0xee ? null : ((arr[24] << 8) + arr[25]) / 10;//AB 线电压/A 相电压
+                            json['B 相电压'] = arr[26] == 0xee ? null : ((arr[26] << 8) + arr[27]) / 10;//BC 线电压/B 相电压
+                            json['C 相电压'] = arr[28] == 0xee ? null : ((arr[28] << 8) + arr[29]) / 10;//CA 线电压/C 相电压
+                            json['A相电流'] = arr[30] == 0xee ? null : ((arr[30] << 8) + arr[31]) / 10;//A相电流
+                            json['B相电流'] = arr[32] == 0xee ? null : ((arr[32] << 8) + arr[33]) / 10;//B相电流
+                            json['C相电流'] = arr[34] == 0xee ? null : ((arr[34] << 8) + arr[35]) / 10;//C相电流
                             json['总有功功率'] = arr[36] == 0xee ? null : (arr[36] << 24) + (arr[37] << 16) + (arr[38] << 8) + arr[39];//总有功功率
                             json['无功功率'] = arr[40] == 0xee ? null : (arr[40] << 24) + (arr[41] << 16) + (arr[42] << 8) + arr[43];//无功功率
-                            json['功率因数'] = arr[44] == 0xee ? null : (arr[44] << 8) + arr[45];//功率因数
-                            json['Fac'] = arr[46] == 0xee ? null : (arr[46] << 8) + arr[47];//电网频率
-                            json['逆变器效率'] = arr[48] == 0xee ? null : (arr[48] << 8) + arr[49];//逆变器效率
-                            json['InverterStatus'] = arr[50] == 0xee ? null : (arr[50] << 8) + arr[51];//设备状态
+                            json['功率因数'] = arr[44] == 0xee ? null : ((arr[44] << 8) + arr[45]) / 1000;//功率因数
+                            json['Fac'] = arr[46] == 0xee ? null : ((arr[46] << 8) + arr[47]) / 10;//电网频率
+                            json['逆变器效率'] = arr[48] == 0xee ? null : ((arr[48] << 8) + arr[49]) / 1000;//逆变器效率
+                            json['WarningCode'] = arr[50] == 0xee ? null : (arr[50] << 8) + arr[51];//设备状态
                             json['故障状态1'] = arr[52] == 0xee ? null : (arr[52] << 24) + (arr[53] << 16) + (arr[54] << 8) + arr[55];//故障状态1
                             json['故障状态2'] = arr[56] == 0xee ? null : (arr[56] << 24) + (arr[57] << 16) + (arr[58] << 8) + arr[59];//故障状态2
                             json['日运行时间'] = arr[60] == 0xee ? null : (arr[60] << 8) + arr[61];//日运行时间
-                            json['Vpv2'] = arr[62] == 0xee ? null : (arr[62] << 8) + arr[63];//直流电压4
-                            json['PV2Curr'] = arr[64] == 0xee ? null : (arr[64] << 8) + arr[65];//直流电流4
+                            json['Vpv2'] = arr[62] == 0xee ? null : ((arr[62] << 8) + arr[63]) / 10;//直流电压4
+                            json['PV2Curr'] = arr[64] == 0xee ? null : ((arr[64] << 8) + arr[65]) / 10;//直流电流4
                             break;
                         case 3://华为
-                            json['二氧化碳减排量'] = arr[0] == 0xee ? null : (arr[0] << 24) + (arr[1] << 16) + (arr[2] << 8) + arr[3];//二氧化碳减排量
-                            json['PV1输入电压'] = arr[4] == 0xee ? null : (arr[4] << 8) + arr[5];//PV1输入电压
-                            json['PV1输入电流'] = arr[6] == 0xee ? null : (arr[6] << 8) + arr[7];//PV1输入电流
-                            json['PV2输入电压'] = arr[8] == 0xee ? null : (arr[8] << 8) + arr[9];//PV2输入电压
-                            json['PV2输入电流'] = arr[10] == 0xee ? null : (arr[10] << 8) + arr[11];//PV2输入电流
-                            json['PV3输入电压'] = arr[12] == 0xee ? null : (arr[12] << 8) + arr[13];//PV3输入电压
-                            json['PV3输入电流'] = arr[14] == 0xee ? null : (arr[14] << 8) + arr[15];//PV3输入电流
-                            json['PV4输入电压'] = arr[16] == 0xee ? null : (arr[16] << 8) + arr[17];//PV4输入电压
-                            json['PV4输入电流'] = arr[18] == 0xee ? null : (arr[18] << 8) + arr[19];//PV4输入电流
-                            json['PV5输入电压'] = arr[20] == 0xee ? null : (arr[20] << 8) + arr[21];//PV5输入电压
-                            json['PV5输入电流'] = arr[22] == 0xee ? null : (arr[22] << 8) + arr[23];//PV5输入电流
-                            json['PV6输入电压'] = arr[24] == 0xee ? null : (arr[24] << 8) + arr[25];//PV6输入电压
-                            json['PV6输入电流'] = arr[26] == 0xee ? null : (arr[26] << 8) + arr[27];//PV6输入电流
-                            json['电网AB线电压'] = arr[28] == 0xee ? null : (arr[28] << 8) + arr[29];//电网AB线电压
-                            json['电网BC线电压'] = arr[30] == 0xee ? null : (arr[30] << 8) + arr[31];//电网BC线电压
-                            json['电网CA线电压'] = arr[32] == 0xee ? null : (arr[32] << 8) + arr[33];//电网CA线电压
-                            json['电网A相电压'] = arr[34] == 0xee ? null : (arr[34] << 8) + arr[35];//电网A相电压
-                            json['电网B相电压'] = arr[36] == 0xee ? null : (arr[36] << 8) + arr[37];//电网B相电压
-                            json['电网C相电压'] = arr[38] == 0xee ? null : (arr[38] << 8) + arr[39];//电网C相电压
-                            json['电网A相电流'] = arr[40] == 0xee ? null : (arr[40] << 8) + arr[41];//电网A相电流
-                            json['电网B相电流'] = arr[42] == 0xee ? null : (arr[42] << 8) + arr[43];//电网B相电流
-                            json['电网C相电流'] = arr[44] == 0xee ? null : (arr[44] << 8) + arr[45];//电网C相电流
-                            json['电网频率'] = arr[46] == 0xee ? null : (arr[46] << 8) + arr[47];//电网频率
-                            json['功率因数'] = arr[48] == 0xee ? null : (arr[48] << 8) + arr[49];//功率因数
-                            json['逆变器效率'] = arr[50] == 0xee ? null : (arr[50] << 8) + arr[51];//逆变器效率
-                            json['机内温度'] = arr[52] == 0xee ? null : (arr[52] << 8) + arr[53];//机内温度
+                            json['二氧化碳减排量'] = arr[0] == 0xee ? null : ((arr[0] << 24) + (arr[1] << 16) + (arr[2] << 8) + arr[3]) / 100;//二氧化碳减排量
+                            json['PV1输入电压'] = arr[4] == 0xee ? null : ((arr[4] << 8) + arr[5]) / 10;//PV1输入电压
+                            json['PV1输入电流'] = arr[6] == 0xee ? null : ((arr[6] << 8) + arr[7]) / 10;//PV1输入电流
+                            json['PV2输入电压'] = arr[8] == 0xee ? null : ((arr[8] << 8) + arr[9]) / 10;//PV2输入电压
+                            json['PV2输入电流'] = arr[10] == 0xee ? null : ((arr[10] << 8) + arr[11]) / 10;//PV2输入电流
+                            json['PV3输入电压'] = arr[12] == 0xee ? null : ((arr[12] << 8) + arr[13]) / 10;//PV3输入电压
+                            json['PV3输入电流'] = arr[14] == 0xee ? null : ((arr[14] << 8) + arr[15]) / 10;//PV3输入电流
+                            json['PV4输入电压'] = arr[16] == 0xee ? null : ((arr[16] << 8) + arr[17]) / 10;//PV4输入电压
+                            json['PV4输入电流'] = arr[18] == 0xee ? null : ((arr[18] << 8) + arr[19]) / 10;//PV4输入电流
+                            json['PV5输入电压'] = arr[20] == 0xee ? null : ((arr[20] << 8) + arr[21]) / 10;//PV5输入电压
+                            json['PV5输入电流'] = arr[22] == 0xee ? null : ((arr[22] << 8) + arr[23]) / 10;//PV5输入电流
+                            json['PV6输入电压'] = arr[24] == 0xee ? null : ((arr[24] << 8) + arr[25]) / 10;//PV6输入电压
+                            json['PV6输入电流'] = arr[26] == 0xee ? null : ((arr[26] << 8) + arr[27]) / 10;//PV6输入电流
+                            json['电网AB线电压'] = arr[28] == 0xee ? null : ((arr[28] << 8) + arr[29]) / 10;//电网AB线电压
+                            json['电网BC线电压'] = arr[30] == 0xee ? null : ((arr[30] << 8) + arr[31]) / 10;//电网BC线电压
+                            json['电网CA线电压'] = arr[32] == 0xee ? null : ((arr[32] << 8) + arr[33]) / 10;//电网CA线电压
+                            json['电网A相电压'] = arr[34] == 0xee ? null : ((arr[34] << 8) + arr[35]) / 10;//电网A相电压
+                            json['电网B相电压'] = arr[36] == 0xee ? null : ((arr[36] << 8) + arr[37]) / 10;//电网B相电压
+                            json['电网C相电压'] = arr[38] == 0xee ? null : ((arr[38] << 8) + arr[39]) / 10;//电网C相电压
+                            json['电网A相电流'] = arr[40] == 0xee ? null : ((arr[40] << 8) + arr[41]) / 10;//电网A相电流
+                            json['电网B相电流'] = arr[42] == 0xee ? null : ((arr[42] << 8) + arr[43]) / 10;//电网B相电流
+                            json['电网C相电流'] = arr[44] == 0xee ? null : ((arr[44] << 8) + arr[45]) / 10;//电网C相电流
+                            json['电网频率'] = arr[46] == 0xee ? null : ((arr[46] << 8) + arr[47]) / 100;//电网频率
+                            json['功率因数'] = arr[48] == 0xee ? null : ((arr[48] << 8) + arr[49]) / 1000;//功率因数
+                            json['逆变器效率'] = arr[50] == 0xee ? null : ((arr[50] << 8) + arr[51]) / 100;//逆变器效率
+                            json['机内温度'] = arr[52] == 0xee ? null : ((arr[52] << 8) + arr[53]) / 10;//机内温度
                             json['逆变器状态'] = arr[54] == 0xee ? null : (arr[54] << 8) + arr[55];//逆变器状态
-                            json['当天峰值有功功率'] = arr[56] == 0xee ? null : (arr[56] << 24) + (arr[57] << 16) + (arr[58] << 8) + arr[59];//当天峰值有功功率
-                            json['有功功率'] = arr[60] == 0xee ? null : (arr[60] << 24) + (arr[61] << 16) + (arr[62] << 8) + arr[63];//有功功率
-                            json['无功功率'] = arr[64] == 0xee ? null : (arr[64] << 24) + (arr[65] << 16) + (arr[66] << 8) + arr[67];//无功功率
-                            json['输入总功率'] = arr[68] == 0xee ? null : (arr[68] << 24) + (arr[69] << 16) + (arr[70] << 8) + arr[71];//输入总功率
-                            json['当前小时发电量'] = arr[72] == 0xee ? null : (arr[72] << 24) + (arr[73] << 16) + (arr[74] << 8) + arr[75];//当前小时发电量
-                            json['当前日发电量'] = arr[76] == 0xee ? null : (arr[76] << 24) + (arr[77] << 16) + (arr[78] << 8) + arr[79];//当前日发电量
-                            json['当前月发电量'] = arr[80] == 0xee ? null : (arr[80] << 24) + (arr[81] << 16) + (arr[82] << 8) + arr[83];//当前月发电量
-                            json['当前年发电量'] = arr[84] == 0xee ? null : (arr[84] << 24) + (arr[85] << 16) + (arr[86] << 8) + arr[87];//当前年发电量
-                            json['总发电量'] = arr[88] == 0xee ? null : (arr[88] << 24) + (arr[89] << 16) + (arr[90] << 8) + arr[91];//总发电量
+                            json['当天峰值有功功率'] = arr[56] == 0xee ? null : ((arr[56] << 24) + (arr[57] << 16) + (arr[58] << 8) + arr[59]) / 1000;//当天峰值有功功率
+                            json['有功功率'] = arr[60] == 0xee ? null : ((arr[60] << 24) + (arr[61] << 16) + (arr[62] << 8) + arr[63]) / 1000;//有功功率
+                            json['无功功率'] = arr[64] == 0xee ? null : ((arr[64] << 24) + (arr[65] << 16) + (arr[66] << 8) + arr[67]) / 1000;//无功功率
+                            json['输入总功率'] = arr[68] == 0xee ? null : ((arr[68] << 24) + (arr[69] << 16) + (arr[70] << 8) + arr[71]) / 1000;//输入总功率
+                            json['当前小时发电量'] = arr[72] == 0xee ? null : ((arr[72] << 24) + (arr[73] << 16) + (arr[74] << 8) + arr[75]) / 100;//当前小时发电量
+                            json['当前日发电量'] = arr[76] == 0xee ? null : ((arr[76] << 24) + (arr[77] << 16) + (arr[78] << 8) + arr[79]) / 100;//当前日发电量
+                            json['当前月发电量'] = arr[80] == 0xee ? null : ((arr[80] << 24) + (arr[81] << 16) + (arr[82] << 8) + arr[83]) / 100;//当前月发电量
+                            json['当前年发电量'] = arr[84] == 0xee ? null : ((arr[84] << 24) + (arr[85] << 16) + (arr[86] << 8) + arr[87]) / 100;//当前年发电量
+                            json['总发电量'] = arr[88] == 0xee ? null : ((arr[88] << 24) + (arr[89] << 16) + (arr[90] << 8) + arr[91]) / 100;//总发电量
                             json['闭锁状态'] = arr[92] == 0xee ? null : (arr[92] << 8) + arr[93];//闭锁状态
                             //------------------------------------------------------------------------------
                             json['零电压穿越保护状态'] = arr[94] == 0xee ? null : (arr[94] << 8) + arr[95];//零电压穿越保护状态
@@ -4010,33 +4011,33 @@ var json_hex = {
                             json['孤岛效应保护状态2'] = arr[94] == 0xee ? null : (arr[95] >> 2) % 2;//
                             //------------------------------------------------------------------------------
                             json['逆变器并网状态'] = arr[96] == 0xee ? null : (arr[96] << 8) + arr[97];//逆变器并网状态
-                            json['绝缘阻抗值'] = arr[98] == 0xee ? null : (arr[98] << 8) + arr[99];//绝缘阻抗值
-                            json['前一小时发电量'] = arr[100] == 0xee ? null : (arr[100] << 24) + (arr[101] << 16) + (arr[102] << 8) + arr[103];//前一小时发电量
+                            json['绝缘阻抗值'] = arr[98] == 0xee ? null : ((arr[98] << 8) + arr[99]) / 1000;//绝缘阻抗值
+                            json['前一小时发电量'] = arr[100] == 0xee ? null : ((arr[100] << 24) + (arr[101] << 16) + (arr[102] << 8) + arr[103]) / 100;//前一小时发电量
                             json['前一日发电量'] = arr[104] == 0xee ? null : (arr[104] << 24) + (arr[105] << 16) + (arr[106] << 8) + arr[107];//前一日发电量
                             json['前一月发电量'] = arr[108] == 0xee ? null : (arr[108] << 24) + (arr[109] << 16) + (arr[110] << 8) + arr[111];//前一月发电量
                             json['前一年发电量'] = arr[112] == 0xee ? null : (arr[112] << 24) + (arr[113] << 16) + (arr[114] << 8) + arr[115];//前一年发电量
                             break;
                         case 4://锦浪
-                            json['直流电压1'] = arr[0] == 0xee ? null : (arr[0] << 8) + arr[1];//直流电压1
-                            json['直流电流1'] = arr[2] == 0xee ? null : (arr[2] << 8) + arr[3];//直流电流1
-                            json['交流电压'] = arr[4] == 0xee ? null : (arr[4] << 8) + arr[5];//交流电压
-                            json['交流电流'] = arr[6] == 0xee ? null : (arr[6] << 8) + arr[7];//交流电流
-                            json['逆变器温度'] = arr[8] == 0xee ? null : (arr[8] << 8) + arr[9];//逆变器温度(对应DSP 模块温度)
+                            json['直流电压1'] = arr[0] == 0xee ? null : ((arr[0] << 8) + arr[1]) / 10;//直流电压1
+                            json['直流电流1'] = arr[2] == 0xee ? null : ((arr[2] << 8) + arr[3]) / 10;//直流电流1
+                            json['交流电压'] = arr[4] == 0xee ? null : ((arr[4] << 8) + arr[5]) / 10;//交流电压
+                            json['交流电流'] = arr[6] == 0xee ? null : ((arr[6] << 8) + arr[7]) / 10;//交流电流
+                            json['逆变器温度'] = arr[8] == 0xee ? null : ((arr[8] << 8) + arr[9]) / 10;//逆变器温度(对应DSP 模块温度)
                             json['总发电量'] = arr[10] == 0xee ? null : (arr[10] << 8) + arr[11];//总发电量
                             json['当前状态'] = arr[12] == 0xee ? null : (arr[12] << 8) + arr[13];//当前状态
                             json['故障数据'] = arr[14] == 0xee ? null : (arr[14] << 8) + arr[15];//故障数据
-                            json['电网频率'] = arr[16] == 0xee ? null : (arr[16] << 8) + arr[17];//电网频率
-                            json['直流电压2'] = arr[18] == 0xee ? null : (arr[18] << 8) + arr[19];//直流电压2
-                            json['直流电流2'] = arr[20] == 0xee ? null : (arr[20] << 8) + arr[21];//直流电流2
+                            json['电网频率'] = arr[16] == 0xee ? null : ((arr[16] << 8) + arr[17]) / 100;//电网频率
+                            json['直流电压2'] = arr[18] == 0xee ? null : ((arr[18] << 8) + arr[19]) / 10;//直流电压2
+                            json['直流电流2'] = arr[20] == 0xee ? null : ((arr[20] << 8) + arr[21]) / 10;//直流电流2
                             json['当前开/关机状态'] = arr[22] == 0xee ? null : (arr[22] << 8) + arr[23];//当前开/关机状态
                             json['当前月发电量'] = arr[24] == 0xee ? null : (arr[24] << 8) + arr[25];//当前月发电量
                             json['上月发电量'] = arr[26] == 0xee ? null : (arr[26] << 8) + arr[27];//上月发电量
                             json['当日发电量'] = arr[28] == 0xee ? null : (arr[28] << 8) + arr[29];//当日发电量
                             json['昨日发电量'] = arr[30] == 0xee ? null : (arr[30] << 8) + arr[31];//昨日发电量
-                            json['直流电压3'] = arr[32] == 0xee ? null : (arr[32] << 8) + arr[33];//直流电压3
-                            json['直流电流3'] = arr[34] == 0xee ? null : (arr[34] << 8) + arr[35];//直流电流3
-                            json['直流电压4'] = arr[36] == 0xee ? null : (arr[36] << 8) + arr[37];//直流电压4
-                            json['直流电流4'] = arr[38] == 0xee ? null : (arr[38] << 8) + arr[39];//直流电流4
+                            json['直流电压3'] = arr[32] == 0xee ? null : ((arr[32] << 8) + arr[33]) / 10;//直流电压3
+                            json['直流电流3'] = arr[34] == 0xee ? null : ((arr[34] << 8) + arr[35]) / 10;//直流电流3
+                            json['直流电压4'] = arr[36] == 0xee ? null : ((arr[36] << 8) + arr[37]) / 10;//直流电压4
+                            json['直流电流4'] = arr[38] == 0xee ? null : ((arr[38] << 8) + arr[39]) / 10;//直流电流4
                             json['功率限制百分比'] = arr[40] == 0xee ? null : (arr[40] << 8) + arr[41];//功率限制百分比
                             break;
                     }
