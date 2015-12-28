@@ -1,6 +1,7 @@
 var _ = require('underscore'),
     cError = require('../error').Error,
     _645 = require('./645'),
+    _water = require('./645')._water,
     tools = require('../tools').tools;
 
 var json_hex = {
@@ -163,40 +164,74 @@ var json_hex = {
             Fn10: function (data) {
                 var arr = [data.length % 256, data.length >> 8];
                 for (var i = 0; i < data.length; i++) {
-                    arr.push(
-                        data[i]['mp_index'] % 256, data[i]['mp_index'] >> 8,
-                        data[i]['mp_index'] % 256, data[i]['mp_index'] >> 8,
-                        parseInt(data[i]['meter_comm_rate'] << 5) + parseInt(data[i]['meter_comm_port']),
-                        data[i]['meter_protocol_type']
-                    );
-                    if (data[i]['meter_comm_addr'].toString().toUpperCase() == 'AAAAAAAAAAAA') {
-                        arr.push(0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa);
-                    } else {
+                    if (data[i]['manu_code']) {
+                        arr.push(
+                            data[i]['mp_index'] % 256, data[i]['mp_index'] >> 8,
+                            data[i]['mp_index'] % 256, data[i]['mp_index'] >> 8,
+                            parseInt(data[i]['meter_comm_rate'] << 5) + parseInt(data[i]['meter_comm_port']),
+                            data[i]['meter_protocol_type'] || 32
+                        );
                         arr.push(
                             tools.b2bcd(Math.floor(data[i]['meter_comm_addr'] % 100)),
                             tools.b2bcd(Math.floor(data[i]['meter_comm_addr'] % 10000 / 100)),
                             tools.b2bcd(Math.floor(data[i]['meter_comm_addr'] % 1000000 / 10000)),
                             tools.b2bcd(Math.floor(data[i]['meter_comm_addr'] % 100000000 / 1000000)),
                             tools.b2bcd(Math.floor(data[i]['meter_comm_addr'] % 10000000000 / 100000000)),
-                            tools.b2bcd(Math.floor(data[i]['meter_comm_addr'] % 1000000000000 / 10000000000))
+                            tools.b2bcd(Math.floor(data[i]['manu_code'] % 10000 / 100))
+                        );
+                        arr.push(Math.floor(data[i]['meter_comm_pwd'] % 100),
+                            Math.floor(data[i]['meter_comm_pwd'] % 10000 / 100),
+                            Math.floor(data[i]['meter_comm_pwd'] % 1000000 / 10000),
+                            Math.floor(data[i]['meter_comm_pwd'] % 100000000 / 1000000),
+                            Math.floor(data[i]['meter_comm_pwd'] % 10000000000 / 100000000),
+                            Math.floor(data[i]['meter_comm_pwd'] % 1000000000000 / 10000000000),
+                            data[i]['meter_tariff_num'],
+                            tools.b2bcd(data[i]['manu_code'] % 100),
+                            tools.b2bcd(Math.floor(data[i]['coll_comm_addr'] % 100)),
+                            tools.b2bcd(Math.floor(data[i]['coll_comm_addr'] % 10000 / 100)),
+                            tools.b2bcd(Math.floor(data[i]['coll_comm_addr'] % 1000000 / 10000)),
+                            tools.b2bcd(Math.floor(data[i]['coll_comm_addr'] % 100000000 / 1000000)),
+                            tools.b2bcd(Math.floor(data[i]['coll_comm_addr'] % 10000000000 / 100000000)),
+                            tools.b2bcd(Math.floor(data[i]['coll_comm_addr'] % 1000000000000 / 10000000000)),
+                            0x10
+                        );
+                    } else {
+                        arr.push(
+                            data[i]['mp_index'] % 256, data[i]['mp_index'] >> 8,
+                            data[i]['mp_index'] % 256, data[i]['mp_index'] >> 8,
+                            parseInt(data[i]['meter_comm_rate'] << 5) + parseInt(data[i]['meter_comm_port']),
+                            data[i]['meter_protocol_type']
+                        );
+                        if (data[i]['meter_comm_addr'].toString().toUpperCase() == 'AAAAAAAAAAAA') {
+                            arr.push(0xaa, 0xaa, 0xaa, 0xaa, 0xaa, 0xaa);
+                        } else {
+                            arr.push(
+                                tools.b2bcd(Math.floor(data[i]['meter_comm_addr'] % 100)),
+                                tools.b2bcd(Math.floor(data[i]['meter_comm_addr'] % 10000 / 100)),
+                                tools.b2bcd(Math.floor(data[i]['meter_comm_addr'] % 1000000 / 10000)),
+                                tools.b2bcd(Math.floor(data[i]['meter_comm_addr'] % 100000000 / 1000000)),
+                                tools.b2bcd(Math.floor(data[i]['meter_comm_addr'] % 10000000000 / 100000000)),
+                                tools.b2bcd(Math.floor(data[i]['meter_comm_addr'] % 1000000000000 / 10000000000))
+                            );
+                        }
+                        arr.push(Math.floor(data[i]['meter_comm_pwd'] % 100),
+                            Math.floor(data[i]['meter_comm_pwd'] % 10000 / 100),
+                            Math.floor(data[i]['meter_comm_pwd'] % 1000000 / 10000),
+                            Math.floor(data[i]['meter_comm_pwd'] % 100000000 / 1000000),
+                            Math.floor(data[i]['meter_comm_pwd'] % 10000000000 / 100000000),
+                            Math.floor(data[i]['meter_comm_pwd'] % 1000000000000 / 10000000000),
+                            data[i]['meter_tariff_num'],
+                            (data[i]['meter_integer_num'] << 2) + data[i]['meter_decimal_num'],
+                            tools.b2bcd(Math.floor(data[i]['coll_comm_addr'] % 100)),
+                            tools.b2bcd(Math.floor(data[i]['coll_comm_addr'] % 10000 / 100)),
+                            tools.b2bcd(Math.floor(data[i]['coll_comm_addr'] % 1000000 / 10000)),
+                            tools.b2bcd(Math.floor(data[i]['coll_comm_addr'] % 100000000 / 1000000)),
+                            tools.b2bcd(Math.floor(data[i]['coll_comm_addr'] % 10000000000 / 100000000)),
+                            tools.b2bcd(Math.floor(data[i]['coll_comm_addr'] % 1000000000000 / 10000000000)),
+                            parseInt(data[i]['cons_big_type'] << 4) + parseInt(data[i]['cons_small_type'])
                         );
                     }
-                    arr.push(Math.floor(data[i]['meter_comm_pwd'] % 100),
-                        Math.floor(data[i]['meter_comm_pwd'] % 10000 / 100),
-                        Math.floor(data[i]['meter_comm_pwd'] % 1000000 / 10000),
-                        Math.floor(data[i]['meter_comm_pwd'] % 100000000 / 1000000),
-                        Math.floor(data[i]['meter_comm_pwd'] % 10000000000 / 100000000),
-                        Math.floor(data[i]['meter_comm_pwd'] % 1000000000000 / 10000000000),
-                        data[i]['meter_tariff_num'],
-                        (data[i]['meter_integer_num'] << 2) + data[i]['meter_decimal_num'],
-                        tools.b2bcd(Math.floor(data[i]['coll_comm_addr'] % 100)),
-                        tools.b2bcd(Math.floor(data[i]['coll_comm_addr'] % 10000 / 100)),
-                        tools.b2bcd(Math.floor(data[i]['coll_comm_addr'] % 1000000 / 10000)),
-                        tools.b2bcd(Math.floor(data[i]['coll_comm_addr'] % 100000000 / 1000000)),
-                        tools.b2bcd(Math.floor(data[i]['coll_comm_addr'] % 10000000000 / 100000000)),
-                        tools.b2bcd(Math.floor(data[i]['coll_comm_addr'] % 1000000000000 / 10000000000)),
-                        parseInt(data[i]['cons_big_type'] << 4) + parseInt(data[i]['cons_small_type'])
-                    );
+
                 }
                 return arr;
             },
@@ -1633,7 +1668,8 @@ var json_hex = {
                     bitTimeout = parseInt(data.bitTimeout) || 10, //透明转发接收等待字节超时时间
                     bytes = parseInt(data.bytes), //透明转发内容字节数
                     dataItem = data.dataItem != undefined ? parseInt(data.dataItem) : waterDataItem, //数据项
-                    meter_comm_addr = data.meter_comm_addr || 1; //电表地址
+                    meter_comm_addr = data.meter_comm_addr || 1, //电表地址
+                    manu_code = data.manu_code || 0;
                 var shellArr = [port, (bits + (parity << 2) + (check << 3) + (stopbit << 4) +
                     (baud << 5)), bufferTimeout + (unit << 7), bitTimeout, bytes % 256, (bytes >> 8)],
                     meterArr = [0x68, 0x10];
@@ -1642,7 +1678,8 @@ var json_hex = {
                     tools.b2bcd(Math.floor(meter_comm_addr % 1000000 / 10000)),
                     tools.b2bcd(Math.floor(meter_comm_addr % 100000000 / 1000000)),
                     tools.b2bcd(Math.floor(meter_comm_addr % 10000000000 / 100000000)),
-                    tools.b2bcd(Math.floor(meter_comm_addr % 1000000000000 / 10000000000)), pic ? 0x00 : 0x68);
+                    tools.b2bcd(Math.floor(manu_code % 100)),
+                    tools.b2bcd(Math.floor(manu_code % 10000 / 100)));
                 meterArr = meterArr.concat(dataItem);
                 return shellArr.concat([0xFE, 0xFE, 0xFE, 0xFE], meterArr, tools.set_cs(meterArr), 0x16);
             }
@@ -2037,22 +2074,41 @@ var json_hex = {
                     arr = [];
                 for (var i = 0, j; i < json.len; i++) {
                     var dataArr = data.splice(0, 27);
-                    arr.push({
-                        index: (dataArr[1] << 8) + dataArr[0],
-                        pIndex: (dataArr[3] << 8) + dataArr[2],
-                        speed: dataArr[4] >> 5,
-                        port: dataArr[4] & 0x1f,
-                        pType: dataArr[5],
-                        signalAddress: tools.getDFA12(dataArr[6], dataArr[7], dataArr[8], dataArr[9], dataArr[10], dataArr[11]),
-                        signalCode: dataArr[17] * Math.pow(10, 10) + dataArr[16] * Math.pow(10, 8) + dataArr[15] * Math.pow(10, 6) +
-                        dataArr[14] * Math.pow(10, 4) + dataArr[13] * Math.pow(10, 2) + dataArr[12],
-                        rate: dataArr[18] & 0x3f,
-                        Integer: (dataArr[19] & 0xf) >> 2,
-                        decimal: dataArr[19] & 0x3,
-                        collector: tools.getDFA12(dataArr[20], dataArr[21], dataArr[22], dataArr[23], dataArr[24], dataArr[25]),
-                        bigClass: dataArr[26] >> 4,
-                        smallClass: dataArr[26] & 0xf
-                    });
+                    if ((dataArr[26]) === 16) {
+                        arr.push({
+                            index: (dataArr[1] << 8) + dataArr[0],
+                            pIndex: (dataArr[3] << 8) + dataArr[2],
+                            speed: dataArr[4] >> 5,
+                            port: dataArr[4] & 0x1f,
+                            pType: dataArr[5],
+                            signalAddress: tools.getWDFA12(dataArr[6], dataArr[7], dataArr[8], dataArr[9], dataArr[10]),
+                            signalCode: dataArr[17] * Math.pow(10, 10) + dataArr[16] * Math.pow(10, 8) + dataArr[15] * Math.pow(10, 6) +
+                            dataArr[14] * Math.pow(10, 4) + dataArr[13] * Math.pow(10, 2) + dataArr[12],
+                            rate: dataArr[18] & 0x3f,
+                            Integer: (dataArr[19] & 0xf) >> 2,
+                            decimal: dataArr[19] & 0x3,
+                            collector: tools.getDFA12(dataArr[20], dataArr[21], dataArr[22], dataArr[23], dataArr[24], dataArr[25]),
+                            manuCode: tools.getDFA33(dataArr[19], dataArr[11]),
+                            meterType: dataArr[26]
+                        });
+                    } else {
+                        arr.push({
+                            index: (dataArr[1] << 8) + dataArr[0],
+                            pIndex: (dataArr[3] << 8) + dataArr[2],
+                            speed: dataArr[4] >> 5,
+                            port: dataArr[4] & 0x1f,
+                            pType: dataArr[5],
+                            signalAddress: tools.getDFA12(dataArr[6], dataArr[7], dataArr[8], dataArr[9], dataArr[10], dataArr[11]),
+                            signalCode: dataArr[17] * Math.pow(10, 10) + dataArr[16] * Math.pow(10, 8) + dataArr[15] * Math.pow(10, 6) +
+                            dataArr[14] * Math.pow(10, 4) + dataArr[13] * Math.pow(10, 2) + dataArr[12],
+                            rate: dataArr[18] & 0x3f,
+                            Integer: (dataArr[19] & 0xf) >> 2,
+                            decimal: dataArr[19] & 0x3,
+                            collector: tools.getDFA12(dataArr[20], dataArr[21], dataArr[22], dataArr[23], dataArr[24], dataArr[25]),
+                            bigClass: dataArr[26] >> 4,
+                            smallClass: dataArr[26] & 0xf
+                        });
+                    }
                 }
                 json.arr = arr;
                 return json;
@@ -4274,6 +4330,10 @@ var json_hex = {
                 data.splice(0, 2);
                 json.sumWorkTime = tools.getDFA10(sumWorkTimeArr[0], sumWorkTimeArr[1], sumWorkTimeArr[2]);
                 json.realTime = tools.getDFA32(realTimeArr[0], realTimeArr[1], realTimeArr[2], realTimeArr[3], realTimeArr[4], realTimeArr[5], realTimeArr[6]);
+                if(json.meterType===0x19){
+                   var imgData= data.splice(0, 256);
+                    json.img=_water(imgData);
+                }
                 return json;
             },
 
@@ -4373,6 +4433,7 @@ var json_hex = {
                 trans_buff = data.splice(0, json.trans_length);
                 json.trans_buff = tools.hex_str(trans_buff);
                 json.trans_json = _645.handler(trans_buff);
+                console.log(json.trans_json)
                 return json;
             }
         }

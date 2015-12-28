@@ -436,7 +436,20 @@ exports.tools = {
         this.bcd2b(p1 >> 4) * 10 +
         this.bcd2b(p1 % 16));
     },
-
+    getWDFA12: function (p1, p2, p3, p4, p5) {
+        if (p1 == 0xee || p1 == 0xff || p2 == 0xee || p3 == 0xee || p4 == 0xee || p5 == 0xee) return null;
+        return (
+        this.bcd2b(p5 >> 4) * 1000000000 +
+        this.bcd2b(p5 % 16) * 100000000 +
+        this.bcd2b(p4 >> 4) * 10000000 +
+        this.bcd2b(p4 % 16) * 1000000 +
+        this.bcd2b(p3 >> 4) * 100000 +
+        this.bcd2b(p3 % 16) * 10000 +
+        this.bcd2b(p2 >> 4) * 1000 +
+        this.bcd2b(p2 % 16) * 100 +
+        this.bcd2b(p1 >> 4) * 10 +
+        this.bcd2b(p1 % 16));
+    },
     getDFA13: function (p1, p2, p3, p4) {
         if (p1 == 0xee || p1 == 0xff || p2 == 0xee || p3 == 0xee || p4 == 0xee) return null;
         var r = this.bcd2b(p4 >> 4) * 1000 +
@@ -467,7 +480,7 @@ exports.tools = {
 
     getDFA15: function (parameter1, parameter2, parameter3, parameter4, parameter5) {
         if (parameter1 == 0xee || parameter1 == 0xff || parameter2 == 0xee || parameter3 == 0xee || parameter4 == 0xee || parameter5 == 0xee) return null;
-        return '20' + this.bcd2b(parameter5) + '/' + this.bcd2b(parameter4) + '/' +
+        return '20' + this.bcd2b(parameter5) + '-' + this.bcd2b(parameter4) + '-' +
             this.bcd2b(parameter3) + ' ' + this.bcd2b(parameter2) + ':' +
             this.bcd2b(parameter1);
     },
@@ -494,7 +507,7 @@ exports.tools = {
 
     getDFA20: function (parameter1, parameter2, parameter3) {
         if (parameter1 == 0xee || parameter2 == 0xff || parameter2 == 0xee || parameter3 == 0xee) return null;
-        return (2000 + this.bcd2b(parameter3)) + '/' + this.bcd2b(parameter2) + '/' + this.bcd2b(parameter1)
+        return (2000 + this.bcd2b(parameter3)) + '-' + this.bcd2b(parameter2) + '-' + this.bcd2b(parameter1)
     },
     getDFA21: function (parameter1, parameter2) {
         if (parameter1 == 0xee || parameter2 == 0xff || parameter2 == 0xee) return null;
@@ -520,7 +533,7 @@ exports.tools = {
         return (this.bcd2b(parameter1) * 0.001 + this.bcd2b(parameter2) * 0.1).toFixed(3)
     },
 
-    getDFA29: function (parameter1, parameter2) {
+    getDFA29: function (parameter1, parameter2, parameter3, parameter4) {
         if (parameter1 == 0xee || parameter1 == 0xff || parameter2 == 0xee) return null;
         return (this.bcd2b(parameter1) * 0.01 + this.bcd2b(parameter2) + this.bcd2b(parameter3) * 100 + this.bcd2b(parameter4) * 10000).toFixed(3)
     },
@@ -534,6 +547,13 @@ exports.tools = {
             second = this.bcd2b(parameter1);
         return year + '-' + month + '-' + day + ' ' + hour + ':' + minute + ':' + second;
 
+    },
+    getDFA33: function (p1, p2) {
+        return (
+        this.bcd2b(p2 >> 4) * 1000 +
+        this.bcd2b(p2 % 16) * 100 +
+        this.bcd2b(p1 >> 4) * 10 +
+        this.bcd2b(p1 % 16));
     },
 
     //********************************set**********************************
