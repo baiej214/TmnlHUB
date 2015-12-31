@@ -164,10 +164,10 @@ var json_hex = {
             Fn10: function (data) {
                 var arr = [data.length % 256, data.length >> 8];
                 for (var i = 0; i < data.length; i++) {
-                    if (data[i]['manu_code']) {
+                    if (data[i]['manu_code'] != undefined) {
                         arr.push(
                             data[i]['mp_index'] % 256, data[i]['mp_index'] >> 8,
-                            data[i]['mp_index'] % 256, data[i]['mp_index'] >> 8,
+                            data[i]['mp'] % 256, data[i]['mp'] >> 8,
                             parseInt(data[i]['meter_comm_rate'] << 5) + parseInt(data[i]['meter_comm_port']),
                             data[i]['meter_protocol_type'] || 32
                         );
