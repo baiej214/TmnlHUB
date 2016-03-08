@@ -1,19 +1,7 @@
-process.title = 'TmnlHUB';
-var moment = require('moment'),
-    tmnl_server = require('./tmnl/tmnl_server'),
-    web_server = require('./web/web_server'),
-    broadcast = require('./web/broadcast'),
-    admin_server = require('./admin/admin_server'),
-    cError = require('./error').Error,
-    conn = require('./conn').pool;
+'use strict';
 
-tmnl_server.start();
-web_server.start();
-broadcast.start();
-admin_server.start();
+const Server = require('./src/TCPServer');
+const TCPClient = require('./src/TCPClient');
 
-conn.query('insert into sys_start_time set time = ?', moment().format('YYYY-MM-DD HH:mm:ss'));
-
-process.on('uncaughtException', function (err) {
-    console.log('Caught exception: ' + err);
-});
+let server = new Server();
+server.listen(1234);
