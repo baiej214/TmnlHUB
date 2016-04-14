@@ -13,7 +13,7 @@ function serverOnClose(had_error) {
 }
 
 function serverOnConnection(socket) {
-    new TCPClient(socket);
+    Server.listAppend(TCPClient(socket));
 }
 
 function serverOnError(error) {
@@ -51,6 +51,11 @@ class Server extends net.Server {
         return _.map(socketList, (item, index)=> {
             return index;
         });
+    }
+
+    //临时测试用
+    static list() {
+        return socketList;
     }
 
     //socketList新增socket

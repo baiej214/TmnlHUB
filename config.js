@@ -1,12 +1,13 @@
 'use strict';
 
 const config = {
-    port: 1234,
+    tmnlPort: 1234,
+    webPort: 3000,
 
-    pacts: [
-        './pact/2013-376.1',
-        './pact/test'
-    ]
+    //pacts: [
+    //    './pact/2013-376.1',
+    //    './pact/test'
+    //]
 };
 
 module.exports = config;

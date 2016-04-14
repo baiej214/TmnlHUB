@@ -6,7 +6,6 @@ const Server = require('./TCPServer');
 const BuffPool = require('./BuffPool');
 const stream = require('stream');
 
-
 /*
 TODO
 用Server的静态方法操作socketList
@@ -17,7 +16,6 @@ function onClose(had_error) {
 }
 
 function onConnect() {
-    Server.listAppend(this);
 }
 
 /**
@@ -25,7 +23,6 @@ function onConnect() {
  * @param data
  */
 function onData(data) {
-    this.write('fuck');
 }
 
 function onDrain() {
@@ -47,25 +44,22 @@ function onTimeout() {
     this.destroy();
 }
 
-class Client {
-    constructor(socket) {
-        socket.wrap = this;
-        this.socket = socket;
-
-        this.socket.setTimeout(0);
-        this.socket.on('close', onClose)
-            .on('connect', onConnect)
-            .on('data', onData)
-            .on('drain', onDrain)
-            .on('end', onEnd)
-            .on('error', onError)
-            .on('lookup', onLookup)
-            .on('timeout', onTimeout);
-
-        this.socket
-            .pipe(new BuffPool())
-            .pipe(this.socket);
-    }
+function ClientExtend(socket) {
+    socket.A1 = undefined;//行政区划码
+    socket.A2 = undefined;//通讯地址
+    socket.setTimeout(0);//通讯超时时间
+    socket
+        .on('close', onClose)
+        .on('connect', onConnect)
+        .on('data', onData)
+        .on('drain', onDrain)
+        .on('end', onEnd)
+        .on('error', onError)
+        .on('lookup', onLookup)
+        .on('timeout', onTimeout)
+        .pipe(new BuffPool(socket))
+        .pipe(socket);
+    return socket;
 }
 
-module.exports = Client;
+module.exports = ClientExtend;

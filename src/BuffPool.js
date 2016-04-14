@@ -2,7 +2,7 @@
 
 const path = require('path');
 const stream = require('stream');
-const pacts = require('../config').pacts;
+const Pact = require('../pact/2013-376.1');
 
 /**
  * 验证报文合法性
@@ -11,32 +11,32 @@ const pacts = require('../config').pacts;
  * @returns {boolean}
  */
 function verifyFrame(frame) {
-    for (let pactPath of pacts) {
-        try {
-            let pact = require(path.resolve(pactPath));
-            if (pact.verifyFrame(frame) == true) {
-                return true;
-            }
-        } catch (error) {
-            throw error;
-        }
-    }
-    return false;
+    return Pact.verifyFrame(frame);
 }
 
 class BuffPool extends stream.Transform {
-    constructor() {
+    constructor(Client) {
         super();
+        this._client = Client;
         this.buff = new Buffer(0);
     }
 
     _transform(chunk, encoding, next) {
-        this.buff = Buffer.concat([this.buff, chunk]);
-        if (verifyFrame(this.buff)) {
-            this.push(this.buff);
+        if (verifyFrame(chunk)) {
+            if (!this._client.A1 && !this._client.A2) {
+                this._client.A1 = Pact.getA1(chunk);
+                this._client.A2 = Pact.getA2(chunk);
+            }
+            this.push(chunk);
             this.buff = new Buffer(0);
         } else {
-            console.log('false');
+            this.buff = Buffer.concat([this.buff, chunk]);
+            if (verifyFrame(this.buff)) {
+                this.push(this.buff);
+                this.buff = new Buffer(0);
+            } else {
+                console.log('false');
+            }
         }
         next();
     }
