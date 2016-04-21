@@ -6,8 +6,6 @@ const router = require('koa-router')();
 const koaBody = require('koa-body')();
 const app = koa();
 
-const Server = require('./TCPServer');
-
 app.on('error', function(err){
     console.error('server error', err);
 });
@@ -33,6 +31,5 @@ router.post('/set', koaBody, function *(next) {
     //});
     this.body = {"error":true,"A1":123,"A2":123,"message":"无法找到对应的设备"};
 });
-
 
 module.exports = app;

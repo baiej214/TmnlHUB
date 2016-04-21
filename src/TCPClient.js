@@ -2,6 +2,7 @@
 
 const net = require('net');
 const fs = require('fs');
+const debug = require('debug')('Socket:');
 const Server = require('./TCPServer');
 const BuffPool = require('./BuffPool');
 const stream = require('stream');
@@ -23,6 +24,7 @@ function onConnect() {
  * @param data
  */
 function onData(data) {
+    debug(data);
 }
 
 function onDrain() {

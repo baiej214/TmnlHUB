@@ -9,10 +9,10 @@ var postData = querystring.stringify({
 });
 
 var options = {
-    hostname: '192.168.1.178',
+    hostname: '192.168.1.121',
     port: 3000,
-    path: '/set',
-    method: 'POST',
+    path: '/get',
+    method: 'GET',
     headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
         'Content-Length': postData.length
@@ -27,9 +27,9 @@ function req(i) {
         res.on('data', function (chunk) {
             console.log(`${i}BODY: ${chunk}`);
         });
-        res.on('end', function () {
+        /*res.on('end', function () {
             //console.log('No more data in response.')
-        });
+        });*/
     });
 
     req.on('error', function (e) {
@@ -41,6 +41,6 @@ function req(i) {
     req.end();
 }
 
-for (var i = 1; i <= 3; i++) {
+for (var i = 1; i <= 10000; i++) {
     req(i);
 }

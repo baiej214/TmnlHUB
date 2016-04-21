@@ -1,6 +1,7 @@
 'use strict';
 
 const net = require('net');
+const debug = require('debug')('Socket:');
 const _ = require('underscore');
 const config = require('../config');
 
