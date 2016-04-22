@@ -14,17 +14,19 @@ TODO
 
 function onClose(had_error) {
     Server.listRemove(this);
+    if (!had_error) debug(`[ ${getAddr(this)} ]已断连接（0）`);
 }
 
 function onConnect() {
+    debug('fuck');
 }
 
 /**
  * 当收到报文后，将报文
  * @param data
+ * // 登录 68 49 00 49 00 68 c9 01 35 01 00 00 02 f5 00 00 01 00 05 56 32 15 22 00 bc 16
  */
 function onData(data) {
-    debug(data);
 }
 
 function onDrain() {
@@ -35,7 +37,14 @@ function onEnd() {
 }
 
 function onError(error) {
-    console.error(error);
+    switch (error.code) {
+        case 'ECONNRESET':
+            debug(`[ ${getAddr(this)} ]已断连接（ECONNRESET）`);
+            this.close();
+            break;
+        default:
+            debug(error.stack);
+    }
 }
 
 function onLookup() {
@@ -46,10 +55,18 @@ function onTimeout() {
     this.destroy();
 }
 
+function getAddr(socket) {
+    let addr = '未知';
+    if (socket.A1 && socket.A2) addr = socket.A1 + '#' + socket.A2;
+    return addr;
+}
+
 function ClientExtend(socket) {
     socket.A1 = undefined;//行政区划码
     socket.A2 = undefined;//通讯地址
     socket.setTimeout(0);//通讯超时时间
+    socket.buffPool = new BuffPool(socket);
+    socket.close = socket.destroy;
     socket
         .on('close', onClose)
         .on('connect', onConnect)
@@ -59,7 +76,7 @@ function ClientExtend(socket) {
         .on('error', onError)
         .on('lookup', onLookup)
         .on('timeout', onTimeout)
-        .pipe(new BuffPool(socket))
+        .pipe(socket.buffPool)
         .pipe(socket);
     return socket;
 }

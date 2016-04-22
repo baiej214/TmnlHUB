@@ -2,6 +2,8 @@
 
 const net = require('net');
 const debug = require('debug')('TCPServer:');
+const log4js = require('log4js');
+const logger = log4js.getLogger();
 const _ = require('underscore');
 const TCPClient = require('./TCPClient');
 const config = require('../config');
@@ -22,7 +24,7 @@ function serverOnConnection(socket) {
 
 //监听Server报错
 function serverOnError(error) {
-    throw error;
+    debug(error)
 }
 
 //监听Server启动
