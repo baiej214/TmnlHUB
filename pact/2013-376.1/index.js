@@ -10,7 +10,9 @@ class Pact {
             buff[5] == 0x68 &&
             buff[1] == buff[3] &&
             buff[2] == buff[4] &&
-            buff[buff.length - 1] == 0x16) {
+            buff[buff.length - 1] == 0x16 &&
+            Pact.verifyLength(buff) &&
+            Pact.verifyCS(buff)) {
             return true;
         } else {
             return true;
