@@ -53,23 +53,9 @@ var json_hex = {
                 };
 
 
-                var apn = [].concat(tobin(list[0], list[1])).
-                    concat(tobin(list[2], list[3])).
-                    concat(tobin(list[4], list[5])).
-                    concat(tobin(list[6], list[7])).
-                    concat(tobin(list[8], list[9])).
-                    concat(tobin(list[10], list[11])).
-                    concat(tobin(list[12], list[13])).
-                    concat(tobin(list[14], list[15]));
+                var apn = [].concat(tobin(list[0], list[1])).concat(tobin(list[2], list[3])).concat(tobin(list[4], list[5])).concat(tobin(list[6], list[7])).concat(tobin(list[8], list[9])).concat(tobin(list[10], list[11])).concat(tobin(list[12], list[13])).concat(tobin(list[14], list[15]));
 
-                var asms = [].concat(tobin(nlist[0], nlist[1])).
-                    concat(tobin(nlist[2], nlist[3])).
-                    concat(tobin(nlist[4], nlist[5])).
-                    concat(tobin(nlist[6], nlist[7])).
-                    concat(tobin(nlist[8], nlist[9])).
-                    concat(tobin(nlist[10], nlist[11])).
-                    concat(tobin(nlist[12], nlist[13])).
-                    concat(tobin(nlist[14], nlist[15]));
+                var asms = [].concat(tobin(nlist[0], nlist[1])).concat(tobin(nlist[2], nlist[3])).concat(tobin(nlist[4], nlist[5])).concat(tobin(nlist[6], nlist[7])).concat(tobin(nlist[8], nlist[9])).concat(tobin(nlist[10], nlist[11])).concat(tobin(nlist[12], nlist[13])).concat(tobin(nlist[14], nlist[15]));
                 return apn.concat(asms);
             },
 
@@ -508,7 +494,7 @@ var json_hex = {
             },
 
             Fn45: function (data) {
-                //
+                // 
                 var conSign = '';
                 for (var i = 7; i >= 0; i--) {
                     conSign += data.con[i];
@@ -589,7 +575,7 @@ var json_hex = {
                 return [data.rs];
             },
 
-            //定时上报2类数据任务启动/停止设置
+            // 定时上报2类数据任务启动/停止设置
             Fn68: function (data) {
                 return [data.sign || 0x55];
             }
@@ -1145,429 +1131,439 @@ var json_hex = {
             },
             Fn188: function () {
                 return [];
+            },
+            // 水表底数
+            Fn189: function () {
+                return [];
             }
         },
         AFN13: {
-            //日冻结正向有功电能量
+            // 日冻结正向有功电能量
             Fn5: function (data) {
                 var tdArr = data.td_d.split('-');
                 return [tools.b2bcd(tdArr[2]), tools.b2bcd(tdArr[1]), tools.b2bcd(tdArr[0])]
             },
 
-            //日冻结正向无功电能量
+            // 日冻结正向无功电能量
             Fn6: function (data) {
                 var tdArr = data.td_d.split('-');
                 return [tools.b2bcd(tdArr[2]), tools.b2bcd(tdArr[1]), tools.b2bcd(tdArr[0])]
-            }, //日冻结反向有功电能量
+            }, // 日冻结反向有功电能量
 
             Fn7: function (data) {
                 var tdArr = data.td_d.split('-');
                 return [tools.b2bcd(tdArr[2]), tools.b2bcd(tdArr[1]), tools.b2bcd(tdArr[0])]
-            }, //日冻结反向无功电能量
+            }, // 日冻结反向无功电能量
 
             Fn8: function (data) {
                 var tdArr = data.td_d.split('-');
                 return [tools.b2bcd(tdArr[2]), tools.b2bcd(tdArr[1]), tools.b2bcd(tdArr[0])]
             },
 
-            //月冻结正向有功电能量（总、费率1～M）
+            // 月冻结正向有功电能量（总、费率1～M）
             Fn21: function (data) {
                 var tdArr = data.td_m.split('-');
                 return [tools.b2bcd(tdArr[1]), tools.b2bcd(tdArr[0])]
             },
 
-            //月冻结正向无功电能量（总、费率1～M）
+            // 月冻结正向无功电能量（总、费率1～M）
             Fn22: function (data) {
                 var tdArr = data.td_m.split('-');
                 return [tools.b2bcd(tdArr[1]), tools.b2bcd(tdArr[0])]
             },
 
-            //月冻结反向有功电能量（总、费率1～M）
+            // 月冻结反向有功电能量（总、费率1～M）
             Fn23: function (data) {
                 var tdArr = data.td_m.split('-');
                 return [tools.b2bcd(tdArr[1]), tools.b2bcd(tdArr[0])]
             },
 
-            //月冻结反向无功电能量（总、费率1～M）
+            // 月冻结反向无功电能量（总、费率1～M）
             Fn24: function (data) {
                 var tdArr = data.td_m.split('-');
                 return [tools.b2bcd(tdArr[1]), tools.b2bcd(tdArr[0])]
             },
 
-            //日冻结总加组日最大、最小有功功率及其发生时间，有功功率为零日累计时间
+            // 日冻结总加组日最大、最小有功功率及其发生时间，有功功率为零日累计时间
             Fn57: function (data) {
                 var tdArr = data.td_d.split('-');
                 return [tools.b2bcd(tdArr[2]), tools.b2bcd(tdArr[1]), tools.b2bcd(tdArr[0])]
             },
 
-            //日冻结总加组日累计有功电能量（总、费率1～M）
+            // 日冻结总加组日累计有功电能量（总、费率1～M）
             Fn58: function (data) {
                 var tdArr = data.td_d.split('-');
                 return [tools.b2bcd(tdArr[2]), tools.b2bcd(tdArr[1]), tools.b2bcd(tdArr[0])]
             },
 
-            //日冻结总加组日累计无功电能量（总、费率1～M）
+            // 日冻结总加组日累计无功电能量（总、费率1～M）
             Fn59: function (data) {
                 var tdArr = data.td_d.split('-');
                 return [tools.b2bcd(tdArr[2]), tools.b2bcd(tdArr[1]), tools.b2bcd(tdArr[0])]
             },
 
-            //日冻结总加组日最大、最小有功功率及其发生时间，有功功率为零日累计时间
+            // 日冻结总加组日最大、最小有功功率及其发生时间，有功功率为零日累计时间
             Fn60: function (data) {
                 var tdArr = data.td_m.split('-');
                 return [tools.b2bcd(tdArr[1]), tools.b2bcd(tdArr[0])]
             },
 
-            //日冻结总加组日累计有功电能量（总、费率1～M）
+            // 日冻结总加组日累计有功电能量（总、费率1～M）
             Fn61: function (data) {
                 var tdArr = data.td_m.split('-');
                 return [tools.b2bcd(tdArr[1]), tools.b2bcd(tdArr[0])]
             },
 
-            //日冻结总加组日累计无功电能量（总、费率1～M）
+            // 日冻结总加组日累计无功电能量（总、费率1～M）
             Fn62: function (data) {
                 var tdArr = data.td_m.split('-');
                 return [tools.b2bcd(tdArr[1]), tools.b2bcd(tdArr[0])]
             },
 
-            //月冻结总加组超功率定值的月累计时间及月累计电能量月冻结总加组超功率定值的月累计时间及月累计电能量
+            // 月冻结总加组超功率定值的月累计时间及月累计电能量月冻结总加组超功率定值的月累计时间及月累计电能量
             Fn65: function (data) {
                 var tdArr = data.td_m.split('-');
                 return [tools.b2bcd(tdArr[1]), tools.b2bcd(tdArr[0])]
             },
 
-            //月冻结总加组超月电能量定值的月累计时间及月累计电能量
+            // 月冻结总加组超月电能量定值的月累计时间及月累计电能量
             Fn66: function (data) {
                 var tdArr = data.td_m.split('-');
                 return [tools.b2bcd(tdArr[1]), tools.b2bcd(tdArr[0])]
             },
 
-            //总加组有功功率曲线
+            // 总加组有功功率曲线
             Fn73: function (data) {
                 var tdArr = data.td_c.split('-');
                 return [tools.b2bcd(tdArr[4]), tools.b2bcd(tdArr[3]), tools.b2bcd(tdArr[2]),
                     tools.b2bcd(tdArr[1]), tools.b2bcd(tdArr[0]), data.m, data.n]
             },
 
-            //总加组无功功率曲线
+            // 总加组无功功率曲线
             Fn74: function (data) {
                 var tdArr = data.td_c.split('-');
                 return [tools.b2bcd(tdArr[4]), tools.b2bcd(tdArr[3]), tools.b2bcd(tdArr[2]),
                     tools.b2bcd(tdArr[1]), tools.b2bcd(tdArr[0]), data.m, data.n]
             },
 
-            //总加组有功电能量曲线
+            // 总加组有功电能量曲线
             Fn75: function (data) {
                 var tdArr = data.td_c.split('-');
                 return [tools.b2bcd(tdArr[4]), tools.b2bcd(tdArr[3]), tools.b2bcd(tdArr[2]),
                     tools.b2bcd(tdArr[1]), tools.b2bcd(tdArr[0]), data.m, data.n]
             },
 
-            //总加组无功电能量曲线
+            // 总加组无功电能量曲线
             Fn76: function (data) {
                 var tdArr = data.td_c.split('-');
                 return [tools.b2bcd(tdArr[4]), tools.b2bcd(tdArr[3]), tools.b2bcd(tdArr[2]),
                     tools.b2bcd(tdArr[1]), tools.b2bcd(tdArr[0]), data.m, data.n]
             },
 
-            //测量点有功功率曲线
+            // 测量点有功功率曲线
             Fn81: function (data) {
                 var tdArr = data.td_c.split('-');
                 return [tools.b2bcd(tdArr[4]), tools.b2bcd(tdArr[3]), tools.b2bcd(tdArr[2]),
                     tools.b2bcd(tdArr[1]), tools.b2bcd(tdArr[0]), data.m, data.n]
             },
 
-            //测量点A相有功功率曲线
+            // 测量点A相有功功率曲线
             Fn82: function (data) {
                 var tdArr = data.td_c.split('-');
                 return [tools.b2bcd(tdArr[4]), tools.b2bcd(tdArr[3]), tools.b2bcd(tdArr[2]),
                     tools.b2bcd(tdArr[1]), tools.b2bcd(tdArr[0]), data.m, data.n]
             },
 
-            //测量点B相有功功率曲线
+            // 测量点B相有功功率曲线
             Fn83: function (data) {
                 var tdArr = data.td_c.split('-');
                 return [tools.b2bcd(tdArr[4]), tools.b2bcd(tdArr[3]), tools.b2bcd(tdArr[2]),
                     tools.b2bcd(tdArr[1]), tools.b2bcd(tdArr[0]), data.m, data.n]
             },
 
-            //测量点C相有功功率曲线
+            // 测量点C相有功功率曲线
             Fn84: function (data) {
                 var tdArr = data.td_c.split('-');
                 return [tools.b2bcd(tdArr[4]), tools.b2bcd(tdArr[3]), tools.b2bcd(tdArr[2]),
                     tools.b2bcd(tdArr[1]), tools.b2bcd(tdArr[0]), data.m, data.n]
             },
 
-            //测量点无功功率曲线
+            // 测量点无功功率曲线
             Fn85: function (data) {
                 var tdArr = data.td_c.split('-');
                 return [tools.b2bcd(tdArr[4]), tools.b2bcd(tdArr[3]), tools.b2bcd(tdArr[2]),
                     tools.b2bcd(tdArr[1]), tools.b2bcd(tdArr[0]), data.m, data.n]
             },
 
-            //测量点A相无功功率曲线
+            // 测量点A相无功功率曲线
             Fn86: function (data) {
                 var tdArr = data.td_c.split('-');
                 return [tools.b2bcd(tdArr[4]), tools.b2bcd(tdArr[3]), tools.b2bcd(tdArr[2]),
                     tools.b2bcd(tdArr[1]), tools.b2bcd(tdArr[0]), data.m, data.n]
             },
 
-            //测量点B相无功功率曲线
+            // 测量点B相无功功率曲线
             Fn87: function (data) {
                 var tdArr = data.td_c.split('-');
                 return [tools.b2bcd(tdArr[4]), tools.b2bcd(tdArr[3]), tools.b2bcd(tdArr[2]),
                     tools.b2bcd(tdArr[1]), tools.b2bcd(tdArr[0]), data.m, data.n]
             },
 
-            //测量点C相无功功率曲线
+            // 测量点C相无功功率曲线
             Fn88: function (data) {
                 var tdArr = data.td_c.split('-');
                 return [tools.b2bcd(tdArr[4]), tools.b2bcd(tdArr[3]), tools.b2bcd(tdArr[2]),
                     tools.b2bcd(tdArr[1]), tools.b2bcd(tdArr[0]), data.m, data.n]
             },
 
-            //测量点A相电压曲线
+            // 测量点A相电压曲线
             Fn89: function (data) {
                 var tdArr = data.td_c.split('-');
                 return [tools.b2bcd(tdArr[4]), tools.b2bcd(tdArr[3]), tools.b2bcd(tdArr[2]),
                     tools.b2bcd(tdArr[1]), tools.b2bcd(tdArr[0]), data.m, data.n]
             },
 
-            //测量点B相电压曲线
+            // 测量点B相电压曲线
             Fn90: function (data) {
                 var tdArr = data.td_c.split('-');
                 return [tools.b2bcd(tdArr[4]), tools.b2bcd(tdArr[3]), tools.b2bcd(tdArr[2]),
                     tools.b2bcd(tdArr[1]), tools.b2bcd(tdArr[0]), data.m, data.n]
             },
 
-            //测量点C相电压曲线
+            // 测量点C相电压曲线
             Fn91: function (data) {
                 var tdArr = data.td_c.split('-');
                 return [tools.b2bcd(tdArr[4]), tools.b2bcd(tdArr[3]), tools.b2bcd(tdArr[2]),
                     tools.b2bcd(tdArr[1]), tools.b2bcd(tdArr[0]), data.m, data.n]
             },
 
-            //测量点A相电流曲线
+            // 测量点A相电流曲线
             Fn92: function (data) {
                 var tdArr = data.td_c.split('-');
                 return [tools.b2bcd(tdArr[4]), tools.b2bcd(tdArr[3]), tools.b2bcd(tdArr[2]),
                     tools.b2bcd(tdArr[1]), tools.b2bcd(tdArr[0]), data.m, data.n]
             },
 
-            //测量点B相电流曲线
+            // 测量点B相电流曲线
             Fn93: function (data) {
                 var tdArr = data.td_c.split('-');
                 return [tools.b2bcd(tdArr[4]), tools.b2bcd(tdArr[3]), tools.b2bcd(tdArr[2]),
                     tools.b2bcd(tdArr[1]), tools.b2bcd(tdArr[0]), data.m, data.n]
             },
 
-            //测量点C相电流曲线
+            // 测量点C相电流曲线
             Fn94: function (data) {
                 var tdArr = data.td_c.split('-');
                 return [tools.b2bcd(tdArr[4]), tools.b2bcd(tdArr[3]), tools.b2bcd(tdArr[2]),
                     tools.b2bcd(tdArr[1]), tools.b2bcd(tdArr[0]), data.m, data.n]
             },
 
-            //测量点零序电流曲线
+            // 测量点零序电流曲线
             Fn95: function (data) {
                 var tdArr = data.td_c.split('-');
                 return [tools.b2bcd(tdArr[4]), tools.b2bcd(tdArr[3]), tools.b2bcd(tdArr[2]),
                     tools.b2bcd(tdArr[1]), tools.b2bcd(tdArr[0]), data.m, data.n]
             },
 
-            //测量点正向有功总电能量曲线
+            // 测量点正向有功总电能量曲线
             Fn97: function (data) {
                 var tdArr = data.td_c.split('-');
                 return [tools.b2bcd(tdArr[4]), tools.b2bcd(tdArr[3]), tools.b2bcd(tdArr[2]),
                     tools.b2bcd(tdArr[1]), tools.b2bcd(tdArr[0]), data.m, data.n]
             },
 
-            //测量点正向无功总电能量曲线
+            // 测量点正向无功总电能量曲线
             Fn98: function (data) {
                 var tdArr = data.td_c.split('-');
                 return [tools.b2bcd(tdArr[4]), tools.b2bcd(tdArr[3]), tools.b2bcd(tdArr[2]),
                     tools.b2bcd(tdArr[1]), tools.b2bcd(tdArr[0]), data.m, data.n]
             },
 
-            //测量点反向有功总电能量曲线
+            // 测量点反向有功总电能量曲线
             Fn99: function (data) {
                 var tdArr = data.td_c.split('-');
                 return [tools.b2bcd(tdArr[4]), tools.b2bcd(tdArr[3]), tools.b2bcd(tdArr[2]),
                     tools.b2bcd(tdArr[1]), tools.b2bcd(tdArr[0]), data.m, data.n]
             },
 
-            //测量点反向无功总电能量曲线
+            // 测量点反向无功总电能量曲线
             Fn100: function (data) {
                 var tdArr = data.td_c.split('-');
                 return [tools.b2bcd(tdArr[4]), tools.b2bcd(tdArr[3]), tools.b2bcd(tdArr[2]),
                     tools.b2bcd(tdArr[1]), tools.b2bcd(tdArr[0]), data.m, data.n]
             },
 
-            //测量点正向有功总电能示值曲线
+            // 测量点正向有功总电能示值曲线
             Fn101: function (data) {
                 var tdArr = data.td_c.split('-');
                 return [tools.b2bcd(tdArr[4]), tools.b2bcd(tdArr[3]), tools.b2bcd(tdArr[2]),
                     tools.b2bcd(tdArr[1]), tools.b2bcd(tdArr[0]), data.m, data.n]
             },
 
-            //测量点正向无功总电能示值曲线
+            // 测量点正向无功总电能示值曲线
             Fn102: function (data) {
                 var tdArr = data.td_c.split('-');
                 return [tools.b2bcd(tdArr[4]), tools.b2bcd(tdArr[3]), tools.b2bcd(tdArr[2]),
                     tools.b2bcd(tdArr[1]), tools.b2bcd(tdArr[0]), data.m, data.n]
             },
 
-            //测量点反向有功总电能示值曲线
+            // 测量点反向有功总电能示值曲线
             Fn103: function (data) {
                 var tdArr = data.td_c.split('-');
                 return [tools.b2bcd(tdArr[4]), tools.b2bcd(tdArr[3]), tools.b2bcd(tdArr[2]),
                     tools.b2bcd(tdArr[1]), tools.b2bcd(tdArr[0]), data.m, data.n]
             },
 
-            //测量点反向无功总电能示值曲线
+            // 测量点反向无功总电能示值曲线
             Fn104: function (data) {
                 var tdArr = data.td_c.split('-');
                 return [tools.b2bcd(tdArr[4]), tools.b2bcd(tdArr[3]), tools.b2bcd(tdArr[2]),
                     tools.b2bcd(tdArr[1]), tools.b2bcd(tdArr[0]), data.m, data.n]
             },
 
-            //测量点功率因数曲线
+            // 测量点功率因数曲线
             Fn105: function (data) {
                 var tdArr = data.td_c.split('-');
                 return [tools.b2bcd(tdArr[4]), tools.b2bcd(tdArr[3]), tools.b2bcd(tdArr[2]),
                     tools.b2bcd(tdArr[1]), tools.b2bcd(tdArr[0]), data.m, data.n]
             },
 
-            //测量点A相功率因数曲线
+            // 测量点A相功率因数曲线
             Fn106: function (data) {
                 var tdArr = data.td_c.split('-');
                 return [tools.b2bcd(tdArr[4]), tools.b2bcd(tdArr[3]), tools.b2bcd(tdArr[2]),
                     tools.b2bcd(tdArr[1]), tools.b2bcd(tdArr[0]), data.m, data.n]
             },
 
-            //测量点B相功率因数曲线
+            // 测量点B相功率因数曲线
             Fn107: function (data) {
                 var tdArr = data.td_c.split('-');
                 return [tools.b2bcd(tdArr[4]), tools.b2bcd(tdArr[3]), tools.b2bcd(tdArr[2]),
                     tools.b2bcd(tdArr[1]), tools.b2bcd(tdArr[0]), data.m, data.n]
             },
 
-            //测量点C相功率因数曲线
+            // 测量点C相功率因数曲线
             Fn108: function (data) {
                 var tdArr = data.td_c.split('-');
                 return [tools.b2bcd(tdArr[4]), tools.b2bcd(tdArr[3]), tools.b2bcd(tdArr[2]),
                     tools.b2bcd(tdArr[1]), tools.b2bcd(tdArr[0]), data.m, data.n]
             },
 
-            //测量点电压相位角曲线
+            // 测量点电压相位角曲线
             Fn109: function (data) {
                 var tdArr = data.td_c.split('-');
                 return [tools.b2bcd(tdArr[4]), tools.b2bcd(tdArr[3]), tools.b2bcd(tdArr[2]),
                     tools.b2bcd(tdArr[1]), tools.b2bcd(tdArr[0]), data.m, data.n]
             },
 
-            //测量点电流相位角曲线
+            // 测量点电流相位角曲线
             Fn110: function (data) {
                 var tdArr = data.td_c.split('-');
                 return [tools.b2bcd(tdArr[4]), tools.b2bcd(tdArr[3]), tools.b2bcd(tdArr[2]),
                     tools.b2bcd(tdArr[1]), tools.b2bcd(tdArr[0]), data.m, data.n]
             },
 
-            //[自定义协议] 北京 万家灯火 太阳能 交流逆变器
+            // [自定义协议] 北京 万家灯火 太阳能 交流逆变器
             Fn139: function (data) {
                 var tdArr = data.td_c.split('-');
                 return [tools.b2bcd(tdArr[4]), tools.b2bcd(tdArr[3]), tools.b2bcd(tdArr[2]),
                     tools.b2bcd(tdArr[1]), tools.b2bcd(tdArr[0]), data.m, data.n]
             },
 
-            //日冻结正向有功电能示值（总、费率1～M）
+            // 日冻结正向有功电能示值（总、费率1～M）
             Fn161: function (data) {
                 var tdArr = data.td_d.split('-');
                 return [tools.b2bcd(tdArr[2]), tools.b2bcd(tdArr[1]), tools.b2bcd(tdArr[0])]
             },
 
-            //日冻结正向无功（组合无功1）电能示值（总、费率1～M）
+            // 日冻结正向无功（组合无功1）电能示值（总、费率1～M）
             Fn162: function (data) {
                 var tdArr = data.td_d.split('-');
                 return [tools.b2bcd(tdArr[2]), tools.b2bcd(tdArr[1]), tools.b2bcd(tdArr[0])]
             },
 
-            //日冻结反向有功电能示值（总、费率1～M）
+            // 日冻结反向有功电能示值（总、费率1～M）
             Fn163: function (data) {
                 var tdArr = data.td_d.split('-');
                 return [tools.b2bcd(tdArr[2]), tools.b2bcd(tdArr[1]), tools.b2bcd(tdArr[0])]
             },
 
-            //日冻结反向无功（组合无功1）电能示值（总、费率1～M）
+            // 日冻结反向无功（组合无功1）电能示值（总、费率1～M）
             Fn164: function (data) {
                 var tdArr = data.td_d.split('-');
                 return [tools.b2bcd(tdArr[2]), tools.b2bcd(tdArr[1]), tools.b2bcd(tdArr[0])]
             },
 
-            //月冻结正向有功电能示值（总、费率1～M）
+            // 月冻结正向有功电能示值（总、费率1～M）
             Fn177: function (data) {
                 var tdArr = data.td_m.split('-');
                 return [tools.b2bcd(tdArr[1]), tools.b2bcd(tdArr[0])]
             },
 
-            //月冻结正向无功（组合无功1）电能示值（总、费率1～M）
+            // 月冻结正向无功（组合无功1）电能示值（总、费率1～M）
             Fn178: function (data) {
                 var tdArr = data.td_m.split('-');
                 return [tools.b2bcd(tdArr[1]), tools.b2bcd(tdArr[0])]
             },
 
-            //月冻结反向有功电能示值（总、费率1～M）
+            // 月冻结反向有功电能示值（总、费率1～M）
             Fn179: function (data) {
                 var tdArr = data.td_m.split('-');
                 return [tools.b2bcd(tdArr[1]), tools.b2bcd(tdArr[0])]
             },
 
-            //月冻结反向无功（组合无功1）电能示值（总、费率1～M）
+            // 月冻结反向无功（组合无功1）电能示值（总、费率1～M）
             Fn180: function (data) {
                 var tdArr = data.td_m.split('-');
                 return [tools.b2bcd(tdArr[1]), tools.b2bcd(tdArr[0])]
             },
 
-            //日冻结正向有功最大需量及发生时间（总、费率1～M）
+            // 日冻结正向有功最大需量及发生时间（总、费率1～M）
             Fn185: function (data) {
                 var tdArr = data.td_d.split('-');
                 return [tools.b2bcd(tdArr[2]), tools.b2bcd(tdArr[1]), tools.b2bcd(tdArr[0])]
             },
 
-            //日冻结正向无功最大需量及发生时间（总、费率1～M）
+            // 日冻结正向无功最大需量及发生时间（总、费率1～M）
             Fn186: function (data) {
                 var tdArr = data.td_d.split('-');
                 return [tools.b2bcd(tdArr[2]), tools.b2bcd(tdArr[1]), tools.b2bcd(tdArr[0])]
             },
 
-            //日冻结反向有功最大需量及发生时间（总、费率1～M）
+            // 日冻结反向有功最大需量及发生时间（总、费率1～M）
             Fn187: function (data) {
                 var tdArr = data.td_d.split('-');
                 return [tools.b2bcd(tdArr[2]), tools.b2bcd(tdArr[1]), tools.b2bcd(tdArr[0])]
             },
 
-            //日冻结反向无功最大需量及发生时间（总、费率1～M）
+            // 日冻结反向无功最大需量及发生时间（总、费率1～M）
             Fn188: function (data) {
                 var tdArr = data.td_d.split('-');
                 return [tools.b2bcd(tdArr[2]), tools.b2bcd(tdArr[1]), tools.b2bcd(tdArr[0])]
             },
 
-            //日冻结反向无功最大需量及发生时间（总、费率1～M）
+            // 日冻结反向无功最大需量及发生时间（总、费率1～M）
             Fn220: function (data) {
                 var tdArr = data.td_d.split('-');
                 return [tools.b2bcd(tdArr[2]), tools.b2bcd(tdArr[1]), tools.b2bcd(tdArr[0])]
             },
 
-            //日冻结反向无功最大需量及发生时间（总、费率1～M）
+            // 日冻结反向无功最大需量及发生时间（总、费率1～M）
             Fn221: function (data) {
                 var tdArr = data.td_d.split('-');
                 return [tools.b2bcd(tdArr[2]), tools.b2bcd(tdArr[1]), tools.b2bcd(tdArr[0])]
             },
 
-            //日冻结反向无功最大需量及发生时间（总、费率1～M）
+            // 日冻结反向无功最大需量及发生时间（总、费率1～M）
             Fn222: function (data) {
                 var tdArr = data.td_m.split('-');
                 return [tools.b2bcd(tdArr[1]), tools.b2bcd(tdArr[0])]
+            },
+
+            // 日冻结水表冻结数
+            Fn223: function (data) {
+                var tdArr = data.td_d.split('-');
+                return [tools.b2bcd(tdArr[2]), tools.b2bcd(tdArr[1]), tools.b2bcd(tdArr[0])]
             }
         },
         AFN14: {},
@@ -1577,13 +1573,13 @@ var json_hex = {
          */
         AFN15: {
             Fn1: function (data) {
-                var fileid = data.fileid,//文件标识
-                    attr = data.attr,//文件属性
-                    order = 0x00,//文件指令
-                    steps = new Buffer([0, 0]),//data.steps,//总段数
-                    step = new Buffer([0, 0, 0, 0]),//data.step,//第i段
-                    perLen = new Buffer([0, 0]),//data.perLen,//第i段长度
-                    filedata = data.filedata || [];//文件数据
+                var fileid = data.fileid,// 文件标识
+                    attr = data.attr,// 文件属性
+                    order = 0x00,// 文件指令
+                    steps = new Buffer([0, 0]),// data.steps,// 总段数
+                    step = new Buffer([0, 0, 0, 0]),// data.step,// 第i段
+                    perLen = new Buffer([0, 0]),// data.perLen,// 第i段长度
+                    filedata = data.filedata || [];// 文件数据
 
                 steps.writeUInt16LE(data.steps, 0);
                 step.writeUInt32LE(data.step, 0);
@@ -1593,7 +1589,7 @@ var json_hex = {
             },
 
             Fn249: function (data) {
-                //typeMatch may be 'CM3-STM32-KM101G-1';
+                // typeMatch may be 'CM3-STM32-KM101G-1';
                 var typeMatch = data.typeMatch,
                     buff = new Buffer(19);
                 buff.fill(0x00);
@@ -1625,18 +1621,18 @@ var json_hex = {
         AFN16: {
             /*
              Fn1: function (data) {
-             var port = parseInt(data.port) || 2,// 端口号
-             baud = parseInt(data.baud) || 2, //波特率
-             stopbit = 0, //停止位
-             check = parseInt(data.check) || 1, //有无校验
-             parity = parseInt(data.parity) || 0, //奇偶校验
-             bits = parseInt(data.bits) || 3, //位数
-             bufferTimeout = parseInt(data.bufferTimeout) || 10, //透明转发接收等待报文超时时间
-             unit = parseInt(data.unit) || 1, //透明转发接收等待报文超时时间单位
-             bitTimeout = parseInt(data.bitTimeout) || 10, //透明转发接收等待字节超时时间
-             bytes = parseInt(data.bytes), //透明转发内容字节数
-             dataItem = parseInt(data.dataItem) || [0x11, 0x04, 0x33, 0x32, 0x34, 0x33], //数据项
-             meter_comm_addr = data.meter_comm_addr || 1; //电表地址
+             var port = parseInt(data.port) || 2,//  端口号
+             baud = parseInt(data.baud) || 2, // 波特率
+             stopbit = 0, // 停止位
+             check = parseInt(data.check) || 1, // 有无校验
+             parity = parseInt(data.parity) || 0, // 奇偶校验
+             bits = parseInt(data.bits) || 3, // 位数
+             bufferTimeout = parseInt(data.bufferTimeout) || 10, // 透明转发接收等待报文超时时间
+             unit = parseInt(data.unit) || 1, // 透明转发接收等待报文超时时间单位
+             bitTimeout = parseInt(data.bitTimeout) || 10, // 透明转发接收等待字节超时时间
+             bytes = parseInt(data.bytes), // 透明转发内容字节数
+             dataItem = parseInt(data.dataItem) || [0x11, 0x04, 0x33, 0x32, 0x34, 0x33], // 数据项
+             meter_comm_addr = data.meter_comm_addr || 1; // 电表地址
              var shellArr = [port, (bits + (parity << 2) + (check << 3) + (stopbit << 4) +
              (baud << 5)), bufferTimeout + (unit << 7), bitTimeout, bytes % 256, (bytes >> 8)],
              meterArr = [0x68];
@@ -1657,18 +1653,18 @@ var json_hex = {
                  */
                 var pic = data.pic,
                     waterDataItem = [0x01, 0x03, pic, 0x90, 0x04];
-                var port = parseInt(data.port) || 2,// 端口号
-                    baud = parseInt(data.baud) || 2, //波特率
-                    stopbit = 0, //停止位
-                    check = parseInt(data.check) || 1, //有无校验
-                    parity = parseInt(data.parity) || 0, //奇偶校验
-                    bits = parseInt(data.bits) || 3, //位数
-                    bufferTimeout = parseInt(data.bufferTimeout) || 10, //透明转发接收等待报文超时时间
-                    unit = parseInt(data.unit) || 1, //透明转发接收等待报文超时时间单位
-                    bitTimeout = parseInt(data.bitTimeout) || 10, //透明转发接收等待字节超时时间
-                    bytes = parseInt(data.bytes), //透明转发内容字节数
-                    dataItem = data.dataItem != undefined ? parseInt(data.dataItem) : waterDataItem, //数据项
-                    meter_comm_addr = data.meter_comm_addr || 1, //电表地址
+                var port = parseInt(data.port) || 2,//  端口号
+                    baud = parseInt(data.baud) || 2, // 波特率
+                    stopbit = 0, // 停止位
+                    check = parseInt(data.check) || 1, // 有无校验
+                    parity = parseInt(data.parity) || 0, // 奇偶校验
+                    bits = parseInt(data.bits) || 3, // 位数
+                    bufferTimeout = parseInt(data.bufferTimeout) || 10, // 透明转发接收等待报文超时时间
+                    unit = parseInt(data.unit) || 1, // 透明转发接收等待报文超时时间单位
+                    bitTimeout = parseInt(data.bitTimeout) || 10, // 透明转发接收等待字节超时时间
+                    bytes = parseInt(data.bytes), // 透明转发内容字节数
+                    dataItem = data.dataItem != undefined ? parseInt(data.dataItem) : waterDataItem, // 数据项
+                    meter_comm_addr = data.meter_comm_addr || 1, // 电表地址
                     manu_code = data.manu_code || 0;
                 var shellArr = [port, (bits + (parity << 2) + (check << 3) + (stopbit << 4) +
                     (baud << 5)), bufferTimeout + (unit << 7), bitTimeout, bytes % 256, (bytes >> 8)],
@@ -1697,7 +1693,7 @@ var json_hex = {
         },
         AFN1: {},
         AFN2: {
-            //登录帧
+            // 登录帧
             Fn1: function (data) {
 
             }
@@ -1728,7 +1724,7 @@ var json_hex = {
                 return json;
             },
 
-            //终端支持的输入、输出及通信端口配置
+            // 终端支持的输入、输出及通信端口配置
             Fn2: function (data) {
                 var comType = [
                         '直接RS485接口',
@@ -1775,7 +1771,7 @@ var json_hex = {
                 return json;
             },
 
-            //终端支持的其他配置
+            // 终端支持的其他配置
             Fn3: function (data) {
                 var dataArr = data.splice(0, 19),
                     json = {
@@ -1803,7 +1799,7 @@ var json_hex = {
                 return json
             },
 
-            //终端支持的参数配置
+            // 终端支持的参数配置
             Fn4: function (data) {
                 var json = {
                     n: data.splice(0, 1)
@@ -1819,7 +1815,7 @@ var json_hex = {
                 return json;
             },
 
-            //终端支持的控制配置
+            // 终端支持的控制配置
             Fn5: function (data) {
                 var json = {
                     n: data.splice(0, 1)
@@ -1835,7 +1831,7 @@ var json_hex = {
                 return json;
             },
 
-            //终端支持的1类数据配置
+            // 终端支持的1类数据配置
             Fn6: function (data) {
                 var flag = [], flagArr = data.splice(0, 2);
                 for (var i = 0; i < 8; i++) {
@@ -1874,7 +1870,7 @@ var json_hex = {
                 return json;
             },
 
-            //终端支持的2类数据配置
+            // 终端支持的2类数据配置
             Fn7: function (data) {
                 var flag = [], flagArr = data.splice(0, 2);
                 for (var i = 0; i < 8; i++) {
@@ -1913,7 +1909,7 @@ var json_hex = {
                 return json;
             },
 
-            //终端支持的事件记录配置
+            // 终端支持的事件记录配置
             Fn8: function (data) {
                 var arr = [],
                     dataArr = data.splice(0, 8);
@@ -1927,7 +1923,7 @@ var json_hex = {
             }
         },
         AFN10: {
-            //终端上行通信口通信参数设置
+            // 终端上行通信口通信参数设置
             Fn1: function (data) {
                 var dataArr = data.splice(0, 6), json = {
                     rts: dataArr[0],
@@ -1942,7 +1938,7 @@ var json_hex = {
                 return json
             },
 
-            //终端上行通信口无线中继转发设置
+            // 终端上行通信口无线中继转发设置
             Fn2: function (data) {
                 var dataArr = data.splice(0, 2),
                     json = {
@@ -1956,7 +1952,7 @@ var json_hex = {
                 return json;
             },
 
-            //站IP地址和端口
+            // 站IP地址和端口
             Fn3: function (data) {
                 var dataArr = data.splice(0, 28), json = {
                     master_ip: dataArr[0] + '.' + dataArr[1] + '.' + dataArr[2] + '.' + dataArr[3],
@@ -1968,7 +1964,7 @@ var json_hex = {
                 return json;
             },
 
-            //主站电话号码和短信中心号码
+            // 主站电话号码和短信中心号码
             Fn4: function (data) {
                 var dataArr = data.splice(0, 16),
                     apn = "", asms = "";
@@ -1982,7 +1978,7 @@ var json_hex = {
                 return {apn: apn.substr(0, 11), asms: asms.substr(0, 11)};
             },
 
-            //终端上行通信消息认证参数设置
+            // 终端上行通信消息认证参数设置
             Fn5: function (data) {
                 var dataArr = data.splice(0, 3),
                     json = {
@@ -1991,7 +1987,7 @@ var json_hex = {
                 return json;
             },
 
-            //终端组地址设置
+            // 终端组地址设置
             Fn6: function (data) {
                 var dataArr = data.splice(0, 16),
                     json = {
@@ -2007,9 +2003,9 @@ var json_hex = {
                 return json;
             },
 
-            //终端IP地址和端口
-            //TODO 用户名长度m\用户名\密码长度n\密码 好像有问题
-            //TODO 有待优化
+            // 终端IP地址和端口
+            // TODO 用户名长度m\用户名\密码长度n\密码 好像有问题
+            // TODO 有待优化
             /*
              fn7: function () {
              var json = {
@@ -2028,7 +2024,7 @@ var json_hex = {
              },
              */
 
-            //终端上行通信工作方式（以太专网或虚拟专网）
+            // 终端上行通信工作方式（以太专网或虚拟专网）
             Fn8: function (data) {
                 var dataArr = data.splice(0, 8), json = {
                     khjms: dataArr[0] % 4,
@@ -2044,7 +2040,7 @@ var json_hex = {
                 return json
             },
 
-            //终端事件记录配置设置
+            // 终端事件记录配置设置
             Fn9: function (data) {
                 var dataArr = data.splice(0, 16),
                     json = {};
@@ -2067,7 +2063,7 @@ var json_hex = {
                 return json;
             },
 
-            //终端电能表/交流采样装置配置参数
+            // 终端电能表/交流采样装置配置参数
             Fn10: function (data) {
                 var numArr = data.splice(0, 2),
                     json = {len: (numArr[1] << 8) + numArr[0]},
@@ -2114,7 +2110,7 @@ var json_hex = {
                 return json;
             },
 
-            //终端脉冲配置参数
+            // 终端脉冲配置参数
             Fn11: function (data) {
                 var type = ['正向有功', '正向无功', '反向有功', '反向无功'],
                     json = {
@@ -2135,7 +2131,7 @@ var json_hex = {
                 return json;
             },
 
-            /*          //终端状态量输入参数
+            /*          // 终端状态量输入参数
              fn12: function () {
              var property = [];
              var insert = [];
@@ -2148,7 +2144,7 @@ var json_hex = {
              return {json: {property: property, insert: insert}, key: 6};
              },*/
 
-            //终端电压/电流模拟量配置参数
+            // 终端电压/电流模拟量配置参数
             Fn13: function (data) {
                 var type = ['A相电压', 'B相电压', 'C相电压', 'A相电流', 'B相电流', 'C相电流'],
                     json = {
@@ -2168,7 +2164,7 @@ var json_hex = {
                 return json;
             },
 
-            //终端总加组配置参数
+            // 终端总加组配置参数
             Fn14: function (data) {
                 var json = {
                         tgNum: data.splice(0, 1)[0]
@@ -2196,7 +2192,7 @@ var json_hex = {
                 return json
             },
 
-            //有功总电能量差动越限事件参数设置
+            // 有功总电能量差动越限事件参数设置
             Fn15: function (data) {
                 var json = {
                         configNum: data.splice(0, 1)[0]
@@ -2220,7 +2216,7 @@ var json_hex = {
                 return json
             },
 
-            //虚拟专网用户名、密码
+            // 虚拟专网用户名、密码
             Fn16: function (data) {
                 var dataArr = data.splice(0, 64);
                 var json = {
@@ -2230,7 +2226,7 @@ var json_hex = {
                 return json;
             },
 
-            //终端保安定值
+            // 终端保安定值
             Fn17: function (data) {
                 var dataArr = data.splice(0, 2);
                 var json = {
@@ -2239,7 +2235,7 @@ var json_hex = {
                 return json;
             },
 
-            //终端功控时段
+            // 终端功控时段
             Fn18: function (data) {
                 var dataArr = data.splice(0, 12);
                 var json = [];
@@ -2252,7 +2248,7 @@ var json_hex = {
                 return json;
             },
 
-            //终端时段功控定值浮动系数
+            // 终端时段功控定值浮动系数
             Fn19: function (data) {
                 var json = {
                     timesecCoe: tools.getDFA4(data.splice(0, 1)[0])
@@ -2260,7 +2256,7 @@ var json_hex = {
                 return json;
             },
 
-            //终端月电能量控定值浮动系数
+            // 终端月电能量控定值浮动系数
             Fn20: function (data) {
                 var json = {
                     timesecCoe: tools.getDFA4(data.splice(0, 1)[0])
@@ -2268,7 +2264,7 @@ var json_hex = {
                 return json;
             },
 
-            //终端电能量费率时段和费率数
+            // 终端电能量费率时段和费率数
             Fn21: function (data) {
                 var dataArr = data.splice(0, 49),
                     json = {m: dataArr[48]},
@@ -2280,7 +2276,7 @@ var json_hex = {
                 return json;
             },
 
-            //终端电能量费率
+            // 终端电能量费率
             Fn22: function (data) {
                 var json = {m: data.splice(0, 1)[0]};
 
@@ -2291,7 +2287,7 @@ var json_hex = {
                 return json;
             },
 
-            //终端催费告警参数
+            // 终端催费告警参数
             Fn23: function (data) {
                 var dataArr = data.splice(0, 3);
                 var t = dataArr[0] + (dataArr[1] << 8) + (dataArr[2] << 16);
@@ -2302,7 +2298,7 @@ var json_hex = {
                 return json;
             },
 
-            //测量点基本参数
+            // 测量点基本参数
             Fn25: function (data) {
                 var lineArr = ['备用', '三相三线', '三相四线', '单相表'],
                     singlePh = ['不确定', 'A相', 'B相', 'C相'];
@@ -2319,7 +2315,7 @@ var json_hex = {
                 return json;
             },
 
-            //测量点限值参数
+            // 测量点限值参数
             Fn26: function (data) {
                 var dataArr = data.splice(0, 57),
                     json = {
@@ -2358,7 +2354,7 @@ var json_hex = {
                 return json;
             },
 
-            //测量点铜损、铁损参数
+            // 测量点铜损、铁损参数
             Fn27: function (data) {
                 var dataArr = data.splice(0, 24),
                     json = {
@@ -2378,7 +2374,7 @@ var json_hex = {
                 return json;
             },
 
-            //测量点功率因数分段限值
+            // 测量点功率因数分段限值
             Fn28: function (data) {
                 var dataArr = data.splice(0, 4),
                     json = {
@@ -2388,21 +2384,21 @@ var json_hex = {
                 return json
             },
 
-            //终端当地电能表显示号
+            // 终端当地电能表显示号
             Fn29: function (data) {
                 var dataArr = data.splice(0, 12),
                     json = {meterNO: tools.getDFASC(dataArr.slice(0, 12))};
                 return json;
             },
 
-            //台区集中抄表停抄/投抄设置
+            // 台区集中抄表停抄/投抄设置
             Fn30: function (data) {
                 var dataArr = data.splice(0, 1),
                     json = {IsConcInuse: dataArr[0]};
                 return json;
             },
 
-            //终端抄表运行参数设置
+            // 终端抄表运行参数设置
             Fn33: function (data) {
                 var json = {amount: data.splice(0, 1)[0], arr: []};
                 for (var i = 1; i <= json.amount; i++) {
@@ -2438,7 +2434,7 @@ var json_hex = {
                 return json
             },
 
-            //集中器下行通信模块的参数设置
+            // 集中器下行通信模块的参数设置
             Fn34: function (data) {
                 var json = {amount: data.splice(0, 1)[0], arr: []};
                 var bit = ['5', '6', '7', '8'],
@@ -2460,7 +2456,7 @@ var json_hex = {
                 return json
             },
 
-            //台区集中抄表重点户设置
+            // 台区集中抄表重点户设置
             Fn35: function (data) {
                 var json = {amount: data.splice(0, 1)[0], arr: []};
                 for (var i = 1; i <= json.amount; i++) {
@@ -2473,7 +2469,7 @@ var json_hex = {
                 return json
             },
 
-            //终端上行通信流量门限设置
+            // 终端上行通信流量门限设置
 
             Fn36: function (data) {
                 var dataArr = data.splice(0, 4);
@@ -2484,14 +2480,14 @@ var json_hex = {
                 return json;
             },
 
-            //终端上行通信流量门限设置
+            // 终端上行通信流量门限设置
             Fn37: function (data) {
                 var dataArr = data.splice(0, 7);
                 var json = {};
                 return json;
             },
 
-            //1类数据配置设置 （在终端支持的1类数据配置内）
+            // 1类数据配置设置 （在终端支持的1类数据配置内）
 
             Fn38: function (data) {
                 var json = {
@@ -2519,7 +2515,7 @@ var json_hex = {
                 return json
             },
 
-            //2类数据配置设置（在终端支持的2类数据配置内）
+            // 2类数据配置设置（在终端支持的2类数据配置内）
 
             Fn39: function (data) {
                 var json = {
@@ -2547,7 +2543,7 @@ var json_hex = {
                 return json
             },
 
-            //时段功控定值
+            // 时段功控定值
             Fn41: function (data) {
                 var signData = data.shift(),
                     json = {sinaArr: []};
@@ -2568,7 +2564,7 @@ var json_hex = {
                 return json
             },
 
-            //厂休功控参数
+            // 厂休功控参数
             Fn42: function (data) {
                 var json = {
                     facoff_fixed_value: tools.getDFA2(data.shift(), data.shift()),
@@ -2583,7 +2579,7 @@ var json_hex = {
                 return json
             },
 
-            //营业报停控参数
+            // 营业报停控参数
             Fn44: function (data) {
                 var json = {
                     buzstop_start_time: tools.getDFA20(data.shift(), data.shift(), data.shift()),
@@ -2593,7 +2589,7 @@ var json_hex = {
                 return json
             },
 
-            //功控轮次设定
+            // 功控轮次设定
             Fn45: function (data) {
                 var round = _.toArray(data.shift().toString(2)),
                     json = {
@@ -2602,7 +2598,7 @@ var json_hex = {
                 return json
             },
 
-            //月电量控定值
+            // 月电量控定值
             Fn46: function (data) {
                 var json = {
                     value: tools.getDFA3(data.shift(), data.shift(), data.shift(), data.shift())
@@ -2610,7 +2606,7 @@ var json_hex = {
                 return json
             },
 
-            //购电量（费）控参数
+            // 购电量（费）控参数
             Fn47: function (data) {
                 var json = {
                     buyId: data.shift() + (data.shift() << 8) + (data.shift() << 16) + (data.shift() << 24),
@@ -2622,7 +2618,7 @@ var json_hex = {
                 return json;
             },
 
-            //电控轮次设定
+            // 电控轮次设定
             Fn48: function (data) {
                 var round = _.toArray(data.shift().toString(2)),
                     json = {
@@ -2631,12 +2627,12 @@ var json_hex = {
                 return json
             },
 
-            //功控告警时间
+            // 功控告警时间
             Fn49: function (data) {
                 return {alert: data.shift()}
             },
 
-            //终端声音告警允许∕禁止设置
+            // 终端声音告警允许∕禁止设置
             Fn57: function (data) {
                 var t = data.shift() + (data.shift() << 8) + (data.shift() << 16);
                 var json = [];
@@ -2647,12 +2643,12 @@ var json_hex = {
                 return json;
             },
 
-            //终端自动保电参数
+            // 终端自动保电参数
             Fn58: function (data) {
                 return {value: data.shift()};
             },
 
-            //电能表异常判别阈值设定
+            // 电能表异常判别阈值设定
             Fn59: function (data) {
                 var json = {
                     DiffoverLimit: tools.getDFA22(data.shift()),
@@ -2663,7 +2659,7 @@ var json_hex = {
                 return json;
             },
 
-            //谐波限值
+            // 谐波限值
             Fn60: function (data) {
                 var json = {
                     totalAbovlUplmt: tools.getDFA5(data.shift(), data.shift()),
@@ -2687,18 +2683,18 @@ var json_hex = {
                 return json
             },
 
-            //直流模拟量接入参数
+            // 直流模拟量接入参数
             Fn61: function (data) {
                 var round = _.toArray(data.shift().toString(2));
                 return {json: round.reverse()};
             },
 
-            //定时上报1类数据任务启动/停止设置
+            // 定时上报1类数据任务启动/停止设置
             Fn67: function (data) {
                 return {value: data.shift()};
             },
 
-            //定时上报2类数据任务启动/停止设置
+            // 定时上报2类数据任务启动/停止设置
             Fn68: function (data) {
                 return {value: data.shift()};
             }
@@ -2706,7 +2702,7 @@ var json_hex = {
         AFN11: {},
         AFN12: {
             Fn2: function (data) {
-                //TODO 如何取数组的值？shift？splice？还是自己指定长度，像3.0里面的一样？
+                // TODO 如何取数组的值？shift？splice？还是自己指定长度，像3.0里面的一样？
                 var arr = data.splice(0, 6);
                 return {
                     second: tools.bcd2b(arr[0]),
@@ -2719,7 +2715,7 @@ var json_hex = {
             },
 
 
-            //终端控制设置状态
+            // 终端控制设置状态
             Fn5: function (data) {
                 var controlStatus = {},
                     tgAPar = [],
@@ -2755,8 +2751,8 @@ var json_hex = {
                 return controlStatus;
             },
 
-            //终端当前控制状态
-            //TODO what the fuck?
+            // 终端当前控制状态
+            // TODO what the fuck?
             Fn6: function (data) {
                 var tgStatusArr = data.shift();
                 var round = _.toArray(tgStatusArr.toString(2)),
@@ -2804,7 +2800,7 @@ var json_hex = {
                 };
             },
 
-            //当前总加有功功率
+            // 当前总加有功功率
             Fn17: function (data) {
                 var arr = data.splice(0, 2);
                 var json = {
@@ -2812,7 +2808,7 @@ var json_hex = {
                 };
                 return json;
             },
-            //当前总加无功功率
+            // 当前总加无功功率
             Fn18: function (data) {
                 var arr = data.splice(0, 2);
                 var json = {
@@ -2821,7 +2817,7 @@ var json_hex = {
                 return json;
             },
 
-            //当日总加有功电能量（总、费率1～M）
+            // 当日总加有功电能量（总、费率1～M）
             Fn19: function (data) {
                 var json = {};
                 json.m = data.splice(0, 1)[0];
@@ -2834,7 +2830,7 @@ var json_hex = {
                 return json;
             },
 
-            //当日总加无功电能量（总、费率1～M）
+            // 当日总加无功电能量（总、费率1～M）
             Fn20: function (data) {
                 var json = {};
                 json.m = data.splice(0, 1)[0];
@@ -2846,7 +2842,7 @@ var json_hex = {
                 }
                 return json;
             },
-            //当月总加有功电能量（总、费率1～M）
+            // 当月总加有功电能量（总、费率1～M）
             Fn21: function (data) {
                 var json = {};
                 json.m = data.splice(0, 1)[0];
@@ -2859,7 +2855,7 @@ var json_hex = {
                 return json;
             },
 
-            //当月总加无功电能量（总、费率1～M）
+            // 当月总加无功电能量（总、费率1～M）
             Fn22: function (data) {
                 var json = {};
                 json.m = data.splice(0, 1)[0];
@@ -2872,21 +2868,21 @@ var json_hex = {
                 return json;
             },
 
-            //终端当前剩余电量（费）
+            // 终端当前剩余电量（费）
             Fn23: function (data) {
                 var arr = data.splice(0, 4);
                 var remainEne = tools.getDFA3(arr[0], arr[1], arr[2], arr[3]);
                 return {rem_e: remainEne};
             },
 
-            //当前功率下浮控控后总加有功功率冻结值
+            // 当前功率下浮控控后总加有功功率冻结值
             Fn24: function (data) {
                 var arr = data.splice(0, 2);
                 var freezeValue = tools.getDFA2(arr[0], arr[1]);
                 return {power_down_r: freezeValue};
             },
 
-            //当前三相及总有/无功功率、功率因数，三相电压、电流、零序电流、视在功率
+            // 当前三相及总有/无功功率、功率因数，三相电压、电流、零序电流、视在功率
             Fn25: function (data) {
                 var arr = data.splice(0, 67),
                     json = {
@@ -2918,7 +2914,7 @@ var json_hex = {
                 return json;
             },
 
-            //当前A、B、C三相正/反向有功电能示值、组合无功1/2电能示值
+            // 当前A、B、C三相正/反向有功电能示值、组合无功1/2电能示值
             Fn31: function (data) {
                 var arr = data.splice(0, 59),
                     json = {
@@ -2939,7 +2935,7 @@ var json_hex = {
                 return json;
             },
 
-            //上一结算日A、B、C三相正/反向有功电能示值、组合无功1/2电能示值
+            // 上一结算日A、B、C三相正/反向有功电能示值、组合无功1/2电能示值
             Fn32: function (data) {
                 var arr = data.splice(0, 59),
                     json = {
@@ -2960,7 +2956,7 @@ var json_hex = {
                 return json;
             },
 
-            //当前正向有/无功电能示值、一/四象限无功电能示值（总、费率1～M，1≤M≤12）
+            // 当前正向有/无功电能示值、一/四象限无功电能示值（总、费率1～M，1≤M≤12）
             Fn33: function (data) {
                 var json = {},
                     dataKey = ['pap_r', 'prp_r', 'rp_r1 ', 'rp_r4'],
@@ -2987,7 +2983,7 @@ var json_hex = {
                 return json
             },
 
-            //当前反向有/无功电能示值、二/三象限无功电能示值（总、费率1～M，1≤M≤12）
+            // 当前反向有/无功电能示值、二/三象限无功电能示值（总、费率1～M，1≤M≤12）
             Fn34: function (data) {
                 var json = {},
                     dataKey = ['rap_r', 'rrp_r', 'rp_r2', 'rp_r3'],
@@ -3014,7 +3010,7 @@ var json_hex = {
                 return json
             },
 
-            //当日正向有功电能量（总、费率1～M）
+            // 当日正向有功电能量（总、费率1～M）
             Fn41: function (data) {
                 var json = {};
                 json.m = data.splice(0, 1)[0];
@@ -3027,7 +3023,7 @@ var json_hex = {
                 return json;
             },
 
-            //当日正向无功电能量（总、费率1～M）
+            // 当日正向无功电能量（总、费率1～M）
             Fn42: function (data) {
                 var json = {};
                 json.m = data.splice(0, 1)[0];
@@ -3040,7 +3036,7 @@ var json_hex = {
                 return json;
             },
 
-            //当日反向有功电能量（总、费率1～M）
+            // 当日反向有功电能量（总、费率1～M）
             Fn43: function (data) {
                 var json = {};
                 json.m = data.splice(0, 1)[0];
@@ -3053,7 +3049,7 @@ var json_hex = {
                 return json;
             },
 
-            //当日反向无功电能量（总、费率1～M）
+            // 当日反向无功电能量（总、费率1～M）
             Fn44: function (data) {
                 var json = {};
                 json.m = data.splice(0, 1)[0];
@@ -3066,7 +3062,7 @@ var json_hex = {
                 return json;
             },
 
-            //当前电压、电流相位角
+            // 当前电压、电流相位角
             Fn49: function (data) {
                 var arr = data.splice(0, 12),
                     json = {
@@ -3080,7 +3076,7 @@ var json_hex = {
                 return {json: json, key: 16};
             },
 
-            //当前正向有功电能示值（总、费率1～M）
+            // 当前正向有功电能示值（总、费率1～M）
             Fn129: function (data) {
                 var json = {},
                     dateArr = data.splice(0, 5);
@@ -3095,7 +3091,7 @@ var json_hex = {
                 return json;
             },
 
-            //当前正向无功（组合无功1）电能示值（总、费率1～M）
+            // 当前正向无功（组合无功1）电能示值（总、费率1～M）
             Fn130: function (data) {
                 var json = {},
                     dateArr = data.splice(0, 5);
@@ -3110,7 +3106,7 @@ var json_hex = {
                 return json;
             },
 
-            //当前反向有功电能示值（总、费率1～M）
+            // 当前反向有功电能示值（总、费率1～M）
             Fn131: function (data) {
                 var json = {},
                     dateArr = data.splice(0, 5);
@@ -3125,7 +3121,7 @@ var json_hex = {
                 return json;
             },
 
-            //当前反向无功（组合无功1）电能示值（总、费率1～M）
+            // 当前反向无功（组合无功1）电能示值（总、费率1～M）
             Fn132: function (data) {
                 var json = {},
                     dateArr = data.splice(0, 5);
@@ -3140,7 +3136,7 @@ var json_hex = {
                 return json;
             },
 
-            //当月正向有功最大需量及发生时间（总、费率1～M）
+            // 当月正向有功最大需量及发生时间（总、费率1～M）
             Fn145: function (data) {
                 var json = {},
                     dateArr = data.splice(0, 5);
@@ -3157,7 +3153,7 @@ var json_hex = {
                 return json;
             },
 
-            // 当月正向无功最大需量及发生时间（总、费率1～M）
+            //  当月正向无功最大需量及发生时间（总、费率1～M）
             Fn146: function (data) {
                 var json = {},
                     dateArr = data.splice(0, 5);
@@ -3175,7 +3171,7 @@ var json_hex = {
                 return json;
             },
 
-            //当月反向无功最大需量及发生时间（总、费率1～M）
+            // 当月反向无功最大需量及发生时间（总、费率1～M）
             Fn147: function (data) {
                 var json = {},
                     dateArr = data.splice(0, 5);
@@ -3193,7 +3189,7 @@ var json_hex = {
                 return json;
             },
 
-            //当月反向无功最大需量及发生时间（总、费率1～M）
+            // 当月反向无功最大需量及发生时间（总、费率1～M）
             Fn148: function (data) {
                 var json = {},
                     dateArr = data.splice(0, 5);
@@ -3211,7 +3207,7 @@ var json_hex = {
                 return json;
             },
 
-            //当月反向无功最大需量及发生时间（总、费率1～M）
+            // 当月反向无功最大需量及发生时间（总、费率1～M）
             Fn188: function (data) {
                 var json = {},
                     dateArr = data.splice(0, 5);
@@ -3230,10 +3226,26 @@ var json_hex = {
                 json.sumWorkTime = tools.getDFA10(sumWorkTimeArr[0], sumWorkTimeArr[1], sumWorkTimeArr[2]);
                 json.realTime = tools.getDFA32(realTimeArr[0], realTimeArr[1], realTimeArr[2], realTimeArr[3], realTimeArr[4], realTimeArr[5], realTimeArr[6]);
                 return json;
+            },
+
+            // 水表实时数据
+            Fn189: function (data) {
+                var json = {},
+                    dateArr = data.splice(0, 5);
+                json.collTime = tools.getDFA15(dateArr[0], dateArr[1], dateArr[2], dateArr[3], dateArr[4]);
+                json.meterType = data.splice(0, 1)[0];
+                json.unit = data.splice(0, 1)[0];
+                var realSumArr = data.splice(0, 4);
+                json.realSumFlow = tools.getDFA29(realSumArr[0], realSumArr[1], realSumArr[2], realSumArr[3]);
+                var valueUseless = data.splice(0, 38);// 暂时没用的
+                json.imgLen = data.splice(0, 1)[0];
+                json.img = _water(data.splice(0, json.imgLen));
+                var imgUseless = data.splice(0);
+                return json;
             }
         },
         AFN13: {
-            //日冻结正向有功电能量
+            // 日冻结正向有功电能量
             Fn5: function (data) {
                 var json = {},
                     dateArr = data.splice(0, 3);
@@ -3249,7 +3261,7 @@ var json_hex = {
                 return json;
             },
 
-            //日冻结正向无功电能量
+            // 日冻结正向无功电能量
             Fn6: function (data) {
                 var json = {},
                     dateArr = data.splice(0, 3);
@@ -3265,7 +3277,7 @@ var json_hex = {
                 return json;
             },
 
-            //日冻结反向有功电能量
+            // 日冻结反向有功电能量
             Fn7: function (data) {
                 var json = {},
                     dateArr = data.splice(0, 3);
@@ -3279,7 +3291,7 @@ var json_hex = {
                         tools.getDFA13(mValueArr[0], mValueArr[1], mValueArr[2], mValueArr[3]);
                 }
                 return json;
-            }, //日冻结反向无功电能量
+            }, // 日冻结反向无功电能量
 
             Fn8: function (data) {
                 var json = {},
@@ -3296,7 +3308,7 @@ var json_hex = {
                 return json;
             },
 
-            //月冻结正向有功电能量（总、费率1～M）
+            // 月冻结正向有功电能量（总、费率1～M）
             Fn21: function (data) {
                 var json = {},
                     dateArr = data.splice(0, 2);
@@ -3312,7 +3324,7 @@ var json_hex = {
                 return json;
             },
 
-            //月冻结正向无功电能量（总、费率1～M）
+            // 月冻结正向无功电能量（总、费率1～M）
             Fn22: function (data) {
                 var json = {},
                     dateArr = data.splice(0, 2);
@@ -3328,7 +3340,7 @@ var json_hex = {
                 return json;
             },
 
-            //月冻结反向有功电能量（总、费率1～M）
+            // 月冻结反向有功电能量（总、费率1～M）
             Fn23: function (data) {
                 var json = {},
                     dateArr = data.splice(0, 2);
@@ -3344,7 +3356,7 @@ var json_hex = {
                 return json;
             },
 
-            //月冻结反向无功电能量（总、费率1～M）
+            // 月冻结反向无功电能量（总、费率1～M）
             Fn24: function (data) {
                 var json = {},
                     dateArr = data.splice(0, 2);
@@ -3360,7 +3372,7 @@ var json_hex = {
                 return json;
             },
 
-            //日冻结总加组日最大、最小有功功率及其发生时间，有功功率为零日累计时间
+            // 日冻结总加组日最大、最小有功功率及其发生时间，有功功率为零日累计时间
             Fn57: function (data) {
                 var json = {},
                     Arr = data.splice(0, 15);
@@ -3373,7 +3385,7 @@ var json_hex = {
                 return json
             },
 
-            //日冻结总加组日累计有功电能量（总、费率1～M）
+            // 日冻结总加组日累计有功电能量（总、费率1～M）
             Fn58: function (data) {
                 var json = {},
                     dateArr = data.splice(0, 3);
@@ -3389,7 +3401,7 @@ var json_hex = {
                 return json;
             },
 
-            //日冻结总加组日累计无功电能量（总、费率1～M）
+            // 日冻结总加组日累计无功电能量（总、费率1～M）
             Fn59: function (data) {
                 var json = {},
                     dateArr = data.splice(0, 3);
@@ -3405,7 +3417,7 @@ var json_hex = {
                 return json;
             },
 
-            //月冻结总加组日最大、最小有功功率及其发生时间，有功功率为零日累计时间
+            // 月冻结总加组日最大、最小有功功率及其发生时间，有功功率为零日累计时间
             Fn60: function (data) {
                 var json = {},
                     Arr = data.splice(0, 14);
@@ -3418,7 +3430,7 @@ var json_hex = {
                 return json
             },
 
-            //月冻结总加组日累计有功电能量（总、费率1～M）
+            // 月冻结总加组日累计有功电能量（总、费率1～M）
             Fn61: function (data) {
                 var json = {},
                     dateArr = data.splice(0, 2);
@@ -3434,7 +3446,7 @@ var json_hex = {
                 return json;
             },
 
-            //月冻结总加组日累计无功电能量（总、费率1～M）
+            // 月冻结总加组日累计无功电能量（总、费率1～M）
             Fn62: function (data) {
                 var json = {},
                     dateArr = data.splice(0, 2);
@@ -3450,7 +3462,7 @@ var json_hex = {
                 return json;
             },
 
-            //月冻结总加组超功率定值的月累计时间及月累计电能量月冻结总加组超功率定值的月累计时间及月累计电能量
+            // 月冻结总加组超功率定值的月累计时间及月累计电能量月冻结总加组超功率定值的月累计时间及月累计电能量
             Fn65: function (data) {
                 var json = {},
                     Arr = data.splice(0, 8);
@@ -3460,7 +3472,7 @@ var json_hex = {
                 return json
             },
 
-            //月冻结总加组超月电能量定值的月累计时间及月累计电能量
+            // 月冻结总加组超月电能量定值的月累计时间及月累计电能量
             Fn66: function (data) {
                 var json = {},
                     Arr = data.splice(0, 8);
@@ -3470,7 +3482,7 @@ var json_hex = {
                 return json
             },
 
-            //总加组有功功率曲线
+            // 总加组有功功率曲线
             Fn73: function (data) {
                 var json = {},
                     dateArr = data.splice(0, 7);
@@ -3484,7 +3496,7 @@ var json_hex = {
                 return json
             },
 
-            //总加组无功功率曲线
+            // 总加组无功功率曲线
             Fn74: function (data) {
                 var json = {},
                     dateArr = data.splice(0, 7);
@@ -3498,7 +3510,7 @@ var json_hex = {
                 return json
             },
 
-            //总加组有功电能量曲线
+            // 总加组有功电能量曲线
             Fn75: function (data) {
                 var json = {},
                     dateArr = data.splice(0, 7);
@@ -3512,7 +3524,7 @@ var json_hex = {
                 return json
             },
 
-            //总加组无功电能量曲线
+            // 总加组无功电能量曲线
             Fn76: function (data) {
                 var json = {},
                     dateArr = data.splice(0, 7);
@@ -3526,7 +3538,7 @@ var json_hex = {
                 return json
             },
 
-            //测量点有功功率曲线
+            // 测量点有功功率曲线
             Fn81: function (data) {
                 var json = {},
                     dateArr = data.splice(0, 7);
@@ -3540,7 +3552,7 @@ var json_hex = {
                 return json
             },
 
-            //测量点A相有功功率曲线
+            // 测量点A相有功功率曲线
             Fn82: function (data) {
                 var json = {},
                     dateArr = data.splice(0, 7);
@@ -3554,7 +3566,7 @@ var json_hex = {
                 return json
             },
 
-            //测量点B相有功功率曲线
+            // 测量点B相有功功率曲线
             Fn83: function (data) {
                 var json = {},
                     dateArr = data.splice(0, 7);
@@ -3568,7 +3580,7 @@ var json_hex = {
                 return json
             },
 
-            //测量点C相有功功率曲线
+            // 测量点C相有功功率曲线
             Fn84: function (data) {
                 var json = {},
                     dateArr = data.splice(0, 7);
@@ -3582,7 +3594,7 @@ var json_hex = {
                 return json
             },
 
-            //测量点无功功率曲线
+            // 测量点无功功率曲线
             Fn85: function (data) {
                 var json = {},
                     dateArr = data.splice(0, 7);
@@ -3596,7 +3608,7 @@ var json_hex = {
                 return json
             },
 
-            //测量点A相无功功率曲线
+            // 测量点A相无功功率曲线
             Fn86: function (data) {
                 var json = {},
                     dateArr = data.splice(0, 7);
@@ -3610,7 +3622,7 @@ var json_hex = {
                 return json
             },
 
-            //测量点B相无功功率曲线
+            // 测量点B相无功功率曲线
             Fn87: function (data) {
                 var json = {},
                     dateArr = data.splice(0, 7);
@@ -3624,7 +3636,7 @@ var json_hex = {
                 return json
             },
 
-            //测量点C相无功功率曲线
+            // 测量点C相无功功率曲线
             Fn88: function (data) {
                 var json = {},
                     dateArr = data.splice(0, 7);
@@ -3638,7 +3650,7 @@ var json_hex = {
                 return json
             },
 
-            //测量点A相电压曲线
+            // 测量点A相电压曲线
             Fn89: function (data) {
                 var json = {},
                     dateArr = data.splice(0, 7);
@@ -3652,7 +3664,7 @@ var json_hex = {
                 return json
             },
 
-            //测量点B相电压曲线
+            // 测量点B相电压曲线
             Fn90: function (data) {
                 var json = {},
                     dateArr = data.splice(0, 7);
@@ -3666,7 +3678,7 @@ var json_hex = {
                 return json
             },
 
-            //测量点C相电压曲线
+            // 测量点C相电压曲线
             Fn91: function (data) {
                 var json = {},
                     dateArr = data.splice(0, 7);
@@ -3680,7 +3692,7 @@ var json_hex = {
                 return json
             },
 
-            //测量点A相电流曲线
+            // 测量点A相电流曲线
             Fn92: function (data) {
                 var json = {},
                     dateArr = data.splice(0, 7);
@@ -3694,7 +3706,7 @@ var json_hex = {
                 return json
             },
 
-            //测量点B相电流曲线
+            // 测量点B相电流曲线
             Fn93: function (data) {
                 var json = {},
                     dateArr = data.splice(0, 7);
@@ -3708,7 +3720,7 @@ var json_hex = {
                 return json
             },
 
-            //测量点C相电流曲线
+            // 测量点C相电流曲线
             Fn94: function (data) {
                 var json = {},
                     dateArr = data.splice(0, 7);
@@ -3722,7 +3734,7 @@ var json_hex = {
                 return json
             },
 
-            //测量点零序电流曲线
+            // 测量点零序电流曲线
             Fn95: function (data) {
                 var json = {},
                     dateArr = data.splice(0, 7);
@@ -3736,7 +3748,7 @@ var json_hex = {
                 return json
             },
 
-            //测量点正向有功总电能量曲线
+            // 测量点正向有功总电能量曲线
             Fn97: function (data) {
                 var json = {},
                     dateArr = data.splice(0, 7);
@@ -3750,7 +3762,7 @@ var json_hex = {
                 return json
             },
 
-            //测量点正向无功总电能量曲线
+            // 测量点正向无功总电能量曲线
             Fn98: function (data) {
                 var json = {},
                     dateArr = data.splice(0, 7);
@@ -3764,7 +3776,7 @@ var json_hex = {
                 return json
             },
 
-            //测量点反向有功总电能量曲线
+            // 测量点反向有功总电能量曲线
             Fn99: function (data) {
                 var json = {},
                     dateArr = data.splice(0, 7);
@@ -3778,7 +3790,7 @@ var json_hex = {
                 return json
             },
 
-            //测量点反向无功总电能量曲线
+            // 测量点反向无功总电能量曲线
             Fn100: function (data) {
                 var json = {},
                     dateArr = data.splice(0, 7);
@@ -3792,7 +3804,7 @@ var json_hex = {
                 return json
             },
 
-            //测量点正向有功总电能示值曲线
+            // 测量点正向有功总电能示值曲线
             Fn101: function (data) {
                 var json = {},
                     dateArr = data.splice(0, 7);
@@ -3806,7 +3818,7 @@ var json_hex = {
                 return json
             },
 
-            //测量点正向无功总电能示值曲线
+            // 测量点正向无功总电能示值曲线
             Fn102: function (data) {
                 var json = {},
                     dateArr = data.splice(0, 7);
@@ -3820,7 +3832,7 @@ var json_hex = {
                 return json
             },
 
-            //测量点反向有功总电能示值曲线
+            // 测量点反向有功总电能示值曲线
             Fn103: function (data) {
                 var json = {},
                     dateArr = data.splice(0, 7);
@@ -3834,7 +3846,7 @@ var json_hex = {
                 return json
             },
 
-            //测量点反向无功总电能示值曲线
+            // 测量点反向无功总电能示值曲线
             Fn104: function (data) {
                 var json = {},
                     dateArr = data.splice(0, 7);
@@ -3848,7 +3860,7 @@ var json_hex = {
                 return json
             },
 
-            //测量点功率因数曲线
+            // 测量点功率因数曲线
             Fn105: function (data) {
                 var json = {},
                     dateArr = data.splice(0, 7);
@@ -3862,7 +3874,7 @@ var json_hex = {
                 return json
             },
 
-            //测量点A相功率因数曲线
+            // 测量点A相功率因数曲线
             Fn106: function (data) {
                 var json = {},
                     dateArr = data.splice(0, 7);
@@ -3876,7 +3888,7 @@ var json_hex = {
                 return json
             },
 
-            //测量点B相功率因数曲线
+            // 测量点B相功率因数曲线
             Fn107: function (data) {
                 var json = {},
                     dateArr = data.splice(0, 7);
@@ -3890,7 +3902,7 @@ var json_hex = {
                 return json
             },
 
-            //测量点C相功率因数曲线
+            // 测量点C相功率因数曲线
             Fn108: function (data) {
                 var json = {},
                     dateArr = data.splice(0, 7);
@@ -3904,7 +3916,7 @@ var json_hex = {
                 return json
             },
 
-            //测量点电压相位角曲线
+            // 测量点电压相位角曲线
             Fn109: function (data) {
                 var json = {},
                     dateArr = data.splice(0, 7);
@@ -3920,7 +3932,7 @@ var json_hex = {
                 return json
             },
 
-            //测量点电流相位角曲线
+            // 测量点电流相位角曲线
             Fn110: function (data) {
                 var json = {},
                     dateArr = data.splice(0, 7);
@@ -3936,7 +3948,7 @@ var json_hex = {
                 return json
             },
 
-            //[自定义协议] 北京 万家灯火 太阳能 交流逆变器
+            // [自定义协议] 北京 万家灯火 太阳能 交流逆变器
             Fn139: function (data) {
                 var json = {}, dateArr = data.splice(0, 11);
                 json.td = tools.getDFA15(dateArr[0], dateArr[1], dateArr[2], dateArr[3], dateArr[4]);
@@ -3949,158 +3961,158 @@ var json_hex = {
                 for (var i = 1; i <= json.n; i++) {
                     var arr = data.splice(0, 124);
                     switch (json.nbqxh) {
-                        case 1://格瑞瓦特
-                            json['InverterStatus'] = arr[0] == 0xee ? null : (arr[0] << 8) + arr[1];//逆变器运行状态
-                            json['Ppv'] = arr[2] == 0xee ? null : ((arr[2] << 24) + (arr[3] << 16) + (arr[4] << 8) + arr[5]) / 10;//输入功率
-                            json['Vpv1'] = arr[6] == 0xee ? null : ((arr[6] << 8) + arr[7]) / 10;//直流1 电压
-                            json['PV1Curr'] = arr[8] == 0xee ? null : ((arr[8] << 8) + arr[9]) / 10;//直流1 电流
-                            json['PV1Watt'] = arr[10] == 0xee ? null : ((arr[10] << 24) + (arr[11] << 16) + (arr[12] << 8) + arr[13]) / 10;//直流1 功率
-                            json['Vpv2'] = arr[14] == 0xee ? null : ((arr[14] << 8) + arr[15]) / 10;//直流2 电压
-                            json['PV2Curr'] = arr[16] == 0xee ? null : ((arr[16] << 8) + arr[17]) / 10;//直流2 电流
-                            json['PV2Watt'] = arr[18] == 0xee ? null : ((arr[18] << 24) + (arr[19] << 16) + (arr[20] << 8) + arr[21]) / 10;//直流2 功率
-                            json['Pac'] = arr[22] == 0xee ? null : ((arr[22] << 24) + (arr[23] << 16) + (arr[24] << 8) + arr[25]) / 10;//输出功率
-                            json['Fac'] = arr[26] == 0xee ? null : ((arr[26] << 8) + arr[27]) / 100;//电网频率
-                            json['Vac1'] = arr[28] == 0xee ? null : ((arr[28] << 8) + arr[29]) / 10;//三相/单相 电压1
-                            json['Iac1'] = arr[30] == 0xee ? null : ((arr[30] << 8) + arr[31]) / 10;//三相/单相 电流1
-                            json['Pac1'] = arr[32] == 0xee ? null : ((arr[32] << 24) + (arr[33] << 16) + (arr[34] << 8) + arr[35]) / 10;//三相/单相 功率1
-                            json['Vac2'] = arr[36] == 0xee ? null : ((arr[36] << 8) + arr[37]) / 10;//三相/单相 电压2
-                            json['Iac2'] = arr[38] == 0xee ? null : ((arr[38] << 8) + arr[39]) / 10;//三相/单相 电流2
-                            json['Pac2'] = arr[40] == 0xee ? null : ((arr[40] << 24) + (arr[41] << 16) + (arr[42] << 8) + arr[43]) / 10;//三相/单相 功率2
-                            json['Pac3'] = arr[44] == 0xee ? null : ((arr[44] << 8) + arr[45]) / 10;//三相/单相 电压3
-                            json['Vac3'] = arr[46] == 0xee ? null : ((arr[46] << 8) + arr[47]) / 10;//三相/单相 电流3
-                            json['Iac3'] = arr[48] == 0xee ? null : ((arr[48] << 24) + (arr[49] << 16) + (arr[50] << 8) + arr[51]) / 10;//三相/单相 功率3
-                            json['EnergyToday'] = arr[52] == 0xee ? null : ((arr[52] << 24) + (arr[53] << 16) + (arr[54] << 8) + arr[55]) / 10;//今天发电量
-                            json['EnergyTotal'] = arr[56] == 0xee ? null : ((arr[56] << 24) + (arr[57] << 16) + (arr[58] << 8) + arr[59]) / 10;//总的发电量
-                            json['TimeTotal'] = arr[60] == 0xee ? null : ((arr[60] << 24) + (arr[61] << 16) + (arr[62] << 8) + arr[63]) * .5;//总的工作时间
-                            json['Temperature'] = arr[64] == 0xee ? null : ((arr[64] << 8) + arr[65]) / 10;//逆变温度
-                            json['ISOFaultValue'] = arr[66] == 0xee ? null : ((arr[66] << 8) + arr[67]) / 10;//绝缘阻抗报错值
-                            json['GFCIFaultValue'] = arr[68] == 0xee ? null : (arr[68] << 8) + arr[69];//漏电流报错值
-                            json['DCIFaultValue'] = arr[70] == 0xee ? null : ((arr[70] << 8) + arr[71]) / 100;//直流分量的报错值
-                            json['VpvFaultValue'] = arr[72] == 0xee ? null : ((arr[72] << 8) + arr[73]) / 10;//电压的报错值
-                            json['VacFaultValue'] = arr[74] == 0xee ? null : ((arr[74] << 8) + arr[75]) / 10;//AC电压的报错值
-                            json['FacFaultValue'] = arr[76] == 0xee ? null : ((arr[76] << 8) + arr[77]) / 100;//AC频率的报错值
-                            json['TemperatureFaultValue'] = arr[78] == 0xee ? null : ((arr[78] << 8) + arr[79]) / 10;//温度的报错值
-                            json['FaultCode'] = arr[80] == 0xee ? null : (arr[80] << 8) + arr[81];//逆变报错位
-                            json['IPMTemperature'] = arr[82] == 0xee ? null : ((arr[82] << 8) + arr[83]) / 10;//IGBI模块温度
-                            json['PBusVoltage'] = arr[84] == 0xee ? null : ((arr[84] << 8) + arr[85]) / 10;//正 BUS 电压
-                            json['NBusVoltage'] = arr[86] == 0xee ? null : ((arr[86] << 8) + arr[87]) / 10;//负 BUS 电压
-                            json['IPF'] = arr[88] == 0xee ? null : (arr[88] << 8) + arr[89];//当前的逆变器输出的功率因数
-                            json['Epv1_today'] = arr[90] == 0xee ? null : ((arr[90] << 24) + (arr[91] << 16) + (arr[92] << 8) + arr[93]) / 10;//直流1发电量
-                            json['Epv1_total'] = arr[94] == 0xee ? null : ((arr[94] << 24) + (arr[95] << 16) + (arr[96] << 8) + arr[97]) / 10;//直流1总的发电量
-                            json['Epv2_today'] = arr[98] == 0xee ? null : ((arr[98] << 24) + (arr[99] << 16) + (arr[100] << 8) + arr[101]) / 10;//直流2发电量
-                            json['Epv2_tota'] = arr[102] == 0xee ? null : ((arr[102] << 24) + (arr[103] << 16) + (arr[104] << 8) + arr[105]) / 10;//直流2总的发电量
-                            json['Epv_total'] = arr[106] == 0xee ? null : ((arr[106] << 8) + arr[107]) / 10;//直流总的电量
+                        case 1:// 格瑞瓦特
+                            json['InverterStatus'] = arr[0] == 0xee ? null : (arr[0] << 8) + arr[1];// 逆变器运行状态
+                            json['Ppv'] = arr[2] == 0xee ? null : ((arr[2] << 24) + (arr[3] << 16) + (arr[4] << 8) + arr[5]) / 10;// 输入功率
+                            json['Vpv1'] = arr[6] == 0xee ? null : ((arr[6] << 8) + arr[7]) / 10;// 直流1 电压
+                            json['PV1Curr'] = arr[8] == 0xee ? null : ((arr[8] << 8) + arr[9]) / 10;// 直流1 电流
+                            json['PV1Watt'] = arr[10] == 0xee ? null : ((arr[10] << 24) + (arr[11] << 16) + (arr[12] << 8) + arr[13]) / 10;// 直流1 功率
+                            json['Vpv2'] = arr[14] == 0xee ? null : ((arr[14] << 8) + arr[15]) / 10;// 直流2 电压
+                            json['PV2Curr'] = arr[16] == 0xee ? null : ((arr[16] << 8) + arr[17]) / 10;// 直流2 电流
+                            json['PV2Watt'] = arr[18] == 0xee ? null : ((arr[18] << 24) + (arr[19] << 16) + (arr[20] << 8) + arr[21]) / 10;// 直流2 功率
+                            json['Pac'] = arr[22] == 0xee ? null : ((arr[22] << 24) + (arr[23] << 16) + (arr[24] << 8) + arr[25]) / 10;// 输出功率
+                            json['Fac'] = arr[26] == 0xee ? null : ((arr[26] << 8) + arr[27]) / 100;// 电网频率
+                            json['Vac1'] = arr[28] == 0xee ? null : ((arr[28] << 8) + arr[29]) / 10;// 三相/单相 电压1
+                            json['Iac1'] = arr[30] == 0xee ? null : ((arr[30] << 8) + arr[31]) / 10;// 三相/单相 电流1
+                            json['Pac1'] = arr[32] == 0xee ? null : ((arr[32] << 24) + (arr[33] << 16) + (arr[34] << 8) + arr[35]) / 10;// 三相/单相 功率1
+                            json['Vac2'] = arr[36] == 0xee ? null : ((arr[36] << 8) + arr[37]) / 10;// 三相/单相 电压2
+                            json['Iac2'] = arr[38] == 0xee ? null : ((arr[38] << 8) + arr[39]) / 10;// 三相/单相 电流2
+                            json['Pac2'] = arr[40] == 0xee ? null : ((arr[40] << 24) + (arr[41] << 16) + (arr[42] << 8) + arr[43]) / 10;// 三相/单相 功率2
+                            json['Pac3'] = arr[44] == 0xee ? null : ((arr[44] << 8) + arr[45]) / 10;// 三相/单相 电压3
+                            json['Vac3'] = arr[46] == 0xee ? null : ((arr[46] << 8) + arr[47]) / 10;// 三相/单相 电流3
+                            json['Iac3'] = arr[48] == 0xee ? null : ((arr[48] << 24) + (arr[49] << 16) + (arr[50] << 8) + arr[51]) / 10;// 三相/单相 功率3
+                            json['EnergyToday'] = arr[52] == 0xee ? null : ((arr[52] << 24) + (arr[53] << 16) + (arr[54] << 8) + arr[55]) / 10;// 今天发电量
+                            json['EnergyTotal'] = arr[56] == 0xee ? null : ((arr[56] << 24) + (arr[57] << 16) + (arr[58] << 8) + arr[59]) / 10;// 总的发电量
+                            json['TimeTotal'] = arr[60] == 0xee ? null : ((arr[60] << 24) + (arr[61] << 16) + (arr[62] << 8) + arr[63]) * .5;// 总的工作时间
+                            json['Temperature'] = arr[64] == 0xee ? null : ((arr[64] << 8) + arr[65]) / 10;// 逆变温度
+                            json['ISOFaultValue'] = arr[66] == 0xee ? null : ((arr[66] << 8) + arr[67]) / 10;// 绝缘阻抗报错值
+                            json['GFCIFaultValue'] = arr[68] == 0xee ? null : (arr[68] << 8) + arr[69];// 漏电流报错值
+                            json['DCIFaultValue'] = arr[70] == 0xee ? null : ((arr[70] << 8) + arr[71]) / 100;// 直流分量的报错值
+                            json['VpvFaultValue'] = arr[72] == 0xee ? null : ((arr[72] << 8) + arr[73]) / 10;// 电压的报错值
+                            json['VacFaultValue'] = arr[74] == 0xee ? null : ((arr[74] << 8) + arr[75]) / 10;// AC电压的报错值
+                            json['FacFaultValue'] = arr[76] == 0xee ? null : ((arr[76] << 8) + arr[77]) / 100;// AC频率的报错值
+                            json['TemperatureFaultValue'] = arr[78] == 0xee ? null : ((arr[78] << 8) + arr[79]) / 10;// 温度的报错值
+                            json['FaultCode'] = arr[80] == 0xee ? null : (arr[80] << 8) + arr[81];// 逆变报错位
+                            json['IPMTemperature'] = arr[82] == 0xee ? null : ((arr[82] << 8) + arr[83]) / 10;// IGBI模块温度
+                            json['PBusVoltage'] = arr[84] == 0xee ? null : ((arr[84] << 8) + arr[85]) / 10;// 正 BUS 电压
+                            json['NBusVoltage'] = arr[86] == 0xee ? null : ((arr[86] << 8) + arr[87]) / 10;// 负 BUS 电压
+                            json['IPF'] = arr[88] == 0xee ? null : (arr[88] << 8) + arr[89];// 当前的逆变器输出的功率因数
+                            json['Epv1_today'] = arr[90] == 0xee ? null : ((arr[90] << 24) + (arr[91] << 16) + (arr[92] << 8) + arr[93]) / 10;// 直流1发电量
+                            json['Epv1_total'] = arr[94] == 0xee ? null : ((arr[94] << 24) + (arr[95] << 16) + (arr[96] << 8) + arr[97]) / 10;// 直流1总的发电量
+                            json['Epv2_today'] = arr[98] == 0xee ? null : ((arr[98] << 24) + (arr[99] << 16) + (arr[100] << 8) + arr[101]) / 10;// 直流2发电量
+                            json['Epv2_tota'] = arr[102] == 0xee ? null : ((arr[102] << 24) + (arr[103] << 16) + (arr[104] << 8) + arr[105]) / 10;// 直流2总的发电量
+                            json['Epv_total'] = arr[106] == 0xee ? null : ((arr[106] << 8) + arr[107]) / 10;// 直流总的电量
                             break;
-                        case 2://阳光
-                            json['EnergyToday'] = arr[0] == 0xee ? null : ((arr[0] << 8) + arr[1]) / 10;//日发电量
-                            json['EnergyTotal'] = arr[2] == 0xee ? null : (arr[4] << 24) + (arr[5] << 16) + (arr[2] << 8) + arr[3];//总发电量
-                            json['TimeTotal'] = arr[6] == 0xee ? null : (arr[8] << 24) + (arr[9] << 16) + (arr[6] << 8) + arr[7];//总运行时间
-                            json['机内空气温度'] = arr[10] == 0xee ? null : ((arr[10] << 8) + arr[11]) / 10;//机内空气温度
-                            json['Vpv1'] = arr[12] == 0xee ? null : ((arr[12] << 8) + arr[13]) / 10;//直流电压1
-                            json['PV1Curr'] = arr[14] == 0xee ? null : ((arr[14] << 8) + arr[15]) / 10;//直流电流1
-                            json['Vpv2'] = arr[16] == 0xee ? null : ((arr[16] << 8) + arr[17]) / 10;//直流电压2
-                            json['PV2Curr'] = arr[18] == 0xee ? null : ((arr[18] << 8) + arr[19]) / 10;//直流电流2
-                            json['Ppv'] = arr[20] == 0xee ? null : (arr[22] << 24) + (arr[23] << 16) + (arr[20] << 8) + arr[21];//总直流功率
-                            json['A 相电压'] = arr[24] == 0xee ? null : ((arr[24] << 8) + arr[25]) / 10;//AB 线电压/A 相电压
-                            json['B 相电压'] = arr[26] == 0xee ? null : ((arr[26] << 8) + arr[27]) / 10;//BC 线电压/B 相电压
-                            json['C 相电压'] = arr[28] == 0xee ? null : ((arr[28] << 8) + arr[29]) / 10;//CA 线电压/C 相电压
-                            json['A相电流'] = arr[30] == 0xee ? null : ((arr[30] << 8) + arr[31]) / 10;//A相电流
-                            json['B相电流'] = arr[32] == 0xee ? null : ((arr[32] << 8) + arr[33]) / 10;//B相电流
-                            json['C相电流'] = arr[34] == 0xee ? null : ((arr[34] << 8) + arr[35]) / 10;//C相电流
-                            json['Pac'] = arr[36] == 0xee ? null : (arr[38] << 24) + (arr[39] << 16) + (arr[36] << 8) + arr[37];//总有功功率
-                            json['无功功率'] = arr[40] == 0xee ? null : (arr[42] << 24) + (arr[43] << 16) + (arr[40] << 8) + arr[41];//无功功率
-                            json['功率因数'] = arr[44] == 0xee ? null : ((arr[44] << 8) + arr[45]) / 1000;//功率因数
-                            json['Fac'] = arr[46] == 0xee ? null : ((arr[46] << 8) + arr[47]) / 10;//电网频率
-                            json['逆变器效率'] = arr[48] == 0xee ? null : ((arr[48] << 8) + arr[49]) / 1000;//逆变器效率
-                            json['WarningCode'] = arr[50] == 0xee ? null : (arr[50] << 8) + arr[51];//设备状态
-                            json['故障状态1'] = arr[52] == 0xee ? null : (arr[54] << 24) + (arr[55] << 16) + (arr[52] << 8) + arr[53];//故障状态1
-                            json['故障状态2'] = arr[56] == 0xee ? null : (arr[58] << 24) + (arr[59] << 16) + (arr[56] << 8) + arr[57];//故障状态2
-                            json['日运行时间'] = arr[60] == 0xee ? null : (arr[60] << 8) + arr[61];//日运行时间
-                            json['Vpv2'] = arr[62] == 0xee ? null : ((arr[62] << 8) + arr[63]) / 10;//直流电压4
-                            json['PV2Curr'] = arr[64] == 0xee ? null : ((arr[64] << 8) + arr[65]) / 10;//直流电流4
+                        case 2:// 阳光
+                            json['EnergyToday'] = arr[0] == 0xee ? null : ((arr[0] << 8) + arr[1]) / 10;// 日发电量
+                            json['EnergyTotal'] = arr[2] == 0xee ? null : (arr[4] << 24) + (arr[5] << 16) + (arr[2] << 8) + arr[3];// 总发电量
+                            json['TimeTotal'] = arr[6] == 0xee ? null : (arr[8] << 24) + (arr[9] << 16) + (arr[6] << 8) + arr[7];// 总运行时间
+                            json['机内空气温度'] = arr[10] == 0xee ? null : ((arr[10] << 8) + arr[11]) / 10;// 机内空气温度
+                            json['Vpv1'] = arr[12] == 0xee ? null : ((arr[12] << 8) + arr[13]) / 10;// 直流电压1
+                            json['PV1Curr'] = arr[14] == 0xee ? null : ((arr[14] << 8) + arr[15]) / 10;// 直流电流1
+                            json['Vpv2'] = arr[16] == 0xee ? null : ((arr[16] << 8) + arr[17]) / 10;// 直流电压2
+                            json['PV2Curr'] = arr[18] == 0xee ? null : ((arr[18] << 8) + arr[19]) / 10;// 直流电流2
+                            json['Ppv'] = arr[20] == 0xee ? null : (arr[22] << 24) + (arr[23] << 16) + (arr[20] << 8) + arr[21];// 总直流功率
+                            json['A 相电压'] = arr[24] == 0xee ? null : ((arr[24] << 8) + arr[25]) / 10;// AB 线电压/A 相电压
+                            json['B 相电压'] = arr[26] == 0xee ? null : ((arr[26] << 8) + arr[27]) / 10;// BC 线电压/B 相电压
+                            json['C 相电压'] = arr[28] == 0xee ? null : ((arr[28] << 8) + arr[29]) / 10;// CA 线电压/C 相电压
+                            json['A相电流'] = arr[30] == 0xee ? null : ((arr[30] << 8) + arr[31]) / 10;// A相电流
+                            json['B相电流'] = arr[32] == 0xee ? null : ((arr[32] << 8) + arr[33]) / 10;// B相电流
+                            json['C相电流'] = arr[34] == 0xee ? null : ((arr[34] << 8) + arr[35]) / 10;// C相电流
+                            json['Pac'] = arr[36] == 0xee ? null : (arr[38] << 24) + (arr[39] << 16) + (arr[36] << 8) + arr[37];// 总有功功率
+                            json['无功功率'] = arr[40] == 0xee ? null : (arr[42] << 24) + (arr[43] << 16) + (arr[40] << 8) + arr[41];// 无功功率
+                            json['功率因数'] = arr[44] == 0xee ? null : ((arr[44] << 8) + arr[45]) / 1000;// 功率因数
+                            json['Fac'] = arr[46] == 0xee ? null : ((arr[46] << 8) + arr[47]) / 10;// 电网频率
+                            json['逆变器效率'] = arr[48] == 0xee ? null : ((arr[48] << 8) + arr[49]) / 1000;// 逆变器效率
+                            json['WarningCode'] = arr[50] == 0xee ? null : (arr[50] << 8) + arr[51];// 设备状态
+                            json['故障状态1'] = arr[52] == 0xee ? null : (arr[54] << 24) + (arr[55] << 16) + (arr[52] << 8) + arr[53];// 故障状态1
+                            json['故障状态2'] = arr[56] == 0xee ? null : (arr[58] << 24) + (arr[59] << 16) + (arr[56] << 8) + arr[57];// 故障状态2
+                            json['日运行时间'] = arr[60] == 0xee ? null : (arr[60] << 8) + arr[61];// 日运行时间
+                            json['Vpv2'] = arr[62] == 0xee ? null : ((arr[62] << 8) + arr[63]) / 10;// 直流电压4
+                            json['PV2Curr'] = arr[64] == 0xee ? null : ((arr[64] << 8) + arr[65]) / 10;// 直流电流4
                             break;
-                        case 3://华为
-                            json['二氧化碳减排量'] = arr[0] == 0xee ? null : ((arr[0] << 24) + (arr[1] << 16) + (arr[2] << 8) + arr[3]) / 100;//二氧化碳减排量
-                            json['PV1输入电压'] = arr[4] == 0xee ? null : ((arr[4] << 8) + arr[5]) / 10;//PV1输入电压
-                            json['PV1输入电流'] = arr[6] == 0xee ? null : ((arr[6] << 8) + arr[7]) / 10;//PV1输入电流
-                            json['PV2输入电压'] = arr[8] == 0xee ? null : ((arr[8] << 8) + arr[9]) / 10;//PV2输入电压
-                            json['PV2输入电流'] = arr[10] == 0xee ? null : ((arr[10] << 8) + arr[11]) / 10;//PV2输入电流
-                            json['PV3输入电压'] = arr[12] == 0xee ? null : ((arr[12] << 8) + arr[13]) / 10;//PV3输入电压
-                            json['PV3输入电流'] = arr[14] == 0xee ? null : ((arr[14] << 8) + arr[15]) / 10;//PV3输入电流
-                            json['PV4输入电压'] = arr[16] == 0xee ? null : ((arr[16] << 8) + arr[17]) / 10;//PV4输入电压
-                            json['PV4输入电流'] = arr[18] == 0xee ? null : ((arr[18] << 8) + arr[19]) / 10;//PV4输入电流
-                            json['PV5输入电压'] = arr[20] == 0xee ? null : ((arr[20] << 8) + arr[21]) / 10;//PV5输入电压
-                            json['PV5输入电流'] = arr[22] == 0xee ? null : ((arr[22] << 8) + arr[23]) / 10;//PV5输入电流
-                            json['PV6输入电压'] = arr[24] == 0xee ? null : ((arr[24] << 8) + arr[25]) / 10;//PV6输入电压
-                            json['PV6输入电流'] = arr[26] == 0xee ? null : ((arr[26] << 8) + arr[27]) / 10;//PV6输入电流
-                            json['电网AB线电压'] = arr[28] == 0xee ? null : ((arr[28] << 8) + arr[29]) / 10;//电网AB线电压
-                            json['电网BC线电压'] = arr[30] == 0xee ? null : ((arr[30] << 8) + arr[31]) / 10;//电网BC线电压
-                            json['电网CA线电压'] = arr[32] == 0xee ? null : ((arr[32] << 8) + arr[33]) / 10;//电网CA线电压
-                            json['电网A相电压'] = arr[34] == 0xee ? null : ((arr[34] << 8) + arr[35]) / 10;//电网A相电压
-                            json['电网B相电压'] = arr[36] == 0xee ? null : ((arr[36] << 8) + arr[37]) / 10;//电网B相电压
-                            json['电网C相电压'] = arr[38] == 0xee ? null : ((arr[38] << 8) + arr[39]) / 10;//电网C相电压
-                            json['电网A相电流'] = arr[40] == 0xee ? null : ((arr[40] << 8) + arr[41]) / 10;//电网A相电流
-                            json['电网B相电流'] = arr[42] == 0xee ? null : ((arr[42] << 8) + arr[43]) / 10;//电网B相电流
-                            json['电网C相电流'] = arr[44] == 0xee ? null : ((arr[44] << 8) + arr[45]) / 10;//电网C相电流
-                            json['电网频率'] = arr[46] == 0xee ? null : ((arr[46] << 8) + arr[47]) / 100;//电网频率
-                            json['功率因数'] = arr[48] == 0xee ? null : ((arr[48] << 8) + arr[49]) / 1000;//功率因数
-                            json['逆变器效率'] = arr[50] == 0xee ? null : ((arr[50] << 8) + arr[51]) / 100;//逆变器效率
-                            json['机内温度'] = arr[52] == 0xee ? null : ((arr[52] << 8) + arr[53]) / 10;//机内温度
-                            json['逆变器状态'] = arr[54] == 0xee ? null : (arr[54] << 8) + arr[55];//逆变器状态
-                            json['当天峰值有功功率'] = arr[56] == 0xee ? null : ((arr[56] << 24) + (arr[57] << 16) + (arr[58] << 8) + arr[59]) / 1000;//当天峰值有功功率
-                            json['有功功率'] = arr[60] == 0xee ? null : ((arr[60] << 24) + (arr[61] << 16) + (arr[62] << 8) + arr[63]) / 1000;//有功功率
-                            json['无功功率'] = arr[64] == 0xee ? null : ((arr[64] << 24) + (arr[65] << 16) + (arr[66] << 8) + arr[67]) / 1000;//无功功率
-                            json['输入总功率'] = arr[68] == 0xee ? null : ((arr[68] << 24) + (arr[69] << 16) + (arr[70] << 8) + arr[71]) / 1000;//输入总功率
-                            json['当前小时发电量'] = arr[72] == 0xee ? null : ((arr[72] << 24) + (arr[73] << 16) + (arr[74] << 8) + arr[75]) / 100;//当前小时发电量
-                            json['当前日发电量'] = arr[76] == 0xee ? null : ((arr[76] << 24) + (arr[77] << 16) + (arr[78] << 8) + arr[79]) / 100;//当前日发电量
-                            json['当前月发电量'] = arr[80] == 0xee ? null : ((arr[80] << 24) + (arr[81] << 16) + (arr[82] << 8) + arr[83]) / 100;//当前月发电量
-                            json['当前年发电量'] = arr[84] == 0xee ? null : ((arr[84] << 24) + (arr[85] << 16) + (arr[86] << 8) + arr[87]) / 100;//当前年发电量
-                            json['总发电量'] = arr[88] == 0xee ? null : ((arr[88] << 24) + (arr[89] << 16) + (arr[90] << 8) + arr[91]) / 100;//总发电量
-                            json['闭锁状态'] = arr[92] == 0xee ? null : (arr[92] << 8) + arr[93];//闭锁状态
-                            //------------------------------------------------------------------------------
-                            json['零电压穿越保护状态'] = arr[94] == 0xee ? null : (arr[94] << 8) + arr[95];//零电压穿越保护状态
-                            json['零电压穿越保护状态2'] = arr[94] == 0xee ? null : arr[95] % 2;//
-                            json['低电压穿越保护状态'] = arr[94] == 0xee ? null : (arr[94] << 8) + arr[95];//低电压穿越保护状态
-                            json['低电压穿越保护状态2'] = arr[94] == 0xee ? null : (arr[95] >> 1) % 2;//
-                            json['孤岛效应保护状态'] = arr[94] == 0xee ? null : (arr[94] << 8) + arr[95];//孤岛效应保护状态
-                            json['孤岛效应保护状态2'] = arr[94] == 0xee ? null : (arr[95] >> 2) % 2;//
-                            //------------------------------------------------------------------------------
-                            json['逆变器并网状态'] = arr[96] == 0xee ? null : (arr[96] << 8) + arr[97];//逆变器并网状态
-                            json['绝缘阻抗值'] = arr[98] == 0xee ? null : ((arr[98] << 8) + arr[99]) / 1000;//绝缘阻抗值
-                            json['前一小时发电量'] = arr[100] == 0xee ? null : ((arr[100] << 24) + (arr[101] << 16) + (arr[102] << 8) + arr[103]) / 100;//前一小时发电量
-                            json['前一日发电量'] = arr[104] == 0xee ? null : (arr[104] << 24) + (arr[105] << 16) + (arr[106] << 8) + arr[107];//前一日发电量
-                            json['前一月发电量'] = arr[108] == 0xee ? null : (arr[108] << 24) + (arr[109] << 16) + (arr[110] << 8) + arr[111];//前一月发电量
-                            json['前一年发电量'] = arr[112] == 0xee ? null : (arr[112] << 24) + (arr[113] << 16) + (arr[114] << 8) + arr[115];//前一年发电量
+                        case 3:// 华为
+                            json['二氧化碳减排量'] = arr[0] == 0xee ? null : ((arr[0] << 24) + (arr[1] << 16) + (arr[2] << 8) + arr[3]) / 100;// 二氧化碳减排量
+                            json['PV1输入电压'] = arr[4] == 0xee ? null : ((arr[4] << 8) + arr[5]) / 10;// PV1输入电压
+                            json['PV1输入电流'] = arr[6] == 0xee ? null : ((arr[6] << 8) + arr[7]) / 10;// PV1输入电流
+                            json['PV2输入电压'] = arr[8] == 0xee ? null : ((arr[8] << 8) + arr[9]) / 10;// PV2输入电压
+                            json['PV2输入电流'] = arr[10] == 0xee ? null : ((arr[10] << 8) + arr[11]) / 10;// PV2输入电流
+                            json['PV3输入电压'] = arr[12] == 0xee ? null : ((arr[12] << 8) + arr[13]) / 10;// PV3输入电压
+                            json['PV3输入电流'] = arr[14] == 0xee ? null : ((arr[14] << 8) + arr[15]) / 10;// PV3输入电流
+                            json['PV4输入电压'] = arr[16] == 0xee ? null : ((arr[16] << 8) + arr[17]) / 10;// PV4输入电压
+                            json['PV4输入电流'] = arr[18] == 0xee ? null : ((arr[18] << 8) + arr[19]) / 10;// PV4输入电流
+                            json['PV5输入电压'] = arr[20] == 0xee ? null : ((arr[20] << 8) + arr[21]) / 10;// PV5输入电压
+                            json['PV5输入电流'] = arr[22] == 0xee ? null : ((arr[22] << 8) + arr[23]) / 10;// PV5输入电流
+                            json['PV6输入电压'] = arr[24] == 0xee ? null : ((arr[24] << 8) + arr[25]) / 10;// PV6输入电压
+                            json['PV6输入电流'] = arr[26] == 0xee ? null : ((arr[26] << 8) + arr[27]) / 10;// PV6输入电流
+                            json['电网AB线电压'] = arr[28] == 0xee ? null : ((arr[28] << 8) + arr[29]) / 10;// 电网AB线电压
+                            json['电网BC线电压'] = arr[30] == 0xee ? null : ((arr[30] << 8) + arr[31]) / 10;// 电网BC线电压
+                            json['电网CA线电压'] = arr[32] == 0xee ? null : ((arr[32] << 8) + arr[33]) / 10;// 电网CA线电压
+                            json['电网A相电压'] = arr[34] == 0xee ? null : ((arr[34] << 8) + arr[35]) / 10;// 电网A相电压
+                            json['电网B相电压'] = arr[36] == 0xee ? null : ((arr[36] << 8) + arr[37]) / 10;// 电网B相电压
+                            json['电网C相电压'] = arr[38] == 0xee ? null : ((arr[38] << 8) + arr[39]) / 10;// 电网C相电压
+                            json['电网A相电流'] = arr[40] == 0xee ? null : ((arr[40] << 8) + arr[41]) / 10;// 电网A相电流
+                            json['电网B相电流'] = arr[42] == 0xee ? null : ((arr[42] << 8) + arr[43]) / 10;// 电网B相电流
+                            json['电网C相电流'] = arr[44] == 0xee ? null : ((arr[44] << 8) + arr[45]) / 10;// 电网C相电流
+                            json['电网频率'] = arr[46] == 0xee ? null : ((arr[46] << 8) + arr[47]) / 100;// 电网频率
+                            json['功率因数'] = arr[48] == 0xee ? null : ((arr[48] << 8) + arr[49]) / 1000;// 功率因数
+                            json['逆变器效率'] = arr[50] == 0xee ? null : ((arr[50] << 8) + arr[51]) / 100;// 逆变器效率
+                            json['机内温度'] = arr[52] == 0xee ? null : ((arr[52] << 8) + arr[53]) / 10;// 机内温度
+                            json['逆变器状态'] = arr[54] == 0xee ? null : (arr[54] << 8) + arr[55];// 逆变器状态
+                            json['当天峰值有功功率'] = arr[56] == 0xee ? null : ((arr[56] << 24) + (arr[57] << 16) + (arr[58] << 8) + arr[59]) / 1000;// 当天峰值有功功率
+                            json['有功功率'] = arr[60] == 0xee ? null : ((arr[60] << 24) + (arr[61] << 16) + (arr[62] << 8) + arr[63]) / 1000;// 有功功率
+                            json['无功功率'] = arr[64] == 0xee ? null : ((arr[64] << 24) + (arr[65] << 16) + (arr[66] << 8) + arr[67]) / 1000;// 无功功率
+                            json['输入总功率'] = arr[68] == 0xee ? null : ((arr[68] << 24) + (arr[69] << 16) + (arr[70] << 8) + arr[71]) / 1000;// 输入总功率
+                            json['当前小时发电量'] = arr[72] == 0xee ? null : ((arr[72] << 24) + (arr[73] << 16) + (arr[74] << 8) + arr[75]) / 100;// 当前小时发电量
+                            json['当前日发电量'] = arr[76] == 0xee ? null : ((arr[76] << 24) + (arr[77] << 16) + (arr[78] << 8) + arr[79]) / 100;// 当前日发电量
+                            json['当前月发电量'] = arr[80] == 0xee ? null : ((arr[80] << 24) + (arr[81] << 16) + (arr[82] << 8) + arr[83]) / 100;// 当前月发电量
+                            json['当前年发电量'] = arr[84] == 0xee ? null : ((arr[84] << 24) + (arr[85] << 16) + (arr[86] << 8) + arr[87]) / 100;// 当前年发电量
+                            json['总发电量'] = arr[88] == 0xee ? null : ((arr[88] << 24) + (arr[89] << 16) + (arr[90] << 8) + arr[91]) / 100;// 总发电量
+                            json['闭锁状态'] = arr[92] == 0xee ? null : (arr[92] << 8) + arr[93];// 闭锁状态
+                            // ------------------------------------------------------------------------------
+                            json['零电压穿越保护状态'] = arr[94] == 0xee ? null : (arr[94] << 8) + arr[95];// 零电压穿越保护状态
+                            json['零电压穿越保护状态2'] = arr[94] == 0xee ? null : arr[95] % 2;// 
+                            json['低电压穿越保护状态'] = arr[94] == 0xee ? null : (arr[94] << 8) + arr[95];// 低电压穿越保护状态
+                            json['低电压穿越保护状态2'] = arr[94] == 0xee ? null : (arr[95] >> 1) % 2;// 
+                            json['孤岛效应保护状态'] = arr[94] == 0xee ? null : (arr[94] << 8) + arr[95];// 孤岛效应保护状态
+                            json['孤岛效应保护状态2'] = arr[94] == 0xee ? null : (arr[95] >> 2) % 2;// 
+                            // ------------------------------------------------------------------------------
+                            json['逆变器并网状态'] = arr[96] == 0xee ? null : (arr[96] << 8) + arr[97];// 逆变器并网状态
+                            json['绝缘阻抗值'] = arr[98] == 0xee ? null : ((arr[98] << 8) + arr[99]) / 1000;// 绝缘阻抗值
+                            json['前一小时发电量'] = arr[100] == 0xee ? null : ((arr[100] << 24) + (arr[101] << 16) + (arr[102] << 8) + arr[103]) / 100;// 前一小时发电量
+                            json['前一日发电量'] = arr[104] == 0xee ? null : (arr[104] << 24) + (arr[105] << 16) + (arr[106] << 8) + arr[107];// 前一日发电量
+                            json['前一月发电量'] = arr[108] == 0xee ? null : (arr[108] << 24) + (arr[109] << 16) + (arr[110] << 8) + arr[111];// 前一月发电量
+                            json['前一年发电量'] = arr[112] == 0xee ? null : (arr[112] << 24) + (arr[113] << 16) + (arr[114] << 8) + arr[115];// 前一年发电量
                             break;
-                        case 4://锦浪
-                            json['直流电压1'] = arr[0] == 0xee ? null : ((arr[0] << 8) + arr[1]) / 10;//直流电压1
-                            json['直流电流1'] = arr[2] == 0xee ? null : ((arr[2] << 8) + arr[3]) / 10;//直流电流1
-                            json['交流电压'] = arr[4] == 0xee ? null : ((arr[4] << 8) + arr[5]) / 10;//交流电压
-                            json['交流电流'] = arr[6] == 0xee ? null : ((arr[6] << 8) + arr[7]) / 10;//交流电流
-                            json['逆变器温度'] = arr[8] == 0xee ? null : ((arr[8] << 8) + arr[9]) / 10;//逆变器温度(对应DSP 模块温度)
-                            json['总发电量'] = arr[10] == 0xee ? null : (arr[10] << 8) + arr[11];//总发电量
-                            json['当前状态'] = arr[12] == 0xee ? null : (arr[12] << 8) + arr[13];//当前状态
-                            json['故障数据'] = arr[14] == 0xee ? null : (arr[14] << 8) + arr[15];//故障数据
-                            json['电网频率'] = arr[16] == 0xee ? null : ((arr[16] << 8) + arr[17]) / 100;//电网频率
-                            json['直流电压2'] = arr[18] == 0xee ? null : ((arr[18] << 8) + arr[19]) / 10;//直流电压2
-                            json['直流电流2'] = arr[20] == 0xee ? null : ((arr[20] << 8) + arr[21]) / 10;//直流电流2
-                            json['当前开/关机状态'] = arr[22] == 0xee ? null : (arr[22] << 8) + arr[23];//当前开/关机状态
-                            json['当前月发电量'] = arr[24] == 0xee ? null : (arr[24] << 8) + arr[25];//当前月发电量
-                            json['上月发电量'] = arr[26] == 0xee ? null : (arr[26] << 8) + arr[27];//上月发电量
-                            json['当日发电量'] = arr[28] == 0xee ? null : (arr[28] << 8) + arr[29];//当日发电量
-                            json['昨日发电量'] = arr[30] == 0xee ? null : (arr[30] << 8) + arr[31];//昨日发电量
-                            json['直流电压3'] = arr[32] == 0xee ? null : ((arr[32] << 8) + arr[33]) / 10;//直流电压3
-                            json['直流电流3'] = arr[34] == 0xee ? null : ((arr[34] << 8) + arr[35]) / 10;//直流电流3
-                            json['直流电压4'] = arr[36] == 0xee ? null : ((arr[36] << 8) + arr[37]) / 10;//直流电压4
-                            json['直流电流4'] = arr[38] == 0xee ? null : ((arr[38] << 8) + arr[39]) / 10;//直流电流4
-                            json['功率限制百分比'] = arr[40] == 0xee ? null : (arr[40] << 8) + arr[41];//功率限制百分比
+                        case 4:// 锦浪
+                            json['直流电压1'] = arr[0] == 0xee ? null : ((arr[0] << 8) + arr[1]) / 10;// 直流电压1
+                            json['直流电流1'] = arr[2] == 0xee ? null : ((arr[2] << 8) + arr[3]) / 10;// 直流电流1
+                            json['交流电压'] = arr[4] == 0xee ? null : ((arr[4] << 8) + arr[5]) / 10;// 交流电压
+                            json['交流电流'] = arr[6] == 0xee ? null : ((arr[6] << 8) + arr[7]) / 10;// 交流电流
+                            json['逆变器温度'] = arr[8] == 0xee ? null : ((arr[8] << 8) + arr[9]) / 10;// 逆变器温度(对应DSP 模块温度)
+                            json['总发电量'] = arr[10] == 0xee ? null : (arr[10] << 8) + arr[11];// 总发电量
+                            json['当前状态'] = arr[12] == 0xee ? null : (arr[12] << 8) + arr[13];// 当前状态
+                            json['故障数据'] = arr[14] == 0xee ? null : (arr[14] << 8) + arr[15];// 故障数据
+                            json['电网频率'] = arr[16] == 0xee ? null : ((arr[16] << 8) + arr[17]) / 100;// 电网频率
+                            json['直流电压2'] = arr[18] == 0xee ? null : ((arr[18] << 8) + arr[19]) / 10;// 直流电压2
+                            json['直流电流2'] = arr[20] == 0xee ? null : ((arr[20] << 8) + arr[21]) / 10;// 直流电流2
+                            json['当前开/关机状态'] = arr[22] == 0xee ? null : (arr[22] << 8) + arr[23];// 当前开/关机状态
+                            json['当前月发电量'] = arr[24] == 0xee ? null : (arr[24] << 8) + arr[25];// 当前月发电量
+                            json['上月发电量'] = arr[26] == 0xee ? null : (arr[26] << 8) + arr[27];// 上月发电量
+                            json['当日发电量'] = arr[28] == 0xee ? null : (arr[28] << 8) + arr[29];// 当日发电量
+                            json['昨日发电量'] = arr[30] == 0xee ? null : (arr[30] << 8) + arr[31];// 昨日发电量
+                            json['直流电压3'] = arr[32] == 0xee ? null : ((arr[32] << 8) + arr[33]) / 10;// 直流电压3
+                            json['直流电流3'] = arr[34] == 0xee ? null : ((arr[34] << 8) + arr[35]) / 10;// 直流电流3
+                            json['直流电压4'] = arr[36] == 0xee ? null : ((arr[36] << 8) + arr[37]) / 10;// 直流电压4
+                            json['直流电流4'] = arr[38] == 0xee ? null : ((arr[38] << 8) + arr[39]) / 10;// 直流电流4
+                            json['功率限制百分比'] = arr[40] == 0xee ? null : (arr[40] << 8) + arr[41];// 功率限制百分比
                             break;
                     }
                 }
                 return json;
             },
 
-            //日冻结正向有功（组合无功1）电能示值（总、费率1～M）
+            // 日冻结正向有功（组合无功1）电能示值（总、费率1～M）
             Fn161: function (data) {
                 var json = {},
                     dateArr = data.splice(0, 9);
@@ -4116,7 +4128,7 @@ var json_hex = {
                 return json
             },
 
-            //日冻结正向无功（组合无功1）电能示值（总、费率1～M）
+            // 日冻结正向无功（组合无功1）电能示值（总、费率1～M）
             Fn162: function (data) {
                 var json = {},
                     dateArr = data.splice(0, 9);
@@ -4132,7 +4144,7 @@ var json_hex = {
                 return json
             },
 
-            //日冻结反向有功电能示值（总、费率1～M）
+            // 日冻结反向有功电能示值（总、费率1～M）
             Fn163: function (data) {
                 var json = {},
                     dateArr = data.splice(0, 9);
@@ -4148,7 +4160,7 @@ var json_hex = {
                 return json
             },
 
-            //日冻结反向无功（组合无功1）电能示值（总、费率1～M）
+            // 日冻结反向无功（组合无功1）电能示值（总、费率1～M）
             Fn164: function (data) {
                 var json = {},
                     dateArr = data.splice(0, 9);
@@ -4164,7 +4176,7 @@ var json_hex = {
                 return json
             },
 
-            //月冻结正向有功电能示值（总、费率1～M）
+            // 月冻结正向有功电能示值（总、费率1～M）
             Fn177: function (data) {
                 var json = {},
                     dateArr = data.splice(0, 8);
@@ -4180,7 +4192,7 @@ var json_hex = {
                 return json
             },
 
-            //月冻结正向无功（组合无功1）电能示值（总、费率1～M）
+            // 月冻结正向无功（组合无功1）电能示值（总、费率1～M）
             Fn178: function (data) {
                 var json = {},
                     dateArr = data.splice(0, 8);
@@ -4196,7 +4208,7 @@ var json_hex = {
                 return json
             },
 
-            //月冻结反向有功电能示值（总、费率1～M）
+            // 月冻结反向有功电能示值（总、费率1～M）
             Fn179: function (data) {
                 var json = {},
                     dateArr = data.splice(0, 8);
@@ -4212,7 +4224,7 @@ var json_hex = {
                 return json
             },
 
-            //月冻结反向无功（组合无功1）电能示值（总、费率1～M）
+            // 月冻结反向无功（组合无功1）电能示值（总、费率1～M）
             Fn180: function (data) {
                 var json = {},
                     dateArr = data.splice(0, 8);
@@ -4228,7 +4240,7 @@ var json_hex = {
                 return json
             },
 
-            //日冻结正向有功最大需量及发生时间（总、费率1～M）
+            // 日冻结正向有功最大需量及发生时间（总、费率1～M）
             Fn185: function (data) {
                 var json = {},
                     dateArr = data.splice(0, 9);
@@ -4246,7 +4258,7 @@ var json_hex = {
                 return json
             },
 
-            //日冻结正向无功最大需量及发生时间（总、费率1～M）
+            // 日冻结正向无功最大需量及发生时间（总、费率1～M）
             Fn186: function (data) {
                 var json = {},
                     dateArr = data.splice(0, 9);
@@ -4264,7 +4276,7 @@ var json_hex = {
                 return json
             },
 
-            //日冻结反向有功最大需量及发生时间（总、费率1～M）
+            // 日冻结反向有功最大需量及发生时间（总、费率1～M）
             Fn187: function (data) {
                 var json = {},
                     dateArr = data.splice(0, 9);
@@ -4282,7 +4294,7 @@ var json_hex = {
                 return json
             },
 
-            //日冻结反向无功最大需量及发生时间（总、费率1～M）
+            // 日冻结反向无功最大需量及发生时间（总、费率1～M）
             Fn188: function (data) {
                 var json = {},
                     dateArr = data.splice(0, 9);
@@ -4298,10 +4310,9 @@ var json_hex = {
                     json['rrp_m_d' + i + '_time'] = tools.getDFA17(mValueArr[3], mValueArr[4], mValueArr[5], mValueArr[6]);
                 }
                 return json
-            }
-            ,
+            },
 
-            //为抄读水气热表中的表冻结数据
+            // 为抄读水气热表中的表冻结数据
             Fn220: function (data) {
                 var json = {};
                 var SettleDaySumArr = data.splice(0, 5);
@@ -4310,7 +4321,7 @@ var json_hex = {
                 return json
             },
 
-            //日冻结水表读数
+            // 日冻结水表读数
             Fn221: function (data) {
                 var json = {},
                     dataDateArr = data.splice(0, 3),
@@ -4330,14 +4341,14 @@ var json_hex = {
                 data.splice(0, 2);
                 json.sumWorkTime = tools.getDFA10(sumWorkTimeArr[0], sumWorkTimeArr[1], sumWorkTimeArr[2]);
                 json.realTime = tools.getDFA32(realTimeArr[0], realTimeArr[1], realTimeArr[2], realTimeArr[3], realTimeArr[4], realTimeArr[5], realTimeArr[6]);
-                if(json.meterType===0x19){
-                   var imgData= data.splice(0, 256);
-                    json.img=_water(imgData);
+                if (json.meterType === 0x19) {
+                    var imgData = data.splice(0, 256);
+                    json.img = _water(imgData);
                 }
                 return json;
             },
 
-            //月冻结水表读数
+            // 月冻结水表读数
             Fn222: function (data) {
                 var json = {},
                     dataDateArr = data.splice(0, 2),
@@ -4358,6 +4369,31 @@ var json_hex = {
                 json.sumWorkTime = tools.getDFA10(sumWorkTimeArr[0], sumWorkTimeArr[1], sumWorkTimeArr[2]);
                 json.realTime = tools.getDFA32(realTimeArr[0], realTimeArr[1], realTimeArr[2], realTimeArr[3], realTimeArr[4], realTimeArr[5], realTimeArr[6]);
                 return json;
+            },
+
+            // 日冻结水表读数
+            Fn223: function (data) {
+                var json = {},
+                    dataDateArr = data.splice(0, 3),
+                    dateArr = data.splice(0, 5);
+                json.dataDate = tools.getDFA20(dataDateArr[0], dataDateArr[1], dataDateArr[2]);
+                json.collTime = tools.getDFA15(dateArr[0], dateArr[1], dateArr[2], dateArr[3], dateArr[4]);
+                json.meterType = data.splice(0, 1)[0];
+                json.unit = data.splice(0, 1)[0];
+                if (json.meterType == 0xee && json.unit == 0xee) {
+                    json.realSumFlow = null;
+                    json.imgLen = null;
+                    json.img = null;
+                    var useLess = data.splice(0);
+                } else {
+                    var realSumArr = data.splice(0, 4);
+                    json.realSumFlow = tools.getDFA29(realSumArr[0], realSumArr[1], realSumArr[2], realSumArr[3]);
+                    var valueUseless = data.splice(0, 38);// 暂时没用的
+                    json.imgLen = data.splice(0, 1)[0];
+                    json.img = _water(data.splice(0, json.imgLen));
+                    var imgUseless = data.splice(0);
+                }
+                return json;
             }
         },
 
@@ -4371,7 +4407,7 @@ var json_hex = {
              * @constructor
              */
             Fn1: function (data) {
-                //4c 79 4b 4c 17 10 00 16 31 12 14 01 00 02 00 00 00 00 00 00 00 40
+                // 4c 79 4b 4c 17 10 00 16 31 12 14 01 00 02 00 00 00 00 00 00 00 40
                 var json = {}, arr = data.splice(0, 4), eventLength = 0;
                 json.EC1 = arr[0];
                 json.EC2 = arr[1];
@@ -4441,7 +4477,12 @@ var json_hex = {
 
     /**
      * 3类数据
-     * @type {{ERC1: Function, ERC2: Function, ERC3: Function, ERC4: Function, ERC5: Function, ERC6: Function, ERC7: Function, ERC8: Function, ERC9: Function, ERC10: Function, ERC11: Function, ERC12: Function, ERC13: Function, ERC14: Function, ERC15: Function, ERC16: Function, ERC17: Function, ERC18: Function, ERC19: Function, ERC20: Function, ERC21: Function, ERC22: Function, ERC23: Function, ERC24: Function, ERC25: Function, ERC26: Function, ERC27: Function, ERC28: Function, ERC29: Function, ERC30: Function, ERC31: Function, ERC32: Function, ERC33: Function, ERC34: Function, ERC35: Function}}
+     * @type {{ERC1: Function, ERC2: Function, ERC3: Function, ERC4: Function, ERC5: Function, ERC6: Function, ERC7:
+     *     Function, ERC8: Function, ERC9: Function, ERC10: Function, ERC11: Function, ERC12: Function, ERC13:
+     *     Function, ERC14: Function, ERC15: Function, ERC16: Function, ERC17: Function, ERC18: Function, ERC19:
+     *     Function, ERC20: Function, ERC21: Function, ERC22: Function, ERC23: Function, ERC24: Function, ERC25:
+     *     Function, ERC26: Function, ERC27: Function, ERC28: Function, ERC29: Function, ERC30: Function, ERC31:
+     *     Function, ERC32: Function, ERC33: Function, ERC34: Function, ERC35: Function}}
      */
     hex_json_event = {
         ERC1: function (data) {
@@ -4631,23 +4672,23 @@ exports.json_hex = function (json) {
 
 /**
  *  * var packet = {
- *    A1: 4103,                        //行政区划码
- *    A2: 123,                         //终端地址
- *    A3: 0,                           //主站地址和组地址标志
- *    AFN: 3,                          //AFN
- *    DU: [{                           //数据单元
- *        pn: 0,                       //pn
- *        DT: [{                       //信息类
- *            Fn: 10,                  //Fn
- *            DATA: []                 //数据，具体格式参考协议规定，可赋值为各种数据类型
+ *    A1: 4103,                        // 行政区划码
+ *    A2: 123,                         // 终端地址
+ *    A3: 0,                           // 主站地址和组地址标志
+ *    AFN: 3,                          // AFN
+ *    DU: [{                           // 数据单元
+ *        pn: 0,                       // pn
+ *        DT: [{                       // 信息类
+ *            Fn: 10,                  // Fn
+ *            DATA: []                 // 数据，具体格式参考协议规定，可赋值为各种数据类型
  *        }]
  *    }],
- *    AUX: {                           //附加信息域
- *        PW: 0,                       //消息认证码字段（下行）
- *        EC: 1,                       //事件计数器（上行）
- *        Tp: '2014-10-10 10:10:10'    //时间标签
+ *    AUX: {                           // 附加信息域
+ *        PW: 0,                       // 消息认证码字段（下行）
+ *        EC: 1,                       // 事件计数器（上行）
+ *        Tp: '2014-10-10 10:10:10'    // 时间标签
  *    },
- *    retry: 1                         //重发次数
+ *    retry: 1                         // 重发次数
  * };
  */
 exports.hex_json = function (hex) {
