@@ -3,8 +3,9 @@
 const debug = require('debug')('WebService:');
 const config = require('./config');
 
-if (!global.TCPServer) global.TCPServer = require('./src/TCPServer');
-if (!global.WebService) global.WebService = require('./src/WebService');
+const TCPServer = require('./src/Service/TCPServer');
+// if (!global.TCPServer) global.TCPServer = require('./src/Service/TCPServer');
+if (!global.WebService) global.WebService = require('./src/Service/WebService');
 
 function onListening() {
     let addr = this.address();
@@ -20,5 +21,6 @@ app.start = function () {
     WebService.listen(config.webPort, onListening);
 };
 
+//app.start();
 
 module.exports = app;

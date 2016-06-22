@@ -6,7 +6,7 @@ const log4js = require('log4js');
 const logger = log4js.getLogger();
 const _ = require('underscore');
 const TCPClient = require('./TCPClient');
-const config = require('../config');
+const config = require('../../config');
 
 let socketList = {};
 let server = new net.Server();
@@ -19,7 +19,8 @@ function serverOnClose(had_error) {
 
 //监听socket连接Server
 function serverOnConnection(socket) {
-    listAppend(TCPClient(socket));
+    let client = TCPClient(socket);
+    socket.on('named', () => listAppend(client));
 }
 
 //监听Server报错
@@ -44,7 +45,7 @@ function listConut() {
 
 //返回socketList映射数组
 function listMap() {
-    return _.map(socketList, (item, index)=> {
+    return _.map(socketList, (item, index) => {
         return index;
     });
 }
@@ -57,8 +58,9 @@ function list() {
 //socketList新增socket
 function listAppend(socket) {
     try {
-        let name = socket.remoteAddress + ':' + socket.remotePort;
+        let name = socket.A1 + ':' + socket.A2;
         socketList[name] = socket;
+        server.emit('server::append', socket);
     } catch (error) {
         throw error;
     }
@@ -69,6 +71,7 @@ function listRemove(socket) {
     try {
         let name = socket.remoteAddress + ':' + socket.remotePort;
         delete socketList[name];
+        server.emit('server::remove', socket);
     } catch (error) {
         throw error;
     }
@@ -82,7 +85,13 @@ function start(port, e) {
 server.on('close', serverOnClose)
     .on('connection', serverOnConnection)
     .on('error', serverOnError)
-    .on('listening', serverOnListening);
+    .on('listening', serverOnListening)
+    .on('server::append', (socket) => {
+        debug(`Socket [${socket.A1}#${socket.A2}] connected.`);
+    })
+    .on('server::remove', (socket) => {
+        debug(`Socket [${socket.A1}#${socket.A2}] removed.`);
+    });
 
 exports.listen = start;
 exports.listConut = listConut;

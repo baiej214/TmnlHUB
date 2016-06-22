@@ -4,6 +4,7 @@ const net = require('net');
 const fs = require('fs');
 const debug = require('debug')('Socket:');
 const Server = require('./TCPServer');
+const PerVerify = require('./PerVerify');
 const BuffPool = require('./BuffPool');
 const stream = require('stream');
 
@@ -62,10 +63,17 @@ function getAddr(socket) {
 }
 
 function ClientExtend(socket) {
+    //TODO 需要IP和端口吗？？？
     socket.A1 = undefined;//行政区划码
     socket.A2 = undefined;//通讯地址
     socket.setTimeout(0);//通讯超时时间
+    socket.perVerier = new PerVerify();
     socket.buffPool = new BuffPool(socket);
+    socket.buffPool.on('data', function (data) {
+        //console.log('buffPool');
+    }).on('finish', function () {
+        //console.log('finish');
+    });
     socket.close = socket.destroy;
     socket
         .on('close', onClose)
@@ -76,6 +84,7 @@ function ClientExtend(socket) {
         .on('error', onError)
         .on('lookup', onLookup)
         .on('timeout', onTimeout)
+        .pipe(socket.perVerier)
         .pipe(socket.buffPool)
         .pipe(socket);
     return socket;
