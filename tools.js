@@ -535,7 +535,7 @@ exports.tools = {
 
     getDFA29: function (parameter1, parameter2, parameter3, parameter4) {
         if (parameter1 == 0xee || parameter1 == 0xff || parameter2 == 0xee) return null;
-        return (this.bcd2b(parameter1) * 0.01 + this.bcd2b(parameter2) + this.bcd2b(parameter3) * 100 + this.bcd2b(parameter4) * 10000).toFixed(3)
+        return (this.bcd2b(parameter1) * 0.01 + this.bcd2b(parameter2) + this.bcd2b(parameter3) * 100 + this.bcd2b(parameter4) * 10000).toFixed(2)
     },
     getDFA32: function (parameter1, parameter2, parameter3, parameter4, parameter5, parameter6, parameter7) {
         if (parameter1 == 0xee || parameter1 == 0xff || parameter2 == 0xee) return null;
