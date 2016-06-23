@@ -36,3 +36,4 @@ test.js
 upload
 .svn
 *.svn
+.vscode
