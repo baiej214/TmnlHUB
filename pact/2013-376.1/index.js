@@ -1,5 +1,8 @@
 'use strict';
-
+/**
+ *
+ * @type {number}
+ */
 const SIZEWITHOUTL1 = 8;
 
 class Pact {
